@@ -28,7 +28,7 @@ package scalatikz.app
 
 import com.typesafe.scalalogging.LazyLogging
 import scopt.OptionParser
-
+import pl.project13.scala.rainbow.Rainbow._
 /**
   * Command line basic abstraction.
   *
@@ -39,16 +39,15 @@ abstract class AppCLI[T](program: String)
   extends OptionParser[T](program) with LazyLogging with App {
 
   println {
-    Console.CYAN +
     """
       |    ____         __    ____________ ______
       |   / __/______ _/ /__ /_  __/  _/ //_/_  /
       |  _\ \/ __/ _ `/ / _ `// / _/ // ,<   / /_
       | /___/\__/\_,_/_/\_,_//_/ /___/_/|_| /___/
-    """.stripMargin + Console.BLINK
+    """.stripMargin.blue
   }
 
-  head("ScalaTIKZ:", "0.1")
+  head("ScalaTIKZ:".cyan, "0.0.1".red)
 
   help("help").text("Print usage options.")
 

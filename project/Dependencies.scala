@@ -36,6 +36,7 @@ object Dependencies {
   final val GhostVersion = "1.0.0"
   final val CSVParserVersion = "2.5.1"
   final val NameOfVersion = "1.0.3"
+  final val RainbowVersion = "0.2"
 
   // Logging using slf4j and logback
   lazy val Logging = Seq(
@@ -54,6 +55,7 @@ object Dependencies {
     "com.github.scopt" %% "scopt" % ScalaOptVersion,
     "org.ghost4j" % "ghost4j" % GhostVersion,
     "com.univocity" % "univocity-parsers" % CSVParserVersion,
-    "com.github.dwickern" %% "scala-nameof" % NameOfVersion % "provided"
+    "com.github.dwickern" %% "scala-nameof" % NameOfVersion % "provided",
+    "pl.project13.scala" %% "rainbow" % RainbowVersion
   )
 }
