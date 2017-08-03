@@ -1,0 +1,47 @@
+### SBT
+
+.cache/
+.history/
+.lib/
+out/
+target/
+lib_managed/
+project/boot/
+project/project/
+project/plugins/project/
+
+### Scala
+
+*.log
+*.sc
+
+### JetBrains
+
+.idea/
+*.iws
+*.ipr
+
+### macOS
+
+.DS_Store
+.AppleDouble
+.LSOverride
+.Trashes
+
+### Eclipse
+
+.metadata
+.loadpath
+.project
+.target
+
+### TeX compile directory
+.temp
+
+
+### Files
+*.csv
+/images
+*.pdf
+
+

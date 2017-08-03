@@ -1,0 +1,53 @@
+
+#!/usr/bin/env bash
+
+# Colours for logging messages
+red='\033[0;31m'
+cyan='\033[0;36m'
+noColour='\033[0m'
+
+PRJ_COMMONS_CLASSPATH="."
+
+# Get the location for this script; handles symlinks
+function get_script_path {
+  local source="${BASH_SOURCE[0]}"
+  while [ -h "$source" ] ; do
+    local linked="$(readlink "$source")"
+    local dir="$(cd -P $(dirname "$source") && cd -P $(dirname "$linked") && pwd)"
+    source="$dir/$(basename "$linked")"
+  done
+  echo ${source}
+}
+
+# script details
+declare -r script_path=$(get_script_path)
+declare -r script_name=$(basename "$script_path")
+declare -r script_dir="$(cd -P "$(dirname "$script_path")" && pwd)"
+
+# base directory
+declare -r base_dir="$(cd "$script_dir/.." && pwd)"
+declare -r lib_dir="$base_dir/lib"
+
+for curr_lib in `find ${lib_dir} -name "*.jar"`; do
+  PRJ_COMMONS_CLASSPATH=${PRJ_COMMONS_CLASSPATH}:${curr_lib}
+done
+
+# etc directory
+ETC_DIR="$base_dir/etc"
+
+#
+# JVM options:
+#
+SCALA_TIKZ_JVM_ARGS="-XX:+DoEscapeAnalysis -XX:+UseFastAccessorMethods -XX:+OptimizeStringConcat -XX:+AggressiveOpts"
+
+#
+# Logging configuration
+#
+if [ ! -f ${ETC_DIR}/logback.xml ]; then
+    echo -e "${cyan}"`date`" ${red}[ ERROR ] Cannot find logging configuration file '$ETC_DIR/logback.xml' ${noColour}"
+    exit ${2:-1}
+else
+    SCALA_TIKZ_JVM_ARGS=" $SCALA_TIKZ_JVM_ARGS -Dlogback.configurationFile=$ETC_DIR/logback.xml "
+fi
+
+nice java ${SCALA_TIKZ_JVM_ARGS} -cp ${PRJ_COMMONS_CLASSPATH} scalatikz.app.ScalaTIKZ "$@"
