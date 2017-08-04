@@ -39,32 +39,6 @@ import scalatikz.graphics.pgf.Mark._
 import scalatikz.graphics.pgf.LegendPos._
 import scalatikz.graphics.pgf._
 
-final case class Conf(output: String = System.getProperty("user.dir"),
-                       format: String = "PDF",
-                       figure: Figure = Figure(DEFAULT_NAME),
-                       inputs: IndexedSeq[String] = IndexedSeq.empty,
-                       delimiters: IndexedSeq[Char] = IndexedSeq.empty,
-                       xColumns: IndexedSeq[String] = IndexedSeq.empty,
-                       yColumns: IndexedSeq[String] = IndexedSeq.empty,
-                       xErrorColumns: IndexedSeq[String] = IndexedSeq.empty,
-                       yErrorColumns: IndexedSeq[String] = IndexedSeq.empty,
-                       graphics: Seq[GraphicConf] = Seq.empty)
-
-final case class GraphicConf(graph: GraphType,
-                             lineColor: Option[Color] = None,
-                             marker: Option[Mark] = None,
-                             markStrokeColor: Option[Color] = None,
-                             markFillColor: Option[Color] = None,
-                             markSize: Double = 2,
-                             lineStyle: Option[LineStyle] = None,
-                             lineSize: Option[LineSize] = None,
-                             opacity: Double = 0.5,
-                             smooth: Boolean = false,
-                             constant: Boolean = false)
-
-/**
-  *
-  */
 object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
 
   // An iterator over available colors in case user does not specify one.
@@ -75,9 +49,6 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
     currentColor = colorIterator.next
     currentColor
   }
-
-  // TODO latex labels need \$ for math mode
-  // TODO underscore needs \\_ (check title, labels and legends and replace)...
 
   // General options
 
@@ -152,20 +123,32 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
           "\n\tNote: ".green.bold + "In case you need to specify TAB as a delimiter, please just type $'\\t'\n")
 
   opt[String]('x', "x-column".underlined).valueName("<index or name>".bold).optional.unbounded
-    .action( (xColumn, conf) => conf.copy(xColumns = conf.xColumns :+ xColumn) )
-    .text("X column name or column index (default is the indexes of the y values).\n")
+    .action { (xColumn, conf) =>
+      if (conf.graphics.isEmpty) fatal("You must define a plot type before a x column option.")
+      else conf.copy(graphics = conf.graphics.init :+ conf.graphics.last.copy(xColumn = Some(xColumn)))
+    }.text("X column name or column index (default is the indexes of the y values)." +
+          s"\n\t${"Note:".green.bold} Indexes start from 0.\n")
 
   opt[String]('y', "y-column".underlined).valueName("<index or name>".bold).required.unbounded
-    .action( (yColumn, conf) => conf.copy(yColumns = conf.yColumns :+ yColumn) )
-    .text("Y column name or column index (required).\n")
+    .action { (yColumn, conf) =>
+      if (conf.graphics.isEmpty) fatal("You must define a plot type before a y column option.")
+      else conf.copy(graphics = conf.graphics.init :+ conf.graphics.last.copy(yColumn = Some(yColumn)))
+    }.text("Y column name or column index (required)." +
+          s"\n\t${"Note:".green.bold} Indexes start from 0.\n")
 
   opt[String]('e', "x-error-column".underlined).valueName("<index or name>".bold).optional.unbounded
-    .action( (xErrorColumn, conf) => conf.copy(xErrorColumns = conf.xErrorColumns :+ xErrorColumn) )
-    .text("X error column index or column name (optional).\n")
+    .action { (xErrorColumn, conf) =>
+      if (conf.graphics.isEmpty) fatal("You must define a plot type before a x error column option.")
+      else conf.copy(graphics = conf.graphics.init :+ conf.graphics.last.copy(xErrorColumn = Some(xErrorColumn)))
+    }.text("X error column index or column name (optional)." +
+          s"\n\t${"Note:".green.bold} Indexes start from 0.\n")
 
   opt[String]('E', "y-error-column".underlined).valueName("<index or name>".bold).optional.unbounded
-    .action( (yErrorColumn, conf) => conf.copy(yErrorColumns = conf.yErrorColumns :+ yErrorColumn) )
-    .text("Y error column index or column name (optional).")
+    .action { (yErrorColumn, conf) =>
+      if (conf.graphics.isEmpty) fatal("You must define a plot type before a y error column option.")
+      else conf.copy(graphics = conf.graphics.init :+ conf.graphics.last.copy(xErrorColumn = Some(yErrorColumn)))
+    }.text("Y error column index or column name (optional)." +
+          s"\n\t${"Note:".green.bold} Indexes start from 0.")
 
   // Plot options
 
@@ -240,51 +223,56 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
       else conf.copy(graphics = conf.graphics.init :+ conf.graphics.last.copy(constant = true))
     }.text("Enable constant area plots.")
 
-  // Figure options TODO: should re check. Can be defined two times?
+  // Figure options
 
   note("\nFigure options:\n".underlined.cyan.bold)
 
-  opt[String]('t', "title".underlined).valueName("<string>".bold).optional.maxOccurs(1)
-    .action( (title, conf) => conf.copy(figure = conf.figure.havingTitle(title)) )
-    .text("Set a title for the figure.\n")
+  opt[String]('t', "title".underlined).valueName("<string>".bold).optional.unbounded
+    .action { (title, conf) =>
+      conf.copy(figure = conf.figure.havingTitle(title))
+    }.text("Specify a title for the figure (optional).\n")
 
-  opt[String]('X', "X-label".underlined).valueName("<string>".bold).optional.maxOccurs(1)
-    .action( (label, conf) => conf.copy(figure = conf.figure.havingXLabel(label)) )
-    .text("Specify X label.\n")
+  opt[String]('X', "X-label".underlined).valueName("<string>".bold).optional.unbounded
+    .action { (label, conf) =>
+      conf.copy(figure = conf.figure.havingXLabel(label))
+    }.text("Specify a X label (optional).\n")
 
-  opt[String]('Y', "Y-label".underlined).valueName("<string>".bold).optional.maxOccurs(1)
-    .action( (label, conf) => conf.copy(figure = conf.figure.havingYLabel(label)) )
-    .text("Specify Y label.\n")
+  opt[String]('Y', "Y-label".underlined).valueName("<string>".bold).optional.unbounded
+    .action { (label, conf) =>
+      conf.copy(figure = conf.figure.havingYLabel(label))
+    }.text("Specify a Y label (optional).\n")
 
   opt[Unit]('J', "majorGridOn".underlined).optional.unbounded
     .action( (_, conf) => conf.copy(figure = conf.figure.havingMajorGridOn) )
-    .text("Enables major grid.\n")
+    .text("Enables major grid (optional).\n")
 
   opt[Unit]('N', "minorGridOn").optional.unbounded
     .action( (_, conf) => conf.copy(figure = conf.figure.havingMinorGridOn) )
-    .text("Enables minor grid.\n")
+    .text("Enables minor grid (optional).\n")
 
   opt[Unit]('B', "bothGridOn".underlined).optional.unbounded
     .action( (_, conf) => conf.copy(figure = conf.figure.havingGridsOn) )
-    .text("Enables both minor and major grids.\n")
+    .text("Enables both minor and major grids (optional).\n")
 
-  opt[FontSize]('u', "font-size".underlined).valueName("<double>".bold).optional.maxOccurs(1)
-    .action( (size, conf) => conf.copy(figure = conf.figure.havingFontSize(size)) )
-    .text(s"Set figure's font size. Available font sizes: ${fontSizes.mkString(", ")}\n")
+  opt[FontSize]('u', "font-size".underlined).valueName("<size>".bold).optional.unbounded
+    .action { (size, conf) =>
+      conf.copy(figure = conf.figure.havingFontSize(size))
+    }.text(s"Set figure's font size (default is $NORMAL). " +
+          s"\n\t${"Available font sizes:".green.bold} ${fontSizes.mkString(", ")}\n")
 
-  opt[Seq[Double]]('a', "axis".underlined).valueName("<double,double,double,double>".bold).optional.maxOccurs(1)
-    .action( (limits, conf) => conf.copy(figure = conf.figure.havingLimits(limits.head, limits(1), limits(2), limits.last)) )
-    .text("Set X and Y axis limits as comma separated values: xMin,xMax,yMin,yMax.\n")
+  opt[Seq[Double]]('a', "axis".underlined).valueName("<double,double,double,double>".bold).optional.unbounded
+    .action( (limits, conf) => conf.copy(figure = conf.figure.havingLimits(limits.head, limits(1), limits(2), limits(3))) )
+    .text("Set X and Y axis limits as comma separated values: x minimum,x maximum,y minimum,y maximum.\n")
     .validate { seq =>
       if (seq.length == 4) success
-      else failure("Axis limits should be exactly 4.") // TODO: does not work with integers
+      else failure("Axis limits should be exactly 4.")
     }
 
-  opt[Seq[String]]('g', "legends".underlined).valueName("<comma separated legends>".bold).optional.maxOccurs(1)
+  opt[Seq[String]]('g', "legends".underlined).valueName("<comma separated legends>".bold).optional.unbounded
     .action( (x, conf) => conf.copy(figure = conf.figure.havingLegends(x:_*)) )
     .text("Comma separated legends for the plotted data.\n")
 
-  opt[LegendPos]('p', "legend-pos".underlined).valueName("<position>".bold).optional.maxOccurs(1)
+  opt[LegendPos]('p', "legend-pos".underlined).valueName("<position>".bold).optional.unbounded
     .action( (x, conf) => conf.copy(figure = conf.figure.havingLegendPos(x)) )
     .text(s"Change legend panel position (default is outer north east)." +
           s"\n\t${"Available legend positions:".green.bold} ${legendsPositions.mkString(", ")}\n")
@@ -305,138 +293,146 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
    * Parse arguments
    */
   parse(args, Conf()) match {
-    case Some(c) if c.graphics.nonEmpty =>
+    case Some(conf) if conf.graphics.nonEmpty =>
 
-      var resultedFigure = c.figure
+      var resultedFigure = conf.figure
 
-      def takeLast[T](seq: IndexedSeq[T])(x: Int): String = {
-        logger.warn(s"CSV not found for plot $x. Using last one.")
-        c.inputs.last
+      def notFound[T](seq: IndexedSeq[T])(index: Int): String = {
+        logger.info(s"CSV not found for plot type ${index + 1}. Using '${conf.inputs.last}'.")
+        conf.inputs.last
       }
 
-      c.graphics.zipWithIndex.foreach { case (p, i) =>
-
-        val Y = c.yColumns.lift(i).getOrElse(fatal(s"Y column not defined for $p $i"))
+      conf.graphics.zipWithIndex.foreach { case (graphic, i) =>
 
         val coordinates: Coordinates =
           (CSV.parseColumns(
-            new File(c.inputs.applyOrElse(i, takeLast(c.inputs))),
-            c.delimiters.applyOrElse(i, (_: Int) => ','),
-            Seq(c.xColumns.lift(i), Some(Y)).flatten: _*): @unchecked) match {
+            new File(conf.inputs.applyOrElse(i, notFound(conf.inputs))),
+            conf.delimiters.applyOrElse(i, (_: Int) => ','),
+            Seq(graphic.xColumn, graphic.yColumn).flatten: _*): @unchecked) match {
 
             case Success(y :: Nil) => (1 to y.length) zip y
             case Success(x :: y :: Nil) => x zip y
             case Failure(ex) => fatal(s"${ex.getMessage}")
           }
 
-        p.graph match {
+        graphic.graph match {
           case PLOT =>
 
             resultedFigure =
               resultedFigure.plot(
-                color = p.lineColor.getOrElse(nextColor),
-                marker = p.marker.getOrElse(NONE),
-                markStrokeColor = p.markStrokeColor.getOrElse(p.lineColor.getOrElse(currentColor)),
-                markFillColor = p.markFillColor.getOrElse(p.lineColor.getOrElse(currentColor)),
-                markSize = p.markSize,
-                lineStyle = p.lineStyle.getOrElse(SOLID),
-                lineSize = p.lineSize.getOrElse(THIN),
-                smooth = p.smooth
+                color = graphic.lineColor.getOrElse(nextColor),
+                marker = graphic.marker.getOrElse(NONE),
+                markStrokeColor = graphic.markStrokeColor.getOrElse(graphic.lineColor.getOrElse(currentColor)),
+                markFillColor = graphic.markFillColor.getOrElse(graphic.lineColor.getOrElse(currentColor)),
+                markSize = graphic.markSize,
+                lineStyle = graphic.lineStyle.getOrElse(SOLID),
+                lineSize = graphic.lineSize.getOrElse(THIN),
+                smooth = graphic.smooth
               )(coordinates)
 
           case STEM =>
 
             resultedFigure =
               resultedFigure.stem(
-                color = p.lineColor.getOrElse(nextColor),
-                marker = p.marker.getOrElse(NONE),
-                markStrokeColor = p.markStrokeColor.getOrElse(p.lineColor.getOrElse(currentColor)),
-                markFillColor = p.markFillColor.getOrElse(p.lineColor.getOrElse(currentColor)),
-                markSize = p.markSize
+                color = graphic.lineColor.getOrElse(nextColor),
+                marker = graphic.marker.getOrElse(NONE),
+                markStrokeColor = graphic.markStrokeColor.getOrElse(graphic.lineColor.getOrElse(currentColor)),
+                markFillColor = graphic.markFillColor.getOrElse(graphic.lineColor.getOrElse(currentColor)),
+                markSize = graphic.markSize
               )(coordinates)
 
           case SCATTER =>
 
             resultedFigure =
               resultedFigure.scatter(
-                marker = p.marker.getOrElse(CIRCLE),
-                markStrokeColor = p.markStrokeColor.getOrElse(p.lineColor.getOrElse(currentColor)),
-                markFillColor = p.markFillColor.getOrElse(p.lineColor.getOrElse(currentColor)),
-                markSize = p.markSize
+                marker = graphic.marker.getOrElse(CIRCLE),
+                markStrokeColor = graphic.markStrokeColor.getOrElse(graphic.lineColor.getOrElse(currentColor)),
+                markFillColor = graphic.markFillColor.getOrElse(graphic.lineColor.getOrElse(currentColor)),
+                markSize = graphic.markSize
               )(coordinates)
 
           case AREA =>
 
             resultedFigure =
               resultedFigure.area(
-                color = p.lineColor.getOrElse(nextColor),
-                marker = p.marker.getOrElse(NONE),
-                markStrokeColor = p.markStrokeColor.getOrElse(p.lineColor.getOrElse(currentColor)),
-                markFillColor = p.markFillColor.getOrElse(p.lineColor.getOrElse(currentColor)),
-                markSize = p.markSize,
-                lineStyle = p.lineStyle.getOrElse(SOLID),
-                lineSize = p.lineSize.getOrElse(THIN),
-                opacity = p.opacity,
-                smooth = p.smooth,
-                constant = p.constant
+                color = graphic.lineColor.getOrElse(nextColor),
+                marker = graphic.marker.getOrElse(NONE),
+                markStrokeColor = graphic.markStrokeColor.getOrElse(graphic.lineColor.getOrElse(currentColor)),
+                markFillColor = graphic.markFillColor.getOrElse(graphic.lineColor.getOrElse(currentColor)),
+                markSize = graphic.markSize,
+                lineStyle = graphic.lineStyle.getOrElse(SOLID),
+                lineSize = graphic.lineSize.getOrElse(THIN),
+                opacity = graphic.opacity,
+                smooth = graphic.smooth,
+                constant = graphic.constant
               )(coordinates)
 
           case STAIR =>
 
             resultedFigure =
               resultedFigure.stair(
-                color = p.lineColor.getOrElse(nextColor),
-                marker = p.marker.getOrElse(NONE),
-                markStrokeColor = p.markStrokeColor.getOrElse(p.lineColor.getOrElse(currentColor)),
-                markFillColor = p.markFillColor.getOrElse(p.lineColor.getOrElse(currentColor)),
-                markSize = p.markSize,
-                lineStyle = p.lineStyle.getOrElse(SOLID),
-                lineSize = p.lineSize.getOrElse(THIN)
+                color = graphic.lineColor.getOrElse(nextColor),
+                marker = graphic.marker.getOrElse(NONE),
+                markStrokeColor = graphic.markStrokeColor.getOrElse(graphic.lineColor.getOrElse(currentColor)),
+                markFillColor = graphic.markFillColor.getOrElse(graphic.lineColor.getOrElse(currentColor)),
+                markSize = graphic.markSize,
+                lineStyle = graphic.lineStyle.getOrElse(SOLID),
+                lineSize = graphic.lineSize.getOrElse(THIN)
               )(coordinates)
 
           case ERROR_BAR =>
 
             val error: Coordinates =
               (CSV.parseColumns(
-                new File(c.inputs.applyOrElse(i, takeLast(c.inputs))),
-                c.delimiters.applyOrElse(i, (_: Int) => ','),
-                Seq(c.yErrorColumns.lift(i), c.yErrorColumns.lift(i)).flatten: _*): @unchecked) match {
+                new File(conf.inputs.applyOrElse(i, notFound(conf.inputs))),
+                conf.delimiters.applyOrElse(i, (_: Int) => ','),
+                Seq(graphic.xErrorColumn, graphic.yErrorColumn).flatten: _*): @unchecked) match {
 
                 case Success(Nil) =>
-                  val zeroError = (1 to coordinates.length).map(_ => 0)
+                  val zeroError = Seq.fill(coordinates.length)(0.0)
                   zeroError zip zeroError
-                case Success(y :: Nil) => (1 to y.length).map(_ => 0) zip y
+
+                case Success(y :: Nil) if graphic.xErrorColumn.isEmpty =>
+                  Seq.fill(coordinates.length)(0.0) zip y
+
+                case Success(x :: Nil) if graphic.yErrorColumn.isEmpty =>
+                  x zip Seq.fill(coordinates.length)(0.0)
+
                 case Success(x :: y :: Nil) => x zip y
                 case Failure(ex) => fatal(s"${ex.getMessage}")
               }
 
             resultedFigure =
               resultedFigure.errorBar(
-                color = p.lineColor.getOrElse(nextColor),
-                marker = p.marker.getOrElse(NONE),
-                markStrokeColor = p.markStrokeColor.getOrElse(p.lineColor.getOrElse(currentColor)),
-                markFillColor = p.markFillColor.getOrElse(p.lineColor.getOrElse(currentColor)),
-                markSize = p.markSize,
-                lineStyle = p.lineStyle.getOrElse(SOLID),
-                lineSize = p.lineSize.getOrElse(THIN),
-                smooth = p.smooth
+                color = graphic.lineColor.getOrElse(nextColor),
+                marker = graphic.marker.getOrElse(NONE),
+                markStrokeColor = graphic.markStrokeColor.getOrElse(graphic.lineColor.getOrElse(currentColor)),
+                markFillColor = graphic.markFillColor.getOrElse(graphic.lineColor.getOrElse(currentColor)),
+                markSize = graphic.markSize,
+                lineStyle = graphic.lineStyle.getOrElse(SOLID),
+                lineSize = graphic.lineSize.getOrElse(THIN),
+                smooth = graphic.smooth
               )(coordinates)(error)
         }
       }
 
       // Try to save the resulted figure in the requested FORMAT.
-      val result = c.format.toUpperCase match {
-        case "PDF" => resultedFigure.saveAsPDF(c.output)
-        case "PNG" => resultedFigure.saveAsPNG(c.output)
-        case "JPEG" => resultedFigure.saveAsJPEG(c.output)
-        case "TEX" => resultedFigure.saveAsTeX(c.output)
+      val result = conf.format.toUpperCase match {
+        case "PDF" => resultedFigure.saveAsPDF(conf.output)
+        case "PNG" => resultedFigure.saveAsPNG(conf.output)
+        case "JPEG" => resultedFigure.saveAsJPEG(conf.output)
+        case "TEX" => resultedFigure.saveAsTeX(conf.output)
       }
       result match {
         case Success(f) =>
-          logger.info(s"${c.format} successfully saved in $f.")
+          logger.info(s"${conf.format} successfully saved in $f.")
         case Failure(ex) =>
-          fatal(s"${c.format} cannot be saved: ${ex.getMessage}")
+          fatal(s"${conf.format} cannot be saved: ${ex.getMessage}")
       }
+
+    case Some(conf) if conf.graphics.isEmpty =>
+      reportError("Please specify a plot type.")
+      showTryHelp()
 
     case None => // do nothing, option parser should handle the case
   }

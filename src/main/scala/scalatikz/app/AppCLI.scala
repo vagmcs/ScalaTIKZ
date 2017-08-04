@@ -34,9 +34,9 @@ import pl.project13.scala.rainbow.{Rainbow => Colors}
   * Command line basic abstraction.
   *
   * @param program program name
-  * @tparam T type of configuration
+  * @tparam T type of option configuration
   */
-abstract class AppCLI[T](program: String)
+abstract class AppCLI[T <: OptionConf](program: String)
   extends OptionParser[T](program) with Colors with Logging with App {
 
   println {

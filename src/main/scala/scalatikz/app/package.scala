@@ -6,6 +6,11 @@ package object app {
 
   final val DEFAULT_NAME = "result"
 
+  object GraphType extends Enumeration {
+    type GraphType = Value
+    val PLOT, STEM, SCATTER, STAIR, AREA, ERROR_BAR = Value
+  }
+
   implicit val colorMixRead: scopt.Read[Color.Value] = scopt.Read.reads { x =>
     val colors = x.toLowerCase.split("#")
     colors.tail.foldLeft(Color.withName(colors.head)) {
@@ -28,9 +33,4 @@ package object app {
 
   implicit val legendPosRead: scopt.Read[LegendPos.Value] =
     scopt.Read.reads(x => LegendPos.withName(x.toLowerCase))
-
-  object GraphType extends Enumeration {
-    type GraphType = Value
-    val PLOT, STEM, SCATTER, STAIR, AREA, ERROR_BAR = Value
-  }
 }
