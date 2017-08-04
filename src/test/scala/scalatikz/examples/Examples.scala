@@ -44,7 +44,7 @@ object Examples extends App {
    */
   val domain = -2 * Pi to 2 * Pi by 0.1
 
-  Figure("sin_vs_cosine")
+  Figure("sine_vs_cosine")
     .plot(domain -> sin _)
     .plot(lineStyle = DASHED)(domain -> cos _)
     .havingLegends("$\\sin(x)$", "$\\cos(x)$")
