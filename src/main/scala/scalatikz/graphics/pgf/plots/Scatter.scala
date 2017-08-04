@@ -51,7 +51,7 @@ final class Scatter private(coordinates: Coordinates,
 
   override def toString: String =
     raw"""
-       | \addplot[mark=$marker, only marks,
+       | \addplot[mark=$marker, only marks, mark size=${markSize}pt,
        |          mark options={draw=$markStrokeColor, fill=$markFillColor}
        |         ] coordinates {
        |   ${coordinates.mkString("\n")}

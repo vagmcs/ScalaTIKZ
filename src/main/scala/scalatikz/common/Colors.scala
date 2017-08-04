@@ -26,7 +26,7 @@
 
 package scalatikz.common
 
-sealed trait Colors {
+trait Colors {
 
   implicit def hasColorized(s: String): ColorizedString =
     new ColorizedString(s)
