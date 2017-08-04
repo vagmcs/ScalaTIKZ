@@ -40,13 +40,12 @@ import scalatikz.graphics.pgf.AxisStyle._
 import scalatikz.graphics.pgf.GridStyle._
 
 final class Figure private(val axis: Axis,
+                           colorIterator: Iterator[Color],
                            override val name: String,
                            override val graphics: Seq[PGFPlot]) extends TIKZPicture[PGFPlot] with PGFPlot {
 
   // An iterator over available colors in case user does not specify one.
-  private[this] val colorIterator = Iterator.continually(colors).flatten
   private[this] var currentColor: Color = colors.head
-
   private[this] def nextColor: Color = {
     currentColor = colorIterator.next
     currentColor
@@ -58,7 +57,7 @@ final class Figure private(val axis: Axis,
     * @param name a name for the figure
     * @return a Figure having the given name
     */
-  def havingName(name: String): Figure = new Figure(axis, name, graphics)
+  def havingName(name: String): Figure = new Figure(axis, colorIterator, name, graphics)
 
   /*
    * =====================================
@@ -71,32 +70,38 @@ final class Figure private(val axis: Axis,
   /**
     * @return a Figure having both X and Y log scale axis
     */
-  def havingLogLogAxis: Figure = new Figure(axis.copy(xMode = LOG, yMode = LOG), name, graphics)
+  def havingLogLogAxis: Figure =
+    new Figure(axis.copy(xMode = LOG, yMode = LOG), colorIterator, name, graphics)
 
   /**
     * @return a Figure having X log scale axis
     */
-  def havingLogXAxis: Figure = new Figure(axis.copy(xMode = LOG, yMode = LINEAR), name, graphics)
+  def havingLogXAxis: Figure =
+    new Figure(axis.copy(xMode = LOG, yMode = LINEAR), colorIterator, name, graphics)
 
   /**
     * @return a Figure having Y log scale axis
     */
-  def havingLogYAxis: Figure = new Figure(axis.copy(xMode = LINEAR, yMode = LOG), name, graphics)
+  def havingLogYAxis: Figure =
+    new Figure(axis.copy(xMode = LINEAR, yMode = LOG), colorIterator, name, graphics)
 
   /**
     * @return a Figure having minor grid enabled
     */
-  def havingMinorGridOn: Figure = new Figure(axis.copy(grid = Some(MINOR)), name, graphics)
+  def havingMinorGridOn: Figure =
+    new Figure(axis.copy(grid = Some(MINOR)), colorIterator, name, graphics)
 
   /**
     * @return a Figure having major grid enabled
     */
-  def havingMajorGridOn: Figure = new Figure(axis.copy(grid = Some(MAJOR)), name, graphics)
+  def havingMajorGridOn: Figure =
+    new Figure(axis.copy(grid = Some(MAJOR)), colorIterator, name, graphics)
 
   /**
     * @return a Figure having both major and minor grids enabled
     */
-  def havingGridsOn: Figure = new Figure(axis.copy(grid = Some(BOTH)), name, graphics)
+  def havingGridsOn: Figure =
+    new Figure(axis.copy(grid = Some(BOTH)), colorIterator, name, graphics)
 
   /**
     * Sets a label on the X axis.
@@ -104,7 +109,8 @@ final class Figure private(val axis: Axis,
     * @param label a label for the X axis
     * @return a Figure having the given label on the X axis
     */
-  def havingXLabel(label: String): Figure = new Figure(axis.copy(xLabel = Some(label)), name, graphics)
+  def havingXLabel(label: String): Figure =
+    new Figure(axis.copy(xLabel = Some(label)), colorIterator, name, graphics)
 
   /**
     * Sets a label on the Y axis.
@@ -112,7 +118,8 @@ final class Figure private(val axis: Axis,
     * @param label a label for the Y axis
     * @return a Figure having the given label on the Y axis
     */
-  def havingYLabel(label: String): Figure = new Figure(axis.copy(yLabel = Some(label)), name, graphics)
+  def havingYLabel(label: String): Figure =
+    new Figure(axis.copy(yLabel = Some(label)), colorIterator, name, graphics)
 
   /**
     * Sets the bounds of the X axis.
@@ -122,7 +129,7 @@ final class Figure private(val axis: Axis,
     * @return a Figure having the given bounds on the X axis
     */
   def havingXLimits(min: Double, max: Double): Figure =
-    new Figure(axis.copy(xMin = Some(min), xMax = Some(max)), name, graphics)
+    new Figure(axis.copy(xMin = Some(min), xMax = Some(max)), colorIterator, name, graphics)
 
   /**
     * Sets the bounds of the Y axis.
@@ -132,7 +139,7 @@ final class Figure private(val axis: Axis,
     * @return a Figure having the given bounds on the Y axis
     */
   def havingYLimits(min: Double, max: Double): Figure =
-    new Figure(axis.copy(yMin = Some(min), yMax = Some(max)), name, graphics)
+    new Figure(axis.copy(yMin = Some(min), yMax = Some(max)), colorIterator, name, graphics)
 
   /**
     * Sets the bounds for both X and Y axis.
@@ -144,7 +151,7 @@ final class Figure private(val axis: Axis,
     * @return a Figure having the given bounds on X and Y axis
     */
   def havingLimits(xMin: Double, xMax: Double, yMin: Double, yMax: Double): Figure =
-    new Figure(axis.copy(xMin = Some(xMin), xMax = Some(xMax), yMin = Some(yMin), yMax = Some(yMax)), name, graphics)
+    new Figure(axis.copy(xMin = Some(xMin), xMax = Some(xMax), yMin = Some(yMin), yMax = Some(yMax)), colorIterator, name, graphics)
 
   /**
     * Sets the figure title.
@@ -152,7 +159,8 @@ final class Figure private(val axis: Axis,
     * @param title a figure title
     * @return a Figure having the given title
     */
-  def havingTitle(title: String): Figure = new Figure(axis.copy(header = Some(title)), name, graphics)
+  def havingTitle(title: String): Figure =
+    new Figure(axis.copy(header = Some(title)), colorIterator, name, graphics)
 
   /**
     * Sets the font size.
@@ -160,7 +168,8 @@ final class Figure private(val axis: Axis,
     * @param size a size
     * @return a Figure having the given font size
     */
-  def havingFontSize(size: FontSize): Figure = new Figure(axis.copy(fontSize = Some(size)), name, graphics)
+  def havingFontSize(size: FontSize): Figure =
+    new Figure(axis.copy(fontSize = Some(size)), colorIterator, name, graphics)
 
   /**
     * Sets the axis background color
@@ -170,7 +179,8 @@ final class Figure private(val axis: Axis,
     * @param color a color
     * @return a Figure having the given background color
     */
-  def havingBackgroundColor(color: Color): Figure = new Figure(axis.copy(backgroundColor = color), name, graphics)
+  def havingBackgroundColor(color: Color): Figure =
+    new Figure(axis.copy(backgroundColor = color), colorIterator, name, graphics)
 
   /**
     * Sets the legends of the data sequences.
@@ -178,7 +188,8 @@ final class Figure private(val axis: Axis,
     * @param legends a sequence of legends
     * @return a Figure having the given legends
     */
-  def havingLegends(legends: String *): Figure = new Figure(axis.copy(legends = legends), name, graphics)
+  def havingLegends(legends: String *): Figure =
+    new Figure(axis.copy(legends = legends), colorIterator, name, graphics)
 
   /**
     * Sets the legends position.
@@ -187,7 +198,8 @@ final class Figure private(val axis: Axis,
     * @param pos a legend position
     * @return a Figure having the given legend position
     */
-  def havingLegendPos(pos: LegendPos): Figure = new Figure(axis.copy(legendPos = pos), name, graphics)
+  def havingLegendPos(pos: LegendPos): Figure =
+    new Figure(axis.copy(legendPos = pos), colorIterator, name, graphics)
 
   /**
     * Sets the position of the X axis.
@@ -197,7 +209,8 @@ final class Figure private(val axis: Axis,
     * @param pos an axis position
     * @return a Figure having the given position on the X axis
     */
-  def havingXAxisLinePos(pos: AxisLinePos): Figure = new Figure(axis.copy(xAxisLinePos = pos), name, graphics)
+  def havingXAxisLinePos(pos: AxisLinePos): Figure =
+    new Figure(axis.copy(xAxisLinePos = pos), colorIterator, name, graphics)
 
   /**
     * Sets the position of the Y axis.
@@ -207,7 +220,8 @@ final class Figure private(val axis: Axis,
     * @param pos an axis position
     * @return a Figure having the given position on the Y axis
     */
-  def havingYAxisLinePos(pos: AxisLinePos): Figure = new Figure(axis.copy(yAxisLinePos = pos), name, graphics)
+  def havingYAxisLinePos(pos: AxisLinePos): Figure =
+    new Figure(axis.copy(yAxisLinePos = pos), colorIterator, name, graphics)
 
 
   /*
@@ -248,7 +262,7 @@ final class Figure private(val axis: Axis,
            lineStyle: LineStyle = SOLID,
            lineSize: LineSize = THIN,
            smooth: Boolean = false)(data: Data): Figure =
-    new Figure(axis, name, graphics :+ Line(
+    new Figure(axis, colorIterator, name, graphics :+ Line(
       data.coordinates,
       color,
       marker,
@@ -303,7 +317,7 @@ final class Figure private(val axis: Axis,
            opacity: Double = 0.5,
            smooth: Boolean = false,
            constant: Boolean = false)(data: Data): Figure =
-    new Figure(axis, name, graphics :+ Area(
+    new Figure(axis, colorIterator, name, graphics :+ Area(
       data.coordinates,
       color,
       marker,
@@ -350,7 +364,7 @@ final class Figure private(val axis: Axis,
            markStrokeColor: Color = currentColor,
            markFillColor: Color = currentColor,
            markSize: Double = 2)(data: Data): Figure =
-    new Figure(axis, name, graphics :+ Stem(
+    new Figure(axis, colorIterator, name, graphics :+ Stem(
       data.coordinates,
       color,
       marker,
@@ -396,7 +410,7 @@ final class Figure private(val axis: Axis,
            markSize: Double = 2,
            lineStyle: LineStyle = SOLID,
            lineSize: LineSize = THIN)(data: Data): Figure =
-    new Figure(axis, name, graphics :+ Stair(
+    new Figure(axis, colorIterator, name, graphics :+ Stair(
       data.coordinates,
       color,
       marker,
@@ -438,7 +452,7 @@ final class Figure private(val axis: Axis,
               markStrokeColor: Color = nextColor,
               markFillColor: Color = currentColor,
               markSize: Double = 2)(data: Data): Figure =
-    new Figure(axis, name, graphics :+ Scatter(
+    new Figure(axis, colorIterator, name, graphics :+ Scatter(
       data.coordinates,
       marker,
       markStrokeColor,
@@ -487,7 +501,7 @@ final class Figure private(val axis: Axis,
                lineStyle: LineStyle = SOLID,
                lineSize: LineSize = THIN,
                smooth: Boolean = false)(data: Data)(error: Data): Figure =
-    new Figure(axis, name, graphics :+ ErrorBar(
+    new Figure(axis, colorIterator, name, graphics :+ ErrorBar(
       data.coordinates,
       error.coordinates,
       color,
@@ -543,7 +557,7 @@ final class FigureArray private[graphics](override val name: String,
 object Figure {
 
   def apply(name: String): Figure =
-    new Figure(Axis(), name, Seq.empty[PGFPlot])
+    new Figure(Axis(), Iterator.continually(colors).flatten, name, Seq.empty[PGFPlot])
 
   def apply(name: String, N: Int, M: Int): FigureArray =
     new FigureArray(name, Seq.fill(N * M)(Figure("")), N, M)
