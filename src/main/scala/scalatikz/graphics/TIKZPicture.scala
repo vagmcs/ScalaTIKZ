@@ -31,10 +31,10 @@ import java.awt.image.RenderedImage
 import java.io.{File, PrintStream}
 import java.nio.file.{Files, Paths, StandardCopyOption}
 import javax.imageio.ImageIO
-import com.typesafe.scalalogging.LazyLogging
 import org.ghost4j.document.PDFDocument
 import org.ghost4j.renderer.SimpleRenderer
 import scala.util.{Failure, Try}
+import scalatikz.common.Logging
 import sys.process._
 
 /**
@@ -43,12 +43,12 @@ import sys.process._
   *
   * @tparam T the type of the graphic elements
   */
-trait TIKZPicture[T <: Graphic] extends LazyLogging {
+trait TIKZPicture[T <: Graphic] extends Logging {
 
   val name: String
   protected val graphics: Seq[T]
 
-  private val path = new File(".temp")
+  private val path = new File(System.getProperty("java.io.tmpdir"))
   private val texFile: File = new File(s"$path/source.tex")
 
   private val devNullLogger =
@@ -86,7 +86,6 @@ trait TIKZPicture[T <: Graphic] extends LazyLogging {
     s"rm $path/source.aux $path/source.log $path/source.tex" ! devNullLogger
     s"mv $path/source.pdf $path/$name.pdf" ! devNullLogger
 
-    //new File(texFile.getAbsolutePath.replace(".tex", ".pdf"))
     new File(s"$path/$name.pdf")
   }
 
@@ -97,12 +96,12 @@ trait TIKZPicture[T <: Graphic] extends LazyLogging {
   final def show(): Unit = Try(Desktop.getDesktop.open(compilePDF)) match {
     case Failure(ex) =>
       logger.warn(s"Cannot open PDF: ${ex.getMessage}")
-    case _ =>
-//      Runtime.getRuntime.addShutdownHook(new Thread {
-//        override def run() {
-//          s"rm $path/$name.pdf" ! devNullLogger
-//        }
-//      })
+    case _ => Runtime.getRuntime
+      .addShutdownHook(new Thread {
+        override def run() {
+          s"rm $path/$name.pdf" ! devNullLogger
+        }
+      })
   }
 
   /**
