@@ -26,9 +26,10 @@
 
 package scalatikz.app
 
-import com.typesafe.scalalogging.LazyLogging
 import scopt.OptionParser
-import pl.project13.scala.rainbow.Rainbow._
+import scalatikz.common.Logging
+import pl.project13.scala.rainbow.{Rainbow => Colors}
+
 /**
   * Command line basic abstraction.
   *
@@ -36,7 +37,7 @@ import pl.project13.scala.rainbow.Rainbow._
   * @tparam T type of configuration
   */
 abstract class AppCLI[T](program: String)
-  extends OptionParser[T](program) with LazyLogging with App {
+  extends OptionParser[T](program) with Colors with Logging with App {
 
   println {
     """
@@ -49,15 +50,11 @@ abstract class AppCLI[T](program: String)
 
   head("ScalaTIKZ:".cyan, "0.0.1".red)
 
-  help("help").text("Print usage options.")
-
-  version("version").text("Display the version.")
-
   override def reportError(msg: String): Unit = logger.error(msg)
 
   override def reportWarning(msg: String): Unit = logger.warn(msg)
 
-  override def renderingMode = scopt.RenderingMode.TwoColumns
+  override def renderingMode = scopt.RenderingMode.OneColumn
 
   override def showTryHelp(): Unit =
     if (helpOptions.nonEmpty)

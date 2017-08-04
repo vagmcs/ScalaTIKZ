@@ -4,6 +4,8 @@ import scalatikz.graphics.pgf._
 
 package object app {
 
+  final val DEFAULT_NAME = "result"
+
   implicit val colorMixRead: scopt.Read[Color.Value] = scopt.Read.reads { x =>
     val colors = x.toLowerCase.split("#")
     colors.tail.foldLeft(Color.withName(colors.head)) {
@@ -28,9 +30,7 @@ package object app {
     scopt.Read.reads(x => LegendPos.withName(x.toLowerCase))
 
   object GraphType extends Enumeration {
-
     type GraphType = Value
-
     val PLOT, STEM, SCATTER, STAIR, AREA, ERROR_BAR = Value
   }
 }
