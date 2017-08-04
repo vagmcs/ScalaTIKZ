@@ -13,9 +13,7 @@ $ sbt dist
 
 After a successful compilation, the distribution is located inside the `./target/universal/ScalaTIKZ-*.zip` archive.
 You can extract this file and add the path/to/ScalaTIKZ-<version>/bin in your PATH, in order to execute the CLI script
-from terminal (see Section [Add ScalaTIKZ executables in your default PATH](#Add ScalaTIKZ executables in your default PATH)).
-The distribution contains all library dependencies and requires only Java 8 (or higher). Sources, documentation and the
-compiled library are archived as jar files into the `./target/scala-2.11/` directory. 
+from terminal (see Section [Add ScalaTIKZ executables in your default PATH](#Add-ScalaTIKZ-executables-in-your-default-PATH)). The distribution contains all library dependencies and requires only Java 8 (or higher). Sources, documentation and the compiled library are archived as jar files into the `./target/scala-2.11/` directory. 
 
 ## Add ScalaTIKZ executables in your default PATH
 
@@ -45,8 +43,7 @@ export PATH=$PATH:$HOME/ScalaTIKZ-0.0.1/bin
 
 ## Using ScalaTIKZ as a library
 
-Follow the instructions in Section [Instructions to build ScalaTIKZ from source](#Instructions to build ScalaTIKZ from source)
-and then publish locally ScalaTIKZ:
+Follow the instructions in Section [Instructions to build ScalaTIKZ from source](#Instructions-to-build-ScalaTIKZ-from-source) and then publish locally ScalaTIKZ:
 
 ```bash
 $ sbt +publishLocal
