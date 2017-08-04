@@ -39,7 +39,7 @@ import scalatikz.graphics.pgf.LegendPos._
 import scalatikz.graphics.pgf.AxisStyle._
 import scalatikz.graphics.pgf.GridStyle._
 
-final class Figure private(axis: Axis,
+final class Figure private(val axis: Axis,
                            override val name: String,
                            override val graphics: Seq[PGFPlot]) extends TIKZPicture[PGFPlot] with PGFPlot {
 
@@ -503,9 +503,8 @@ final class Figure private(axis: Axis,
   override def toString: String =
     raw"""
        | \begin{axis}[
-       |        $axis
-       |       ]
-       |    ${graphics.mkString("\n")}
+       |  $axis]
+       |  ${graphics.mkString("\n")}
        | \end{axis}
     """.stripMargin
 }

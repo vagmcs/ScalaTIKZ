@@ -90,21 +90,21 @@ final case class Axis private(xMode: AxisStyle = LINEAR,
                               yAxisLinePos: AxisLinePos = BOX) {
 
   override def toString: String =
-    s"${nameOf(xMode).toLowerCase}=$xMode, ${nameOf(yMode).toLowerCase}=$yMode," +
-      s"${nameOf(zMode).toLowerCase}=$zMode, axis background/.style={fill=$backgroundColor}," +
-      s"axis x line=$xAxisLinePos, axis y line=$yAxisLinePos" +
-      s"${if (xLabel.isDefined) s",${nameOf(xLabel).toLowerCase}=${xLabel.get}" else ""}" +
-      s"${if (yLabel.isDefined) s",${nameOf(yLabel).toLowerCase}=${yLabel.get}" else ""}" +
-      s"${if (zLabel.isDefined) s",${nameOf(zLabel).toLowerCase}=${zLabel.get}" else ""}" +
-      s"${if (xMin.isDefined) s",${nameOf(xMin).toLowerCase}=${xMin.get}" else ""}" +
-      s"${if (xMax.isDefined) s",${nameOf(xMax).toLowerCase}=${xMax.get}" else ""}" +
-      s"${if (yMin.isDefined) s",${nameOf(yMin).toLowerCase}=${yMin.get}" else ""}" +
-      s"${if (yMax.isDefined) s",${nameOf(yMax).toLowerCase}=${yMax.get}" else ""}" +
-      s"${if (zMin.isDefined) s",${nameOf(zMin).toLowerCase}=${zMin.get}" else ""}" +
-      s"${if (zMax.isDefined) s",${nameOf(zMax).toLowerCase}=${zMax.get}" else ""}" +
-      s"${if (grid.isDefined) s",${nameOf(grid)}=${grid.get}" else ""}" +
-      s"${if (colorMap.isDefined) s",colormap/${colorMap.get}, colorbar" else ""}" +
-      s"${if (header.isDefined) s",title=${header.get}" else ""}" +
-      s"${if (legends.nonEmpty) s",legend entries={${legends.mkString(",")}}, legend pos=$legendPos" else ""}" +
-      s"${if (fontSize.isDefined) s",font=\\${fontSize.get}" else ""}"
+    s"${nameOf(xMode).toLowerCase}=$xMode, ${nameOf(yMode).toLowerCase}=$yMode, " +
+      s"${nameOf(zMode).toLowerCase}=$zMode, axis background/.style={fill=$backgroundColor}, " +
+      s"axis x line=$xAxisLinePos, axis y line=$yAxisLinePos\n" +
+      s"${if (xLabel.isDefined) s" ,${nameOf(xLabel).toLowerCase}=${xLabel.get.toTex}" else ""}" +
+      s"${if (yLabel.isDefined) s" ,${nameOf(yLabel).toLowerCase}=${yLabel.get.toTex}" else ""}" +
+      s"${if (zLabel.isDefined) s" ,${nameOf(zLabel).toLowerCase}=${zLabel.get.toTex}" else ""}" +
+      s"${if (xMin.isDefined) s" ,${nameOf(xMin).toLowerCase}=${xMin.get}" else ""}" +
+      s"${if (xMax.isDefined) s" ,${nameOf(xMax).toLowerCase}=${xMax.get}" else ""}" +
+      s"${if (yMin.isDefined) s" ,${nameOf(yMin).toLowerCase}=${yMin.get}" else ""}" +
+      s"${if (yMax.isDefined) s" ,${nameOf(yMax).toLowerCase}=${yMax.get}" else ""}" +
+      s"${if (zMin.isDefined) s" ,${nameOf(zMin).toLowerCase}=${zMin.get}" else ""}" +
+      s"${if (zMax.isDefined) s" ,${nameOf(zMax).toLowerCase}=${zMax.get}" else ""}" +
+      s"${if (grid.isDefined) s" ,${nameOf(grid)}=${grid.get}" else ""}" +
+      s"${if (colorMap.isDefined) s" ,colormap/${colorMap.get}, colorbar" else ""}" +
+      s"${if (header.isDefined) s" ,title=${header.get.toTex}" else ""}" +
+      s"${if (legends.nonEmpty) s" ,legend entries={${legends.map(_.toTex).mkString(",")}}, legend pos=$legendPos" else ""}" +
+      s"${if (fontSize.isDefined) s" ,font=\\${fontSize.get}" else ""}"
 }
