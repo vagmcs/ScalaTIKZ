@@ -64,10 +64,12 @@ object ScalaTIKZBuild extends AutoPlugin {
     name := "ScalaTIKZ",
     organization := "com.github.vagmcs",
     description := "A plot library for Scala",
-    scalaVersion := "2.11.8",
+    scalaVersion := "2.11.11",
 
     autoScalaLibrary := true,
     managedScalaInstance := true,
+
+    crossScalaVersions := Seq("2.11.11", "2.12.2"),
 
     publishMavenStyle := true,
     publishArtifact in Test := false,
@@ -91,16 +93,13 @@ object ScalaTIKZBuild extends AutoPlugin {
 
     libraryDependencies ++= Seq(
       "org.scala-lang" % "scala-library" % scalaVersion.value,
-      "org.scala-lang" % "scala-reflect" % scalaVersion.value,
-      "org.scala-lang.modules" %% "scala-parser-combinators" % "1.0.4"
+      "org.scala-lang" % "scala-reflect" % scalaVersion.value
     ),
 
     dependencyOverrides ++= Set(
       "org.scala-lang" % "scala-compiler" % scalaVersion.value,
       "org.scala-lang" % "scala-library" % scalaVersion.value,
-      "org.scala-lang" % "scala-reflect" % scalaVersion.value,
-      "org.scala-lang.modules" %% "scala-parser-combinators" % "1.0.4",
-      "org.scala-lang.modules" %% "scala-xml" % "1.0.5"
+      "org.scala-lang" % "scala-reflect" % scalaVersion.value
     )
   )
 
@@ -138,13 +137,10 @@ object ScalaTIKZBuild extends AutoPlugin {
 
   private lazy val ScalaSettings: Seq[Setting[_]] = Seq(
     scalacOptions ++= Seq(
-      "-Yclosure-elim",
-      "-Yinline",
       "-Xno-uescape",
       "-feature",
       "-target:jvm-1.8",
-      "-language:implicitConversions",
-      "-Ybackend:GenBCode"
+      "-language:implicitConversions"
     )
   )
 }

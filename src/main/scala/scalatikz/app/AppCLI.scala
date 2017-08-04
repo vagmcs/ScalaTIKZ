@@ -27,8 +27,7 @@
 package scalatikz.app
 
 import scopt.OptionParser
-import scalatikz.common.Logging
-import pl.project13.scala.rainbow.{Rainbow => Colors}
+import scalatikz.common.{Colors, Logging}
 
 /**
   * Command line basic abstraction.
