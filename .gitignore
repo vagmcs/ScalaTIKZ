@@ -41,7 +41,6 @@ project/plugins/project/
 
 ### Files
 *.csv
-/images
 *.pdf
 
 
