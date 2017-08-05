@@ -146,7 +146,7 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
   opt[String]('E', "y-error-column".underlined).valueName("<index or name>".bold).optional.unbounded
     .action { (yErrorColumn, conf) =>
       if (conf.graphics.isEmpty) fatal("You must define a plot type before a y error column option.")
-      else conf.copy(graphics = conf.graphics.init :+ conf.graphics.last.copy(xErrorColumn = Some(yErrorColumn)))
+      else conf.copy(graphics = conf.graphics.init :+ conf.graphics.last.copy(yErrorColumn = Some(yErrorColumn)))
     }.text("Y error column index or column name (optional)." +
           s"\n\t${"Note:".green.bold} Indexes start from 0.")
 
