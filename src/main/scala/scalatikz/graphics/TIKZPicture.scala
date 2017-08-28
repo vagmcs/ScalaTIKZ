@@ -96,12 +96,7 @@ trait TIKZPicture[T <: Graphic] extends Logging {
   final def show(): Unit = Try(Desktop.getDesktop.open(compilePDF)) match {
     case Failure(ex) =>
       logger.warn(s"Cannot open PDF: ${ex.getMessage}")
-    case _ => Runtime.getRuntime
-      .addShutdownHook(new Thread {
-        override def run() {
-          s"rm $path/$name.pdf" ! devNullLogger
-        }
-      })
+    case _ =>
   }
 
   /**
