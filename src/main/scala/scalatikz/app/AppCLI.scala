@@ -27,6 +27,7 @@
 package scalatikz.app
 
 import scopt.OptionParser
+import scalatikz.BuildVersion
 import scalatikz.common.{Colors, Logging}
 
 /**
@@ -47,7 +48,7 @@ abstract class AppCLI[T <: OptionConf](program: String)
     """.stripMargin.blue
   }
 
-  head("ScalaTIKZ:".cyan, "0.0.1".red)
+  head("ScalaTIKZ:".cyan, BuildVersion().red)
 
   override def reportError(msg: String): Unit = logger.error(msg)
 
