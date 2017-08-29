@@ -24,7 +24,7 @@ $ brew cask install mactex
 
 #### Install GhostScript on a ***Debian-based*** system:
 ```bash
-$ sudo apt-get install ghostscript
+$ sudo apt-get install ghostscript libgs-dev
 ```
 
 #### Install GhostScript on a ***Apple Mac OS***
