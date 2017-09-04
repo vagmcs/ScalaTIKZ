@@ -56,7 +56,7 @@ ScalaTIKZ cross builds for Scala versions 2.11 and 2.12. Thereafter, in order to
 your [SBT](http://www.scala-sbt.org/) project, add the following dependency:
 
 ```
-libraryDependencies += "com.github.vagmcs" %% "scalatikz" % "0.2.0-SNAPSHOT"
+libraryDependencies += "com.github.vagmcs" %% "scalatikz" % "0.2.0"
 ```
 
 Similarly, in an [Apache Maven](https://maven.apache.org/) pom file:
@@ -65,7 +65,7 @@ Similarly, in an [Apache Maven](https://maven.apache.org/) pom file:
 <dependency>
     <groupId>com.github.vagmcs</groupId>
     <artifactId>scalatikz_2.11</artifactId>
-    <version>0.2.0-SNAPSHOT</version>
+    <version>0.2.0</version>
 </dependency>
 ```
 or
@@ -74,7 +74,7 @@ or
 <dependency>
     <groupId>com.github.vagmcs</groupId>
     <artifactId>scalatikz_2.12</artifactId>
-    <version>0.2.0-SNAPSHOT</version>
+    <version>0.2.0</version>
 </dependency>
 ```
 
@@ -83,7 +83,7 @@ or
 ScalaTIKZ is published into the Maven Central. In order to link ScalaTIKZ to your [SBT](http://www.scala-sbt.org/) project, add the following dependency:
 
 ```sbt
-libraryDependencies += "com.github.vagmcs" %% "scalatikz" % "0.2.0-SNAPSHOT"
+libraryDependencies += "com.github.vagmcs" %% "scalatikz" % "0.2.0"
 ```
 
 Likewise in an [Apache Maven](https://maven.apache.org/) pom xml file add:
@@ -92,7 +92,7 @@ Likewise in an [Apache Maven](https://maven.apache.org/) pom xml file add:
 <dependency>
   <groupId>com.github.vagmcs</groupId>
   <artifactId>scalatikz_2.11</artifactId>
-  <version>0.2.0-SNAPSHOT</version>
+  <version>0.2.0</version>
 </dependency>
 ```
 
@@ -102,6 +102,6 @@ or
 <dependency>
   <groupId>com.github.vagmcs</groupId>
   <artifactId>scalatikz_2.12</artifactId>
-  <version>0.2.0-SNAPSHOT</version>
+  <version>0.2.0</version>
 </dependency>
 ```
