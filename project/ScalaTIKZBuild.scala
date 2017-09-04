@@ -100,7 +100,34 @@ object ScalaTIKZBuild extends AutoPlugin {
       "org.scala-lang" % "scala-compiler" % scalaVersion.value,
       "org.scala-lang" % "scala-library" % scalaVersion.value,
       "org.scala-lang" % "scala-reflect" % scalaVersion.value
-    )
+    ),
+
+    publishTo := Some(
+      if (isSnapshot.value) Opts.resolver.sonatypeSnapshots
+      else Opts.resolver.sonatypeStaging
+    ),
+
+    // Information required in order to sync in Maven Central
+    pomExtra :=
+      <url>https://github.com/vagmcs</url>
+        <licenses>
+          <license>
+            <name>GNU Lesser General Public License v3.0</name>
+            <url>https://www.gnu.org/licenses/lgpl-3.0.en.html</url>
+          </license>
+        </licenses>
+        <scm>
+          <connection>scm:git:github.com/vagmcs/ScalaTIKZ.git</connection>
+          <developerConnection>scm:git:git@github.com:vagmcs/ScalaTIKZ.git</developerConnection>
+          <url>github.com/vagmcs/ScalaTIKZ</url>
+        </scm>
+        <developers>
+          <developer>
+            <id>vagmcs</id>
+            <name>Evangelos Michelioudakis</name>
+            <url>http://users.iit.demokritos.gr/~vagmcs/</url>
+          </developer>
+        </developers>
   )
 
   private lazy val PackagingOptions: Seq[Setting[_]] = Seq(

@@ -1,6 +1,8 @@
 addCommandAlias("build", ";compile;test;package")
 addCommandAlias("rebuild", ";clean;build")
 
+sonatypeProfileName := "com.github.vagmcs"
+
 lazy val lomrf = Project("ScalaTIKZ", file("."))
   .enablePlugins(JavaAppPackaging)
   .settings(logLevel in Test := Level.Info)
