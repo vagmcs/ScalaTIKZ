@@ -38,6 +38,7 @@ import scalatikz.graphics.pgf.FontSize._
 import scalatikz.graphics.pgf.LegendPos._
 import scalatikz.graphics.pgf.AxisStyle._
 import scalatikz.graphics.pgf.GridStyle._
+import scalatikz.graphics.pgf.Pattern._
 
 final class Figure private(val axis: Axis,
                            colorIterator: Iterator[Color],
@@ -223,6 +224,62 @@ final class Figure private(val axis: Axis,
   def havingYAxisLinePos(pos: AxisLinePos): Figure =
     new Figure(axis.copy(yAxisLinePos = pos), colorIterator, name, graphics)
 
+
+  /*
+   * =====================================
+   *
+   * ========: Bar functions
+   *
+   * =====================================
+   */
+
+  def barX(data: Data): Figure = barX()(data)
+
+  def barX(color: Color = nextColor,
+           pattern: Option[Pattern] = None,
+           lineStyle: LineStyle = SOLID,
+           lineSize: LineSize = THIN,
+           opacity: Double = 0.5,
+           barWidth: Double = 7)(data: Data): Figure =
+    if (graphics.exists(_.isInstanceOf[yBar])) {
+      logger.warn {
+        s"Cannot plot x bars along y bars. The x bars are ignored."
+      }
+      this
+    }
+    else new Figure(axis.copy(xBarAxis = true), colorIterator, name, graphics :+ xBar(
+      data.coordinates,
+      color,
+      pattern,
+      lineStyle,
+      lineSize,
+      opacity,
+      barWidth)
+    )
+
+  def barY(data: Data): Figure = barY()(data)
+
+  def barY(color: Color = nextColor,
+           pattern: Option[Pattern] = None,
+           lineStyle: LineStyle = SOLID,
+           lineSize: LineSize = THIN,
+           opacity: Double = 0.5,
+           barWidth: Double = 7)(data: Data): Figure =
+    if (graphics.exists(_.isInstanceOf[xBar])) {
+      logger.warn {
+        s"Cannot plot y bars along x bars. The y bars are ignored."
+      }
+      this
+    }
+    else new Figure(axis.copy(yBarAxis = true), colorIterator, name, graphics :+ yBar(
+      data.coordinates,
+      color,
+      pattern,
+      lineStyle,
+      lineSize,
+      opacity,
+      barWidth)
+    )
 
   /*
    * =====================================

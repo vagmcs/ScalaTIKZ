@@ -132,6 +132,21 @@ package object pgf {
     val LOOSELY_DASHED = Value("loosely dashed")
   }
 
+  object Pattern extends Enumeration {
+
+    type Pattern = Value
+
+    val HORIZONTAL_LINES = Value("horizontal lines")
+    val VERTICAL_LINES = Value("vertical lines")
+    val NORTH_EAST_LINES = Value("north east lines")
+    val NORTH_WEST_LINES = Value("north west lines")
+    val GRID = Value("grid")
+    val CROSSHATCH = Value("crosshatch")
+    val DOTS = Value("dots")
+    val CROSSHATCH_DOTS = Value("crosshatch dots")
+    val BRICKS = Value("bricks")
+  }
+
   object Color extends Enumeration {
 
     type Color = Value

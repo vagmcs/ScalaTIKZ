@@ -51,19 +51,22 @@ trait TIKZPicture[T <: Graphic] extends Logging {
   private val path = new File(System.getProperty("java.io.tmpdir"))
   private val texFile: File = new File(s"$path/source.tex")
 
+  // TODO: Fix logger to output appropriate messages when latex fails.
   private val devNullLogger =
     ProcessLogger(msg => logger.debug(msg), msg => logger.error(msg))
 
+  // TODO: should we keep scale 1?
   private def asTex: String =
     raw"""
        | \documentclass{standalone}
        |
        | \usepackage{tikz,pgfplots}
        | \usepackage{pgflibraryplotmarks}
+       | \usetikzlibrary{patterns}
        |
        | \begin{document}
        | \pagestyle{empty}
-       |  \begin{tikzpicture}[scale=2]
+       |  \begin{tikzpicture}[scale=1]
        |   ${this.toString}
        |  \end{tikzpicture}
        | \end{document}

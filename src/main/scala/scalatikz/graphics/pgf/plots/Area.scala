@@ -67,8 +67,8 @@ final class Area private(coordinates: Coordinates,
 
   override def toString: String =
     raw"""
-       | \addplot[color=$color, mark=$marker, mark size=${markSize}pt, fill=$color, fill opacity=$opacity,
-       |          mark options={draw=$markStrokeColor, fill=$markFillColor}
+       | \addplot[$lineStyle, $lineSize, color=$color, mark=$marker, mark size=${markSize}pt, fill=$color,
+       |          fill opacity=$opacity, mark options={draw=$markStrokeColor, fill=$markFillColor}
        |          ${if (smooth) ", smooth]" else if (constant) ", const plot]" else "]"} coordinates {
        |   ${coordinates.mkString("\n")}
        | };

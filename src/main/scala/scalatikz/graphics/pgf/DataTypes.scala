@@ -37,6 +37,7 @@ object DataTypes {
   type DataSeq = Seq[Point]
   type Coordinates = Seq[Point2D]
 
+  // TODO: These should go be implemented inside Data object, otherwise we have nested implicit calls
   implicit def intSeq2PointSeq(seq: Seq[Int]): DataSeq = seq.map(_.toDouble)
 
   implicit def longSeq2PointSeq(seq: Seq[Long]): DataSeq = seq.map(_.toDouble)

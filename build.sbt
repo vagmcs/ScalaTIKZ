@@ -3,7 +3,7 @@ addCommandAlias("rebuild", ";clean;build")
 
 sonatypeProfileName := "com.github.vagmcs"
 
-lazy val lomrf = Project("ScalaTIKZ", file("."))
+lazy val scalaTIKZ = Project("ScalaTIKZ", file("."))
   .enablePlugins(JavaAppPackaging)
   .settings(logLevel in Test := Level.Info)
   .settings(logLevel in Compile := Level.Error)
