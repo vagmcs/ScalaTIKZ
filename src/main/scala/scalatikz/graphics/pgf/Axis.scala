@@ -67,9 +67,7 @@ import com.github.dwickern.macros.NameOf._
   * @param xAxisLinePos X axis position
   * @param yAxisLinePos Y axis position
   */
-final case class Axis private(xBarAxis: Boolean = false,
-                              yBarAxis: Boolean = false,
-                              xMode: AxisStyle = LINEAR,
+final case class Axis private(xMode: AxisStyle = LINEAR,
                               yMode: AxisStyle = LINEAR,
                               zMode: AxisStyle = LINEAR,
                               xLabel: Option[String] = None,
@@ -108,7 +106,5 @@ final case class Axis private(xBarAxis: Boolean = false,
       s"${if (colorMap.isDefined) s" ,colormap/${colorMap.get}, colorbar" else ""}" +
       s"${if (header.isDefined) s" ,title=${header.get.toTex}" else ""}" +
       s"${if (legends.nonEmpty) s" ,legend entries={${legends.map(_.toTex).mkString(",")}}, legend pos=$legendPos" else ""}" +
-      s"${if (fontSize.isDefined) s" ,font=\\${fontSize.get}" else ""}" +
-      s"${if (xBarAxis) s" ,xbar" else ""}" +
-      s"${if (yBarAxis) s" ,ybar" else ""}" //TODO axis has x bar and y bar options
+      s"${if (fontSize.isDefined) s" ,font=\\${fontSize.get}" else ""}"
 }

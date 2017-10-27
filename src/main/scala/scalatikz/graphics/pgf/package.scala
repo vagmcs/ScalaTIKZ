@@ -61,7 +61,6 @@ package object pgf {
     val BOTTOM = Value("bottom")
     val LEFT = Value("left")
     val RIGHT = Value("right")
-    //val NONE = Value("none")
   }
 
   object LegendPos extends Enumeration {
@@ -96,6 +95,14 @@ package object pgf {
 
     val LINEAR = Value("linear")
     val LOG = Value("log")
+  }
+
+  object AxisType extends Enumeration {
+
+    type AxisType = Value
+
+    val CARTESIAN = Value("axis")
+    val POLAR = Value("polar" + "axis")
   }
 
   object GridStyle extends Enumeration {
@@ -136,6 +143,7 @@ package object pgf {
 
     type Pattern = Value
 
+    val PLAIN = Value("plain")
     val HORIZONTAL_LINES = Value("horizontal lines")
     val VERTICAL_LINES = Value("vertical lines")
     val NORTH_EAST_LINES = Value("north east lines")

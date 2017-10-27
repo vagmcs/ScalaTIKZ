@@ -64,6 +64,7 @@ trait TIKZPicture[T <: Graphic] extends Logging {
        | \usepackage{tikz,pgfplots}
        | \usetikzlibrary{plotmarks}
        | \usetikzlibrary{patterns}
+       | \usetikzlibrary{pgfplots.polar}
        | \pgfplotsset{compat=newest}
        |
        | \begin{document}
