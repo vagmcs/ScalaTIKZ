@@ -31,8 +31,11 @@ import java.awt.image.RenderedImage
 import java.io.{File, PrintStream}
 import java.nio.file.{Files, Paths, StandardCopyOption}
 import javax.imageio.ImageIO
+
 import org.ghost4j.document.PDFDocument
 import org.ghost4j.renderer.SimpleRenderer
+
+import scala.io.Source
 import scala.util.{Failure, Try}
 import scalatikz.common.Logging
 import sys.process._
@@ -51,18 +54,17 @@ trait TIKZPicture[T <: Graphic] extends Logging {
   private val path = new File(System.getProperty("java.io.tmpdir"))
   private val texFile: File = new File(s"$path/source.tex")
 
-  // TODO: Fix logger to output appropriate messages when latex fails.
   private val devNullLogger =
     ProcessLogger(msg => logger.debug(msg), msg => logger.error(msg))
 
-  // TODO: should we keep scale 1?
   private def asTex: String =
     raw"""
        | \documentclass{standalone}
        |
        | \usepackage{tikz,pgfplots}
-       | \usepackage{pgflibraryplotmarks}
+       | \usetikzlibrary{plotmarks}
        | \usetikzlibrary{patterns}
+       | \pgfplotsset{compat=newest}
        |
        | \begin{document}
        | \pagestyle{empty}
@@ -86,6 +88,14 @@ trait TIKZPicture[T <: Graphic] extends Logging {
     stream.close()
 
     s"pdflatex --shell-escape -output-directory $path ${texFile.getAbsolutePath}" ! devNullLogger
+
+    if (!Files.exists(Paths.get(s"$path/source.pdf"))) fatal {
+      Source.fromFile(s"$path/source.log").getLines.find(_.startsWith("!")) match {
+        case Some(error) => error.drop(2)
+        case None => "PDF was not generated but no errors exists in the logs."
+      }
+    }
+
     s"rm $path/source.aux $path/source.log $path/source.tex" ! devNullLogger
     s"mv $path/source.pdf $path/$name.pdf" ! devNullLogger
 
