@@ -5,8 +5,8 @@
  *  _\ \/ __/ _ `/ / _ `// / _/ // ,<   / /_
  * /___/\__/\_,_/_/\_,_//_/ /___/_/|_| /___/
  *
- * A plot library for Scala.
- *     
+ * A PGF/TIKZ plot library for Scala.
+ *
  */
 
 package scalatikz.graphics.pgf.plots
@@ -28,11 +28,12 @@ import scalatikz.graphics.pgf.Mark.Mark
   * @param markFillColor mark fill color
   * @param markSize mark size
   */
-final class Scatter private(coordinates: Coordinates,
-                            marker: Mark,
-                            markStrokeColor: Color,
-                            markFillColor: Color,
-                            markSize: Double) extends PGFPlot {
+final class Scatter private (
+    coordinates: Coordinates,
+    marker: Mark,
+    markStrokeColor: Color,
+    markFillColor: Color,
+    markSize: Double) extends PGFPlot {
 
   override def toString: String =
     raw"""
@@ -58,10 +59,11 @@ private[graphics] object Scatter {
     * @param markFillColor mark fill color
     * @param markSize mark size
     */
-  def apply(coordinates: Coordinates,
-            marker: Mark,
-            markStrokeColor: Color,
-            markFillColor: Color,
-            markSize: Double): Scatter =
+  def apply(
+      coordinates: Coordinates,
+      marker: Mark,
+      markStrokeColor: Color,
+      markFillColor: Color,
+      markSize: Double): Scatter =
     new Scatter(coordinates, marker, markStrokeColor, markFillColor, markSize)
 }

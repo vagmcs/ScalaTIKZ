@@ -5,8 +5,8 @@
  *  _\ \/ __/ _ `/ / _ `// / _/ // ,<   / /_
  * /___/\__/\_,_/_/\_,_//_/ /___/_/|_| /___/
  *
- * A plot library for Scala.
- *     
+ * A PGF/TIKZ plot library for Scala.
+ *
  */
 
 package object scalatikz {

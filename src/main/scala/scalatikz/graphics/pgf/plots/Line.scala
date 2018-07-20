@@ -5,8 +5,8 @@
  *  _\ \/ __/ _ `/ / _ `// / _/ // ,<   / /_
  * /___/\__/\_,_/_/\_,_//_/ /___/_/|_| /___/
  *
- * A plot library for Scala.
- *     
+ * A PGF/TIKZ plot library for Scala.
+ *
  */
 
 package scalatikz.graphics.pgf.plots
@@ -35,18 +35,19 @@ import scalatikz.graphics.pgf.DataTypes.Coordinates
   * @param lineSize line size
   * @param smooth true in case the line is smooth
   */
-final class Line private(coordinates: Coordinates,
-                         lineColor: Color,
-                         marker: Mark,
-                         markStrokeColor: Color,
-                         markFillColor: Color,
-                         markSize: Double,
-                         lineStyle: LineStyle,
-                         lineSize: LineSize,
-                         smooth: Boolean) extends PGFPlot {
+final class Line private (
+    coordinates: Coordinates,
+    lineColor: Color,
+    marker: Mark,
+    markStrokeColor: Color,
+    markFillColor: Color,
+    markSize: Double,
+    lineStyle: LineStyle,
+    lineSize: LineSize,
+    smooth: Boolean) extends PGFPlot {
 
   override def toString: String =
-  raw"""
+    raw"""
     | \addplot[$lineStyle, $lineSize, color=$lineColor, mark=$marker, mark size=${markSize}pt,
     |          mark options={draw=$markStrokeColor, fill=$markFillColor}
     |          ${if (smooth) ", smooth]" else "]"} coordinates {
@@ -74,14 +75,15 @@ private[graphics] object Line {
     * @param lineSize line size (default is thin)
     * @param smooth true in case the line is smooth
     */
-  def apply(coordinates: Coordinates,
-            lineColor: Color,
-            marker: Mark,
-            markStrokeColor: Color,
-            markFillColor: Color,
-            markSize: Double,
-            lineStyle: LineStyle,
-            lineSize: LineSize,
-            smooth: Boolean): Line =
+  def apply(
+      coordinates: Coordinates,
+      lineColor: Color,
+      marker: Mark,
+      markStrokeColor: Color,
+      markFillColor: Color,
+      markSize: Double,
+      lineStyle: LineStyle,
+      lineSize: LineSize,
+      smooth: Boolean): Line =
     new Line(coordinates, lineColor, marker, markStrokeColor, markFillColor, markSize, lineStyle, lineSize, smooth)
 }

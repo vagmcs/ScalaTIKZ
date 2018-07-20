@@ -5,13 +5,13 @@
  *  _\ \/ __/ _ `/ / _ `// / _/ // ,<   / /_
  * /___/\__/\_,_/_/\_,_//_/ /___/_/|_| /___/
  *
- * A plot library for Scala.
- *     
+ * A PGF/TIKZ plot library for Scala.
+ *
  */
 
 package scalatikz.graphics.pgf
 
-import scalatikz.graphics.{PGFPlot, TIKZPicture}
+import scalatikz.graphics.{ PGFPlot, TIKZPicture }
 import scalatikz.graphics.pgf.Color._
 import scalatikz.graphics.pgf.LineSize._
 import scalatikz.graphics.pgf.LineStyle._
@@ -26,11 +26,12 @@ import scalatikz.graphics.pgf.AxisType._
 import scalatikz.graphics.pgf.GridStyle._
 import scalatikz.graphics.pgf.Pattern._
 
-final class Figure private(val axis: Axis,
-                           colorIterator: Iterator[Color],
-                           override val name: String,
-                           override val graphics: Seq[PGFPlot],
-                           axisType: AxisType) extends TIKZPicture[PGFPlot] with PGFPlot {
+final class Figure private (
+    val axis: Axis,
+    colorIterator: Iterator[Color],
+    override val name: String,
+    override val graphics: Seq[PGFPlot],
+    axisType: AxisType) extends TIKZPicture[PGFPlot] with PGFPlot {
 
   // An iterator over available colors in case user does not specify one.
   private[this] var currentColor: Color = colors.head
@@ -176,7 +177,7 @@ final class Figure private(val axis: Axis,
     * @param legends a sequence of legends
     * @return a Figure having the given legends
     */
-  def havingLegends(legends: String *): Figure =
+  def havingLegends(legends: String*): Figure =
     new Figure(axis.copy(legends = legends), colorIterator, name, graphics, axisType)
 
   /**
@@ -211,17 +212,17 @@ final class Figure private(val axis: Axis,
   def havingYAxisLinePos(pos: AxisLinePos): Figure =
     new Figure(axis.copy(yAxisLinePos = pos), colorIterator, name, graphics, axisType)
 
-
   def polar(data: Data): Figure = polar()(data)
 
-  def polar(color: Color = nextColor,
-           marker: Mark = NONE,
-           markStrokeColor: Color = currentColor,
-           markFillColor: Color = currentColor,
-           markSize: Double = 2,
-           lineStyle: LineStyle = SOLID,
-           lineSize: LineSize = THIN,
-           smooth: Boolean = false)(data: Data): Figure =
+  def polar(
+      color: Color = nextColor,
+      marker: Mark = NONE,
+      markStrokeColor: Color = currentColor,
+      markFillColor: Color = currentColor,
+      markSize: Double = 2,
+      lineStyle: LineStyle = SOLID,
+      lineSize: LineSize = THIN,
+      smooth: Boolean = false)(data: Data): Figure =
     new Figure(axis, colorIterator, name, graphics :+ Line(
       data.coordinates,
       color,
@@ -236,10 +237,11 @@ final class Figure private(val axis: Axis,
 
   def polarScatter(data: Data): Figure = polarScatter()(data)
 
-  def polarScatter(marker: Mark = NONE,
-              markStrokeColor: Color = nextColor,
-              markFillColor: Color = currentColor,
-              markSize: Double = 2)(data: Data): Figure =
+  def polarScatter(
+      marker: Mark = NONE,
+      markStrokeColor: Color = nextColor,
+      markFillColor: Color = currentColor,
+      markSize: Double = 2)(data: Data): Figure =
     new Figure(axis, colorIterator, name, graphics :+ Scatter(
       data.coordinates,
       marker,
@@ -274,12 +276,13 @@ final class Figure private(val axis: Axis,
     * @param lineSize line size (default is thin)
     * @param data sequence of x, y points in the Euclidean space
     */
-  def bar(color: Color = nextColor,
-          pattern: Pattern = PLAIN,
-          lineStyle: LineStyle = SOLID,
-          lineSize: LineSize = THIN,
-          opacity: Double = 0.5,
-          barWidth: Double = 7)(data: Data): Figure =
+  def bar(
+      color: Color = nextColor,
+      pattern: Pattern = PLAIN,
+      lineStyle: LineStyle = SOLID,
+      lineSize: LineSize = THIN,
+      opacity: Double = 0.5,
+      barWidth: Double = 7)(data: Data): Figure =
     new Figure(axis, colorIterator, name, graphics :+ yBar(
       data.coordinates,
       color,
@@ -320,14 +323,15 @@ final class Figure private(val axis: Axis,
     * @param smooth true for a smooth line (default is false)
     * @param data sequence of x, y points in the Euclidean space
     */
-  def plot(color: Color = nextColor,
-           marker: Mark = NONE,
-           markStrokeColor: Color = currentColor,
-           markFillColor: Color = currentColor,
-           markSize: Double = 2,
-           lineStyle: LineStyle = SOLID,
-           lineSize: LineSize = THIN,
-           smooth: Boolean = false)(data: Data): Figure =
+  def plot(
+      color: Color = nextColor,
+      marker: Mark = NONE,
+      markStrokeColor: Color = currentColor,
+      markFillColor: Color = currentColor,
+      markSize: Double = 2,
+      lineStyle: LineStyle = SOLID,
+      lineSize: LineSize = THIN,
+      smooth: Boolean = false)(data: Data): Figure =
     new Figure(axis, colorIterator, name, graphics :+ Line(
       data.coordinates,
       color,
@@ -339,7 +343,6 @@ final class Figure private(val axis: Axis,
       lineSize,
       smooth), axisType
     )
-
 
   /*
    * =====================================
@@ -373,16 +376,17 @@ final class Figure private(val axis: Axis,
     * @param constant true for a constant area (default is false)
     * @param data sequence of x, y points in the Euclidean space
     */
-  def area(color: Color = nextColor,
-           marker: Mark = NONE,
-           markStrokeColor: Color = currentColor,
-           markFillColor: Color = currentColor,
-           markSize: Double = 2,
-           lineStyle: LineStyle = SOLID,
-           lineSize: LineSize = THIN,
-           opacity: Double = 0.5,
-           smooth: Boolean = false,
-           constant: Boolean = false)(data: Data): Figure =
+  def area(
+      color: Color = nextColor,
+      marker: Mark = NONE,
+      markStrokeColor: Color = currentColor,
+      markFillColor: Color = currentColor,
+      markSize: Double = 2,
+      lineStyle: LineStyle = SOLID,
+      lineSize: LineSize = THIN,
+      opacity: Double = 0.5,
+      smooth: Boolean = false,
+      constant: Boolean = false)(data: Data): Figure =
     new Figure(axis, colorIterator, name, graphics :+ Area(
       data.coordinates,
       color,
@@ -396,7 +400,6 @@ final class Figure private(val axis: Axis,
       smooth,
       constant), axisType
     )
-
 
   /*
    * =====================================
@@ -425,11 +428,12 @@ final class Figure private(val axis: Axis,
     * @param markSize mark size (default is 2 pt)
     * @param data sequence of x, y points in the Euclidean space
     */
-  def stem(color: Color = nextColor,
-           marker: Mark = NONE,
-           markStrokeColor: Color = currentColor,
-           markFillColor: Color = currentColor,
-           markSize: Double = 2)(data: Data): Figure =
+  def stem(
+      color: Color = nextColor,
+      marker: Mark = NONE,
+      markStrokeColor: Color = currentColor,
+      markFillColor: Color = currentColor,
+      markSize: Double = 2)(data: Data): Figure =
     new Figure(axis, colorIterator, name, graphics :+ Stem(
       data.coordinates,
       color,
@@ -438,7 +442,6 @@ final class Figure private(val axis: Axis,
       markFillColor,
       markSize), axisType
     )
-
 
   /*
    * =====================================
@@ -469,13 +472,14 @@ final class Figure private(val axis: Axis,
     * @param lineSize line size (default is thin)
     * @param data sequence of x, y points in the Euclidean space
     */
-  def stair(color: Color = nextColor,
-           marker: Mark = NONE,
-           markStrokeColor: Color = currentColor,
-           markFillColor: Color = currentColor,
-           markSize: Double = 2,
-           lineStyle: LineStyle = SOLID,
-           lineSize: LineSize = THIN)(data: Data): Figure =
+  def stair(
+      color: Color = nextColor,
+      marker: Mark = NONE,
+      markStrokeColor: Color = currentColor,
+      markFillColor: Color = currentColor,
+      markSize: Double = 2,
+      lineStyle: LineStyle = SOLID,
+      lineSize: LineSize = THIN)(data: Data): Figure =
     new Figure(axis, colorIterator, name, graphics :+ Stair(
       data.coordinates,
       color,
@@ -486,7 +490,6 @@ final class Figure private(val axis: Axis,
       lineStyle,
       lineSize), axisType
     )
-
 
   /*
    * =====================================
@@ -514,10 +517,11 @@ final class Figure private(val axis: Axis,
     * @param markSize mark size (default is 2 pt)
     * @param data sequence of x, y points in the Euclidean space
     */
-  def scatter(marker: Mark = NONE,
-              markStrokeColor: Color = nextColor,
-              markFillColor: Color = currentColor,
-              markSize: Double = 2)(data: Data): Figure =
+  def scatter(
+      marker: Mark = NONE,
+      markStrokeColor: Color = nextColor,
+      markFillColor: Color = currentColor,
+      markSize: Double = 2)(data: Data): Figure =
     new Figure(axis, colorIterator, name, graphics :+ Scatter(
       data.coordinates,
       marker,
@@ -525,7 +529,6 @@ final class Figure private(val axis: Axis,
       markFillColor,
       markSize), axisType
     )
-
 
   /*
    * =====================================
@@ -559,14 +562,15 @@ final class Figure private(val axis: Axis,
     * @param data sequence of x, y points in the Euclidean space along
     *             a sequence of x-error, y-error points.
     */
-  def errorBar(color: Color = nextColor,
-               marker: Mark = NONE,
-               markStrokeColor: Color = currentColor,
-               markFillColor: Color = currentColor,
-               markSize: Double = 2,
-               lineStyle: LineStyle = SOLID,
-               lineSize: LineSize = THIN,
-               smooth: Boolean = false)(data: Data)(error: Data): Figure =
+  def errorBar(
+      color: Color = nextColor,
+      marker: Mark = NONE,
+      markStrokeColor: Color = currentColor,
+      markFillColor: Color = currentColor,
+      markSize: Double = 2,
+      lineStyle: LineStyle = SOLID,
+      lineSize: LineSize = THIN,
+      smooth: Boolean = false)(data: Data)(error: Data): Figure =
     new Figure(axis, colorIterator, name, graphics :+ ErrorBar(
       data.coordinates,
       error.coordinates,
@@ -587,9 +591,10 @@ final class Figure private(val axis: Axis,
       s"\\end{$axisType}"
 }
 
-final class FigureArray private[graphics](override val name: String,
-                                          override protected val graphics: Seq[Figure],
-                                          N: Int, M: Int) extends TIKZPicture[Figure] {
+final class FigureArray private[graphics] (
+    override val name: String,
+    override protected val graphics: Seq[Figure],
+    N: Int, M: Int) extends TIKZPicture[Figure] {
 
   /**
     * Creates a sub-figure in the given position and transforms the figure

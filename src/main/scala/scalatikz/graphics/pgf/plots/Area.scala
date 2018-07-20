@@ -5,8 +5,8 @@
  *  _\ \/ __/ _ `/ / _ `// / _/ // ,<   / /_
  * /___/\__/\_,_/_/\_,_//_/ /___/_/|_| /___/
  *
- * A plot library for Scala.
- *     
+ * A PGF/TIKZ plot library for Scala.
+ *
  */
 
 package scalatikz.graphics.pgf.plots
@@ -38,17 +38,18 @@ import scalatikz.graphics.pgf.DataTypes.Coordinates
   * @param smooth true in case the line is smooth
   * @param constant true in case the area is constant
   */
-final class Area private(coordinates: Coordinates,
-                         color: Color,
-                         marker: Mark,
-                         markStrokeColor: Color,
-                         markFillColor: Color,
-                         markSize: Double,
-                         lineStyle: LineStyle,
-                         lineSize: LineSize,
-                         opacity: Double,
-                         smooth: Boolean,
-                         constant: Boolean) extends PGFPlot {
+final class Area private (
+    coordinates: Coordinates,
+    color: Color,
+    marker: Mark,
+    markStrokeColor: Color,
+    markFillColor: Color,
+    markSize: Double,
+    lineStyle: LineStyle,
+    lineSize: LineSize,
+    opacity: Double,
+    smooth: Boolean,
+    constant: Boolean) extends PGFPlot {
 
   override def toString: String =
     raw"""
@@ -82,17 +83,18 @@ private[graphics] object Area {
     * @param smooth true in case the line is smooth
     * @param constant true in case the area is constant
     */
-  def apply(coordinates: Coordinates,
-            color: Color,
-            marker: Mark,
-            markStrokeColor: Color,
-            markFillColor: Color,
-            markSize: Double,
-            lineStyle: LineStyle,
-            lineSize: LineSize,
-            opacity: Double,
-            smooth: Boolean,
-            constant: Boolean): Area =
+  def apply(
+      coordinates: Coordinates,
+      color: Color,
+      marker: Mark,
+      markStrokeColor: Color,
+      markFillColor: Color,
+      markSize: Double,
+      lineStyle: LineStyle,
+      lineSize: LineSize,
+      opacity: Double,
+      smooth: Boolean,
+      constant: Boolean): Area =
     new Area(coordinates, color, marker, markStrokeColor, markFillColor, markSize, lineStyle, lineSize, opacity, smooth, constant)
 }
 

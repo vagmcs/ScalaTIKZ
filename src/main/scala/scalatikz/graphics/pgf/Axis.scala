@@ -5,8 +5,8 @@
  *  _\ \/ __/ _ `/ / _ `// / _/ // ,<   / /_
  * /___/\__/\_,_/_/\_,_//_/ /___/_/|_| /___/
  *
- * A plot library for Scala.
- *     
+ * A PGF/TIKZ plot library for Scala.
+ *
  */
 
 package scalatikz.graphics.pgf
@@ -52,27 +52,28 @@ import com.github.dwickern.macros.NameOf._
   * @param xAxisLinePos X axis position
   * @param yAxisLinePos Y axis position
   */
-final case class Axis private(xMode: AxisStyle = LINEAR,
-                              yMode: AxisStyle = LINEAR,
-                              zMode: AxisStyle = LINEAR,
-                              xLabel: Option[String] = None,
-                              yLabel: Option[String] = None,
-                              zLabel: Option[String] = None,
-                              xMin: Option[Double] = None,
-                              xMax: Option[Double] = None,
-                              yMin: Option[Double] = None,
-                              yMax: Option[Double] = None,
-                              zMin: Option[Double] = None,
-                              zMax: Option[Double] = None,
-                              grid: Option[GridStyle] = None,
-                              colorMap: Option[ColorMap] = None,
-                              backgroundColor: Color = WHITE,
-                              header: Option[String] = None,
-                              fontSize: Option[FontSize] = None,
-                              legends: Seq[String] = List.empty,
-                              legendPos: LegendPos = OUTER_NORTH_EAST,
-                              xAxisLinePos: AxisLinePos = BOX,
-                              yAxisLinePos: AxisLinePos = BOX) {
+final case class Axis private (
+    xMode: AxisStyle = LINEAR,
+    yMode: AxisStyle = LINEAR,
+    zMode: AxisStyle = LINEAR,
+    xLabel: Option[String] = None,
+    yLabel: Option[String] = None,
+    zLabel: Option[String] = None,
+    xMin: Option[Double] = None,
+    xMax: Option[Double] = None,
+    yMin: Option[Double] = None,
+    yMax: Option[Double] = None,
+    zMin: Option[Double] = None,
+    zMax: Option[Double] = None,
+    grid: Option[GridStyle] = None,
+    colorMap: Option[ColorMap] = None,
+    backgroundColor: Color = WHITE,
+    header: Option[String] = None,
+    fontSize: Option[FontSize] = None,
+    legends: Seq[String] = List.empty,
+    legendPos: LegendPos = OUTER_NORTH_EAST,
+    xAxisLinePos: AxisLinePos = BOX,
+    yAxisLinePos: AxisLinePos = BOX) {
 
   override def toString: String =
     s"${nameOf(xMode).toLowerCase}=$xMode, ${nameOf(yMode).toLowerCase}=$yMode, " +

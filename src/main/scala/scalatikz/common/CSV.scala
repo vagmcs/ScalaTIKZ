@@ -5,18 +5,18 @@
  *  _\ \/ __/ _ `/ / _ `// / _/ // ,<   / /_
  * /___/\__/\_,_/_/\_,_//_/ /___/_/|_| /___/
  *
- * A plot library for Scala.
- *     
+ * A PGF/TIKZ plot library for Scala.
+ *
  */
 
 package scalatikz.common
 
 import com.univocity.parsers.csv._
 import com.univocity.parsers.common.processor.ColumnProcessor
-import java.io.{File, FileInputStream, InputStream, UnsupportedEncodingException}
-import java.util.zip.{GZIPInputStream, ZipInputStream}
+import java.io.{ File, FileInputStream, InputStream, UnsupportedEncodingException }
+import java.util.zip.{ GZIPInputStream, ZipInputStream }
 import scala.collection.JavaConverters._
-import scala.util.{Failure, Success, Try}
+import scala.util.{ Failure, Success, Try }
 import scalatikz.graphics.pgf.DataTypes.DataSeq
 
 object CSV {
@@ -55,9 +55,10 @@ object CSV {
     * @param columns a sequence of column indexes
     * @return a sequence of column data
     */
-  def parseColumnsByIndex(inputFile: File,
-                          separator: Char,
-                          columns: Int *): Try[List[DataSeq]] = {
+  def parseColumnsByIndex(
+      inputFile: File,
+      separator: Char,
+      columns: Int*): Try[List[DataSeq]] = {
 
     val inputStream: InputStream = toInputStream(inputFile) match {
       case Success(stream) => stream
@@ -101,8 +102,9 @@ object CSV {
     * @param columns a sequence of column names
     * @return a sequence of column data
     */
-  def parseColumns(inputFile: File,
-                   separator: Char, columns: String *): Try[List[DataSeq]] = {
+  def parseColumns(
+      inputFile: File,
+      separator: Char, columns: String*): Try[List[DataSeq]] = {
 
     val inputStream: InputStream = toInputStream(inputFile) match {
       case Success(stream) => stream
@@ -132,8 +134,8 @@ object CSV {
         seq.asScala.toList.map(_.toDouble)
       }
     } match {
-          case Success(xs) => xs
-          case Failure(ex) => return Failure(ex)
+      case Success(xs) => xs
+      case Failure(ex) => return Failure(ex)
     }
 
     Success(results)

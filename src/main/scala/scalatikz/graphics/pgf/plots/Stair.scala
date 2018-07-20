@@ -5,8 +5,8 @@
  *  _\ \/ __/ _ `/ / _ `// / _/ // ,<   / /_
  * /___/\__/\_,_/_/\_,_//_/ /___/_/|_| /___/
  *
- * A plot library for Scala.
- *     
+ * A PGF/TIKZ plot library for Scala.
+ *
  */
 
 package scalatikz.graphics.pgf.plots
@@ -34,14 +34,15 @@ import scalatikz.graphics.pgf.Mark.Mark
   * @param lineStyle line style
   * @param lineSize line size
   */
-final class Stair private(coordinates: Coordinates,
-                          lineColor: Color,
-                          marker: Mark,
-                          markStrokeColor: Color,
-                          markFillColor: Color,
-                          markSize: Double,
-                          lineStyle: LineStyle,
-                          lineSize: LineSize) extends PGFPlot {
+final class Stair private (
+    coordinates: Coordinates,
+    lineColor: Color,
+    marker: Mark,
+    markStrokeColor: Color,
+    markFillColor: Color,
+    markSize: Double,
+    lineStyle: LineStyle,
+    lineSize: LineSize) extends PGFPlot {
 
   override def toString: String =
     raw"""
@@ -70,13 +71,14 @@ private[graphics] object Stair {
     * @param lineStyle line style
     * @param lineSize line size
     */
-  def apply(coordinates: Coordinates,
-            lineColor: Color,
-            marker: Mark,
-            markStrokeColor: Color,
-            markFillColor: Color,
-            markSize: Double,
-            lineStyle: LineStyle,
-            lineSize: LineSize): Stair =
+  def apply(
+      coordinates: Coordinates,
+      lineColor: Color,
+      marker: Mark,
+      markStrokeColor: Color,
+      markFillColor: Color,
+      markSize: Double,
+      lineStyle: LineStyle,
+      lineSize: LineSize): Stair =
     new Stair(coordinates, lineColor, marker, markStrokeColor, markFillColor, markSize, lineStyle, lineSize)
 }

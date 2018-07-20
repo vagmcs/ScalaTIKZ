@@ -5,15 +5,15 @@
  *  _\ \/ __/ _ `/ / _ `// / _/ // ,<   / /_
  * /___/\__/\_,_/_/\_,_//_/ /___/_/|_| /___/
  *
- * A plot library for Scala.
- *     
+ * A PGF/TIKZ plot library for Scala.
+ *
  */
 
 package scalatikz.app
 
 import scopt.OptionParser
 import scalatikz.BuildVersion
-import scalatikz.common.{Colors, Logging}
+import scalatikz.common.{ Colors, Logging }
 
 /**
   * Command line basic abstraction.

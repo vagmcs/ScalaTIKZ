@@ -5,8 +5,8 @@
  *  _\ \/ __/ _ `/ / _ `// / _/ // ,<   / /_
  * /___/\__/\_,_/_/\_,_//_/ /___/_/|_| /___/
  *
- * A plot library for Scala.
- *     
+ * A PGF/TIKZ plot library for Scala.
+ *
  */
 
 package scalatikz.graphics.pgf.plots
@@ -29,12 +29,13 @@ import scalatikz.graphics.pgf.DataTypes.Coordinates
   * @param markFillColor mark fill color
   * @param markSize mark size
   */
-final class Stem private(coordinates: Coordinates,
-                         lineColor: Color,
-                         marker: Mark,
-                         markStrokeColor: Color,
-                         markFillColor: Color,
-                         markSize: Double) extends PGFPlot {
+final class Stem private (
+    coordinates: Coordinates,
+    lineColor: Color,
+    marker: Mark,
+    markStrokeColor: Color,
+    markFillColor: Color,
+    markSize: Double) extends PGFPlot {
 
   override def toString: String =
     raw"""
@@ -60,11 +61,12 @@ private[graphics] object Stem {
     * @param markFillColor mark fill color
     * @param markSize mark size
     */
-  def apply(coordinates: Coordinates,
-            lineColor: Color,
-            marker: Mark,
-            markStrokeColor: Color,
-            markFillColor: Color,
-            markSize: Double): Stem =
+  def apply(
+      coordinates: Coordinates,
+      lineColor: Color,
+      marker: Mark,
+      markStrokeColor: Color,
+      markFillColor: Color,
+      markSize: Double): Stem =
     new Stem(coordinates, lineColor, marker, markStrokeColor, markFillColor, markSize)
 }

@@ -5,8 +5,8 @@
  *  _\ \/ __/ _ `/ / _ `// / _/ // ,<   / /_
  * /___/\__/\_,_/_/\_,_//_/ /___/_/|_| /___/
  *
- * A plot library for Scala.
- *     
+ * A PGF/TIKZ plot library for Scala.
+ *
  */
 
 package scalatikz.graphics.pgf.plots
@@ -18,13 +18,14 @@ import scalatikz.graphics.pgf.LineSize.LineSize
 import scalatikz.graphics.pgf.LineStyle.LineStyle
 import scalatikz.graphics.pgf.Pattern._
 
-final class xBar private(coordinates: Coordinates,
-                         color: Color,
-                         pattern: Pattern,
-                         lineStyle: LineStyle,
-                         lineSize: LineSize,
-                         opacity: Double,
-                         barWidth: Double) extends PGFPlot {
+final class xBar private (
+    coordinates: Coordinates,
+    color: Color,
+    pattern: Pattern,
+    lineStyle: LineStyle,
+    lineSize: LineSize,
+    opacity: Double,
+    barWidth: Double) extends PGFPlot {
 
   override def toString: String =
     raw"""
@@ -35,13 +36,14 @@ final class xBar private(coordinates: Coordinates,
   """.stripMargin
 }
 
-final class yBar private(coordinates: Coordinates,
-                         color: Color,
-                         pattern: Pattern,
-                         lineStyle: LineStyle,
-                         lineSize: LineSize,
-                         opacity: Double,
-                         barWidth: Double) extends PGFPlot {
+final class yBar private (
+    coordinates: Coordinates,
+    color: Color,
+    pattern: Pattern,
+    lineStyle: LineStyle,
+    lineSize: LineSize,
+    opacity: Double,
+    barWidth: Double) extends PGFPlot {
 
   override def toString: String =
     raw"""
@@ -54,24 +56,26 @@ final class yBar private(coordinates: Coordinates,
 
 private[graphics] object xBar {
 
-  def apply(coordinates: Coordinates,
-            color: Color,
-            pattern: Pattern,
-            lineStyle: LineStyle,
-            lineSize: LineSize,
-            opacity: Double,
-            barWidth: Double): xBar =
+  def apply(
+      coordinates: Coordinates,
+      color: Color,
+      pattern: Pattern,
+      lineStyle: LineStyle,
+      lineSize: LineSize,
+      opacity: Double,
+      barWidth: Double): xBar =
     new xBar(coordinates, color, pattern, lineStyle, lineSize, opacity, barWidth)
 }
 
 private[graphics] object yBar {
 
-  def apply(coordinates: Coordinates,
-            color: Color,
-            pattern: Pattern,
-            lineStyle: LineStyle,
-            lineSize: LineSize,
-            opacity: Double,
-            barWidth: Double): yBar =
+  def apply(
+      coordinates: Coordinates,
+      color: Color,
+      pattern: Pattern,
+      lineStyle: LineStyle,
+      lineSize: LineSize,
+      opacity: Double,
+      barWidth: Double): yBar =
     new yBar(coordinates, color, pattern, lineStyle, lineSize, opacity, barWidth)
 }
