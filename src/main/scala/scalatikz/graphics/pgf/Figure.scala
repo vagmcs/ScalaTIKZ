@@ -212,6 +212,22 @@ final class Figure private (
   def havingYAxisLinePos(pos: AxisLinePos): Figure =
     new Figure(axis.copy(yAxisLinePos = pos), colorIterator, name, graphics, axisType)
 
+  /**
+    * Hides the ticks appearing in the X axis.
+    *
+    * @return a Figure having hidden ticks in the X axis
+    */
+  def hideXAxisTicks: Figure =
+    new Figure(axis.copy(xAxisHideTicks = true), colorIterator, name, graphics, axisType)
+
+  /**
+    * Hides the ticks appearing in the Y axis.
+    *
+    * @return a Figure having hidden ticks in the Y axis
+    */
+  def hideYAxisTicks: Figure =
+    new Figure(axis.copy(yAxisHideTicks = true), colorIterator, name, graphics, axisType)
+
   def polar(data: Data): Figure = polar()(data)
 
   def polar(

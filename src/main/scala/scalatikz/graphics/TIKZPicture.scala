@@ -16,10 +16,8 @@ import java.awt.image.RenderedImage
 import java.io.{File, PrintStream}
 import java.nio.file.{Files, Paths, StandardCopyOption}
 import javax.imageio.ImageIO
-
 import org.ghost4j.document.PDFDocument
 import org.ghost4j.renderer.SimpleRenderer
-
 import scala.io.Source
 import scala.util.{Failure, Try}
 import scalatikz.common.Logging

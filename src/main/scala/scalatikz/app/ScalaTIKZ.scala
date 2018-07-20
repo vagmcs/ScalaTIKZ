@@ -253,6 +253,14 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
       else failure("Axis limits should be exactly 4.")
     }
 
+  opt[Unit]('z', "hideXTicks".underlined).optional.unbounded
+    .action((_, conf) => conf.copy(figure = conf.figure.hideXAxisTicks))
+    .text("Hides the ticks on the X axis (default is false).\n")
+
+  opt[Unit]('Z', "hideYTicks".underlined).optional.unbounded
+    .action((_, conf) => conf.copy(figure = conf.figure.hideYAxisTicks))
+    .text("Hides the ticks on the Y axis (default is false).\n")
+
   opt[Seq[String]]('g', "legends".underlined).valueName("<comma separated legends>".bold).optional.unbounded
     .action((x, conf) => conf.copy(figure = conf.figure.havingLegends(x: _*)))
     .text("Comma separated legends for the plotted data.\n")

@@ -51,6 +51,8 @@ import com.github.dwickern.macros.NameOf._
   * @param legendPos legend position
   * @param xAxisLinePos X axis position
   * @param yAxisLinePos Y axis position
+  * @param xAxisHideTicks hide X axis ticks
+  * @param yAxisHideTicks hide Y axis ticks
   */
 final case class Axis private (
     xMode: AxisStyle = LINEAR,
@@ -73,12 +75,16 @@ final case class Axis private (
     legends: Seq[String] = List.empty,
     legendPos: LegendPos = OUTER_NORTH_EAST,
     xAxisLinePos: AxisLinePos = BOX,
-    yAxisLinePos: AxisLinePos = BOX) {
+    yAxisLinePos: AxisLinePos = BOX,
+    xAxisHideTicks: Boolean = false,
+    yAxisHideTicks: Boolean = false) {
 
   override def toString: String =
     s"${nameOf(xMode).toLowerCase}=$xMode, ${nameOf(yMode).toLowerCase}=$yMode, " +
       s"${nameOf(zMode).toLowerCase}=$zMode, axis background/.style={fill=$backgroundColor}, " +
       s"axis x line=$xAxisLinePos, axis y line=$yAxisLinePos\n" +
+      s"${if (xAxisHideTicks) "xticklabels={,,}" else ""}" +
+      s"${if (yAxisHideTicks) "yticklabels={,,}" else ""}"
       s"${if (xLabel.isDefined) s" ,${nameOf(xLabel).toLowerCase}=${xLabel.get.toTex}" else ""}" +
       s"${if (yLabel.isDefined) s" ,${nameOf(yLabel).toLowerCase}=${yLabel.get.toTex}" else ""}" +
       s"${if (zLabel.isDefined) s" ,${nameOf(zLabel).toLowerCase}=${zLabel.get.toTex}" else ""}" +
