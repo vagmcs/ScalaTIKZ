@@ -1,27 +1,12 @@
 /*
+ *
  *    ____         __    ____________ ______
  *   / __/______ _/ /__ /_  __/  _/ //_/_  /
  *  _\ \/ __/ _ `/ / _ `// / _/ // ,<   / /_
  * /___/\__/\_,_/_/\_,_//_/ /___/_/|_| /___/
  *
- * ScalaTIKZ.
+ * A plot library for Scala.
  *
- * Copyright (c) Evangelos Michelioudakis.
- *
- * This file is part of ScalaTIKZ.
- *
- * ScalaTIKZ is free software: you can redistribute it and/or modify it
- * under the terms of the GNU Lesser General Public License as published
- * by the Free Software Foundation, either version 3 of the License,
- * or (at your option) any later version.
- *
- * ScalaTIKZ is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
- * License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with ScalaTIKZ. If not, see <http://www.gnu.org/licenses/>.
  */
 
 import sbt._
@@ -31,19 +16,26 @@ import sbt.plugins.JvmPlugin
 import com.typesafe.sbt.SbtNativePackager.Universal
 import com.typesafe.sbt.SbtNativePackager.autoImport._
 import com.typesafe.sbt.packager.archetypes.JavaAppPackaging
+import de.heikoseeberger.sbtheader.HeaderPlugin
+import de.heikoseeberger.sbtheader.HeaderPlugin.autoImport._
 
 object ScalaTIKZBuild extends AutoPlugin {
 
-  println {
-    """
-      |    ____         __    ____________ ______
-      |   / __/______ _/ /__ /_  __/  _/ //_/_  /
-      |  _\ \/ __/ _ `/ / _ `// / _/ // ,<   / /_
-      | /___/\__/\_,_/_/\_,_//_/ /___/_/|_| /___/
-    """.stripMargin
-  }
+  private val logger = ConsoleLogger()
 
-  override def requires: Plugins = JvmPlugin && JavaAppPackaging
+  final val logo =
+    """
+      |   ____         __    ____________ ______
+      |  / __/______ _/ /__ /_  __/  _/ //_/_  /
+      | _\ \/ __/ _ `/ / _ `// / _/ // ,<   / /_
+      |/___/\__/\_,_/_/\_,_//_/ /___/_/|_| /___/
+      |
+      |A PGF/TIKZ plot library for Scala.
+    """.stripMargin
+
+  logger.info(logo)
+
+  override def requires: Plugins = JvmPlugin && JavaAppPackaging && HeaderPlugin
   override def trigger: PluginTrigger = allRequirements
 
   override def projectSettings: Seq[Setting[_]] = settings
@@ -51,25 +43,29 @@ object ScalaTIKZBuild extends AutoPlugin {
   val javaVersion: Double = sys.props("java.specification.version").toDouble
 
   private lazy val settings: Seq[Setting[_]] = {
-    if (javaVersion < 1.8)
-      sys.error("Java 8 or higher is required for building Optimus.")
-    else {
-      println(s"[info] Loading settings for Java $javaVersion or higher.")
-      commonSettings ++ ScalaSettings ++ JavaSettings ++ PackagingOptions
-    }
+    logger.info(s"[info] Loading settings for Java $javaVersion or higher.")
+    if (javaVersion < 1.8) sys.error("Java 8 or higher is required for building ScalaTIKZ.")
+    else commonSettings ++ ScalaSettings ++ JavaSettings ++ PackagingOptions
   }
 
   private val commonSettings: Seq[Setting[_]] = Seq(
 
     name := "ScalaTIKZ",
+
     organization := "com.github.vagmcs",
+
     description := "A plot library for Scala",
-    scalaVersion := "2.11.11",
+
+    headerLicense := Some(HeaderLicense.Custom(logo)),
+
+    headerMappings := headerMappings.value + (HeaderFileType.scala -> HeaderCommentStyle.cStyleBlockComment),
+
+    scalaVersion := "2.12.6",
+
+    crossScalaVersions := Seq("2.12.6", "2.11.12"),
 
     autoScalaLibrary := true,
     managedScalaInstance := true,
-
-    crossScalaVersions := Seq("2.11.11", "2.12.2"),
 
     publishMavenStyle := true,
     publishArtifact in Test := false,
@@ -81,9 +77,6 @@ object ScalaTIKZBuild extends AutoPlugin {
     // fork a new JVM for 'test:run', but not 'run'
     fork in Test := true,
 
-    // add a JVM option to use when forking a JVM for 'run'
-    javaOptions += "-Xmx2G",
-
     resolvers ++= Seq(
       Resolver.mavenLocal,
       Resolver.typesafeRepo("releases"),
@@ -92,12 +85,6 @@ object ScalaTIKZBuild extends AutoPlugin {
     ),
 
     libraryDependencies ++= Seq(
-      "org.scala-lang" % "scala-library" % scalaVersion.value,
-      "org.scala-lang" % "scala-reflect" % scalaVersion.value
-    ),
-
-    dependencyOverrides ++= Set(
-      "org.scala-lang" % "scala-compiler" % scalaVersion.value,
       "org.scala-lang" % "scala-library" % scalaVersion.value,
       "org.scala-lang" % "scala-reflect" % scalaVersion.value
     ),
@@ -163,11 +150,35 @@ object ScalaTIKZBuild extends AutoPlugin {
   )
 
   private lazy val ScalaSettings: Seq[Setting[_]] = Seq(
-    scalacOptions ++= Seq(
-      "-Xno-uescape",
-      "-feature",
-      "-target:jvm-1.8",
-      "-language:implicitConversions"
-    )
+    scalacOptions := {
+      scalaBinaryVersion.value match {
+
+        case "2.11" =>
+          // Scala compiler settings for Scala 2.11.x
+          Seq(
+            "-Xno-uescape",       // Disable handling of \\u unicode escapes.
+            "-deprecation",       // Emit warning and location for usages of deprecated APIs.
+            "-unchecked",         // Enable additional warnings where generated code depends on assumptions.
+            "-feature",           // Emit warning and location for usages of features that should be imported explicitly.
+            "-target:jvm-1.8",    // Target JVM version 1.8.
+            "-Yclosure-elim",     // Perform closure elimination.
+            "-Ybackend:GenBCode", // Use the new optimisation level.
+            "-language:implicitConversions"
+          )
+
+        case "2.12" =>
+          // Scala compiler settings for Scala 2.12.x
+          Seq(
+            "-Xno-uescape",       // Disable handling of \\u unicode escapes.
+            "-deprecation",       // Emit warning and location for usages of deprecated APIs.
+            "-unchecked",         // Enable additional warnings where generated code depends on assumptions.
+            "-feature",           // Emit warning and location for usages of features that should be imported explicitly.
+            "-target:jvm-1.8",    // Target JVM version 1.8.
+            "-language:implicitConversions"
+          )
+
+        case _ => sys.error(s"Unsupported version of Scala '${scalaBinaryVersion.value}'")
+      }
+    }
   )
 }
