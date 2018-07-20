@@ -40,6 +40,7 @@ trait TIKZPicture[T <: Graphic] extends Logging {
   private val devNullLogger =
     ProcessLogger(msg => logger.debug(msg), msg => logger.error(msg))
 
+  // Keep scale to 2. It seems much cleaner.
   private def asTex: String =
     raw"""
        | \documentclass{standalone}
@@ -52,7 +53,7 @@ trait TIKZPicture[T <: Graphic] extends Logging {
        |
        | \begin{document}
        | \pagestyle{empty}
-       |  \begin{tikzpicture}[scale=1]
+       |  \begin{tikzpicture}[scale=2]
        |   ${this.toString}
        |  \end{tikzpicture}
        | \end{document}
