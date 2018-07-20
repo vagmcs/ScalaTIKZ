@@ -22,6 +22,7 @@ import scalatikz.graphics.pgf.LineSize._
 import scalatikz.graphics.pgf.LineStyle._
 import scalatikz.graphics.pgf.Mark._
 import scalatikz.graphics.pgf.LegendPos._
+import scalatikz.graphics.pgf.AxisLinePos._
 import scalatikz.graphics.pgf._
 
 object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
@@ -252,6 +253,18 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
       if (seq.length == 4) success
       else failure("Axis limits should be exactly 4.")
     }
+
+  opt[AxisLinePos]('q', "x-axis-position".underlined).valueName("<position>".bold).optional.unbounded
+    .action { (position, conf) =>
+      conf.copy(figure = conf.figure.havingXAxisLinePos(position))
+    }.text(s"Set figure's X axis position (default is $BOX). " +
+      s"\n\t${"Available axis positions:".green.bold} ${axisPositions.mkString(", ")}\n")
+
+  opt[AxisLinePos]('Q', "y-axis-position".underlined).valueName("<position>".bold).optional.unbounded
+    .action { (position, conf) =>
+      conf.copy(figure = conf.figure.havingYAxisLinePos(position))
+    }.text(s"Set figure's Y axis position (default is $BOX). " +
+      s"\n\t${"Available axis positions:".green.bold} ${axisPositions.mkString(", ")}\n")
 
   opt[Unit]('z', "hideXTicks".underlined).optional.unbounded
     .action((_, conf) => conf.copy(figure = conf.figure.hideXAxisTicks))

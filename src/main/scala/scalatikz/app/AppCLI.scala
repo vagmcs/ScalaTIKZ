@@ -11,7 +11,7 @@
 
 package scalatikz.app
 
-import scopt.OptionParser
+import scopt.{ OptionParser, RenderingMode }
 import scalatikz.BuildVersion
 import scalatikz.common.{ Colors, Logging }
 
@@ -39,7 +39,7 @@ abstract class AppCLI[T <: OptionConf](program: String)
 
   override def reportWarning(msg: String): Unit = logger.warn(msg)
 
-  override def renderingMode = scopt.RenderingMode.OneColumn
+  override def renderingMode: RenderingMode.OneColumn.type = scopt.RenderingMode.OneColumn
 
   override def showTryHelp(): Unit =
     if (helpOptions.nonEmpty)

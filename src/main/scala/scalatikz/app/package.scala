@@ -44,4 +44,7 @@ package object app {
 
   implicit val legendPosRead: scopt.Read[LegendPos.Value] =
     scopt.Read.reads(x => LegendPos.withName(x.toLowerCase))
+
+  implicit val axisLinePosRead: scopt.Read[AxisLinePos.Value] =
+    scopt.Read.reads(x => AxisLinePos.withName(x.toLowerCase))
 }
