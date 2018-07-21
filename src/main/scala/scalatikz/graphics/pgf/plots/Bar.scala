@@ -18,6 +18,21 @@ import scalatikz.graphics.pgf.LineSize.LineSize
 import scalatikz.graphics.pgf.LineStyle.LineStyle
 import scalatikz.graphics.pgf.Pattern._
 
+/**
+  * Creates 2D bars of the data in Y versus the corresponding values in X.
+  *
+  * @see [[scalatikz.graphics.pgf.Color]]
+  *      [[scalatikz.graphics.pgf.LineStyle]]
+  *      [[scalatikz.graphics.pgf.LineSize]]
+  *      [[scalatikz.graphics.pgf.Pattern]]
+  * @param coordinates sequence of x, y points in the Euclidean space
+  * @param color line color
+  * @param pattern a pattern to fill the bars
+  * @param lineStyle line style
+  * @param lineSize line size
+  * @param opacity opacity of the bars
+  * @param barWidth the bars width
+  */
 final class xBar private (
     coordinates: Coordinates,
     color: Color,
@@ -29,13 +44,28 @@ final class xBar private (
 
   override def toString: String =
     raw"""
-         | \addplot[xbar, $lineStyle, $lineSize, bar width=$barWidth, opacity=$opacity,
-         | ${if (pattern != PLAIN) s"pattern=$pattern, pattern color=$color" else s"color=$color"}] coordinates {
+         | \addplot[xbar, color=$color, $lineStyle, $lineSize, bar width=$barWidth, fill opacity=$opacity,
+         | ${if (pattern != PLAIN) s"pattern=$pattern, pattern color=$color" else s"fill=$color"}] coordinates {
          |   ${coordinates.mkString("\n")}
          | };
   """.stripMargin
 }
 
+/**
+  * Creates 2D bars of the data in X versus the corresponding values in Y.
+  *
+  * @see [[scalatikz.graphics.pgf.Color]]
+  *      [[scalatikz.graphics.pgf.LineStyle]]
+  *      [[scalatikz.graphics.pgf.LineSize]]
+  *      [[scalatikz.graphics.pgf.Pattern]]
+  * @param coordinates sequence of x, y points in the Euclidean space
+  * @param color line color
+  * @param pattern a pattern to fill the bars
+  * @param lineStyle line style
+  * @param lineSize line size
+  * @param opacity opacity of the bars
+  * @param barWidth the bars width
+  */
 final class yBar private (
     coordinates: Coordinates,
     color: Color,
@@ -47,8 +77,8 @@ final class yBar private (
 
   override def toString: String =
     raw"""
-         | \addplot[ybar, $lineStyle, $lineSize, bar width = $barWidth,
-         | ${if (pattern != PLAIN) s"pattern=$pattern, pattern color=$color" else s"color=$color"}] coordinates {
+         | \addplot[ybar, color=$color, $lineStyle, $lineSize, bar width=$barWidth, fill opacity=$opacity,
+         | ${if (pattern != PLAIN) s"pattern=$pattern, pattern color=$color" else s"fill=$color"}] coordinates {
          |   ${coordinates.mkString("\n")}
          | };
   """.stripMargin
@@ -56,6 +86,21 @@ final class yBar private (
 
 private[graphics] object xBar {
 
+  /**
+    * Creates 2D bars of the data in Y versus the corresponding values in X.
+    *
+    * @see [[scalatikz.graphics.pgf.Color]]
+    *      [[scalatikz.graphics.pgf.LineStyle]]
+    *      [[scalatikz.graphics.pgf.LineSize]]
+    *      [[scalatikz.graphics.pgf.Pattern]]
+    * @param coordinates sequence of x, y points in the Euclidean space
+    * @param color line color
+    * @param pattern a pattern to fill the bars
+    * @param lineStyle line style
+    * @param lineSize line size
+    * @param opacity opacity of the bars
+    * @param barWidth the bars width
+    */
   def apply(
       coordinates: Coordinates,
       color: Color,
@@ -69,6 +114,21 @@ private[graphics] object xBar {
 
 private[graphics] object yBar {
 
+  /**
+    * Creates 2D bars of the data in X versus the corresponding values in Y.
+    *
+    * @see [[scalatikz.graphics.pgf.Color]]
+    *      [[scalatikz.graphics.pgf.LineStyle]]
+    *      [[scalatikz.graphics.pgf.LineSize]]
+    *      [[scalatikz.graphics.pgf.Pattern]]
+    * @param coordinates sequence of x, y points in the Euclidean space
+    * @param color line color
+    * @param pattern a pattern to fill the bars
+    * @param lineStyle line style
+    * @param lineSize line size
+    * @param opacity opacity of the bars
+    * @param barWidth the bars width
+    */
   def apply(
       coordinates: Coordinates,
       color: Color,

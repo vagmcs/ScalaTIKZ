@@ -17,6 +17,7 @@ import scalatikz.graphics.pgf.LineSize.LineSize
 import scalatikz.graphics.pgf.LineStyle.LineStyle
 import scalatikz.graphics.pgf.Mark.Mark
 import scalatikz.graphics.pgf.DataTypes.Coordinates
+import scalatikz.graphics.pgf.Pattern._
 
 /**
   * Creates a 2D line of the data in Y versus the corresponding values in X
@@ -26,6 +27,7 @@ import scalatikz.graphics.pgf.DataTypes.Coordinates
   *      [[scalatikz.graphics.pgf.Mark]]
   *      [[scalatikz.graphics.pgf.LineStyle]]
   *      [[scalatikz.graphics.pgf.LineSize]]
+  *      [[scalatikz.graphics.pgf.Pattern]]
   * @param coordinates sequence of x, y points in the Euclidean space.
   * @param color area color
   * @param marker mark style
@@ -34,6 +36,7 @@ import scalatikz.graphics.pgf.DataTypes.Coordinates
   * @param markSize mark size
   * @param lineStyle line style
   * @param lineSize line size
+  * @param pattern the pattern to fill the area under the curve
   * @param opacity opacity of the area under the curve
   * @param smooth true in case the line is smooth
   * @param constant true in case the area is constant
@@ -47,14 +50,16 @@ final class Area private (
     markSize: Double,
     lineStyle: LineStyle,
     lineSize: LineSize,
+    pattern: Pattern,
     opacity: Double,
     smooth: Boolean,
     constant: Boolean) extends PGFPlot {
 
   override def toString: String =
     raw"""
-       | \addplot[$lineStyle, $lineSize, color=$color, mark=$marker, mark size=${markSize}pt, fill=$color,
-       |          fill opacity=$opacity, mark options={draw=$markStrokeColor, fill=$markFillColor}
+       | \addplot[$lineStyle, $lineSize, color=$color, mark=$marker, mark size=${markSize}pt, fill opacity=$opacity,
+       |          ${if (pattern != PLAIN) s"pattern=$pattern, pattern color=$color" else s"fill=$color"}
+       |          , mark options={draw=$markStrokeColor, fill=$markFillColor}
        |          ${if (smooth) ", smooth]" else if (constant) ", const plot]" else "]"} coordinates {
        |   ${coordinates.mkString("\n")}
        | };
@@ -71,6 +76,7 @@ private[graphics] object Area {
     *      [[scalatikz.graphics.pgf.Mark]]
     *      [[scalatikz.graphics.pgf.LineStyle]]
     *      [[scalatikz.graphics.pgf.LineSize]]
+    *      [[scalatikz.graphics.pgf.Pattern]]
     * @param coordinates sequence of x, y points in the Euclidean space.
     * @param color area color
     * @param marker mark style
@@ -79,6 +85,7 @@ private[graphics] object Area {
     * @param markSize mark size
     * @param lineStyle line style
     * @param lineSize line size
+    * @param pattern the pattern to fill the area under the curve
     * @param opacity opacity of the area under the curve
     * @param smooth true in case the line is smooth
     * @param constant true in case the area is constant
@@ -92,9 +99,10 @@ private[graphics] object Area {
       markSize: Double,
       lineStyle: LineStyle,
       lineSize: LineSize,
+      pattern: Pattern,
       opacity: Double,
       smooth: Boolean,
       constant: Boolean): Area =
-    new Area(coordinates, color, marker, markStrokeColor, markFillColor, markSize, lineStyle, lineSize, opacity, smooth, constant)
+    new Area(coordinates, color, marker, markStrokeColor, markFillColor, markSize, lineStyle, lineSize, pattern, opacity, smooth, constant)
 }
 

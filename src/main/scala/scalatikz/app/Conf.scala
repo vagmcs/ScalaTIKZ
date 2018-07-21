@@ -17,6 +17,7 @@ import scalatikz.graphics.pgf.Figure
 import scalatikz.graphics.pgf.LineSize.LineSize
 import scalatikz.graphics.pgf.LineStyle.LineStyle
 import scalatikz.graphics.pgf.Mark.Mark
+import scalatikz.graphics.pgf.Pattern.Pattern
 
 trait OptionConf
 
@@ -38,9 +39,11 @@ final case class GraphicConf(
     marker: Option[Mark] = None,
     markStrokeColor: Option[Color] = None,
     markFillColor: Option[Color] = None,
-    markSize: Double = 2,
+    markSize: Double = 1,
     lineStyle: Option[LineStyle] = None,
     lineSize: Option[LineSize] = None,
-    opacity: Double = 0.5,
+    pattern: Option[Pattern] = None,
+    barWidth: Double = .5,
+    opacity: Double = .5,
     smooth: Boolean = false,
     constant: Boolean = false)

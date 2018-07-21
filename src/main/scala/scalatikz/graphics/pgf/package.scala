@@ -20,6 +20,7 @@ package object pgf {
   final val legendsPositions: List[LegendPos.Value] = LegendPos.values.toList
   final val fontSizes: List[FontSize.Value] = FontSize.values.toList
   final val axisPositions: List[AxisLinePos.Value] = AxisLinePos.values.toList
+  final val patterns: List[Pattern.Value] = Pattern.values.toList
 
   implicit class TeX(val tex: String) extends AnyVal {
     def toTex: String = tex

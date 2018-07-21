@@ -22,7 +22,7 @@ import scalatikz.graphics.pgf.Mark.Mark
   *
   * @see [[scalatikz.graphics.pgf.Color]]
   *      [[scalatikz.graphics.pgf.Mark]]
-  * @param coordinates sequence of x, y points in the Euclidean space.
+  * @param coordinates sequence of x, y points in the Euclidean space
   * @param marker mark style
   * @param markStrokeColor mark stroke color
   * @param markFillColor mark fill color
@@ -53,7 +53,7 @@ private[graphics] object Scatter {
     *
     * @see [[scalatikz.graphics.pgf.Color]]
     *      [[scalatikz.graphics.pgf.Mark]]
-    * @param coordinates sequence of x, y points in the Euclidean space.
+    * @param coordinates sequence of x, y points in the Euclidean space
     * @param marker mark style
     * @param markStrokeColor mark stroke color
     * @param markFillColor mark fill color

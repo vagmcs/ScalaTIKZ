@@ -25,7 +25,7 @@ import scalatikz.graphics.pgf.Mark.Mark
   *      [[scalatikz.graphics.pgf.Mark]]
   *      [[scalatikz.graphics.pgf.LineStyle]]
   *      [[scalatikz.graphics.pgf.LineSize]]
-  * @param coordinates sequence of x, y points in the Euclidean space.
+  * @param coordinates sequence of x, y points in the Euclidean space
   * @param lineColor line color
   * @param marker mark style
   * @param markStrokeColor mark stroke color
@@ -62,7 +62,7 @@ private[graphics] object Stair {
     *      [[scalatikz.graphics.pgf.Mark]]
     *      [[scalatikz.graphics.pgf.LineStyle]]
     *      [[scalatikz.graphics.pgf.LineSize]]
-    * @param coordinates sequence of x, y points in the Euclidean space.
+    * @param coordinates sequence of x, y points in the Euclidean space
     * @param lineColor line color
     * @param marker mark style
     * @param markStrokeColor mark stroke color

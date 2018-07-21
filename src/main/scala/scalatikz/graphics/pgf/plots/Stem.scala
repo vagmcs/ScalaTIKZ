@@ -22,7 +22,7 @@ import scalatikz.graphics.pgf.DataTypes.Coordinates
   *
   * @see [[scalatikz.graphics.pgf.Color]]
   *      [[scalatikz.graphics.pgf.Mark]]
-  * @param coordinates sequence of x, y points in the Euclidean space.
+  * @param coordinates sequence of x, y points in the Euclidean space
   * @param lineColor line color
   * @param marker mark style
   * @param markStrokeColor mark stroke color
@@ -54,7 +54,7 @@ private[graphics] object Stem {
     *
     * @see [[scalatikz.graphics.pgf.Color]]
     *      [[scalatikz.graphics.pgf.Mark]]
-    * @param coordinates sequence of x, y points in the Euclidean space.
+    * @param coordinates sequence of x, y points in the Euclidean space
     * @param lineColor line color
     * @param marker mark style
     * @param markStrokeColor mark stroke color

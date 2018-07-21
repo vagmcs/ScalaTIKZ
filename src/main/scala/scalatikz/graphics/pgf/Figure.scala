@@ -288,8 +288,11 @@ final class Figure private (
     * versus the corresponding X coordinate.
     *
     * @param color line color (default random color)
+    * @param pattern a pattern to fill the bars (default is plain color)
     * @param lineStyle line style (default is solid)
     * @param lineSize line size (default is thin)
+    * @param opacity opacity of the bars (default is 1)
+    * @param barWidth the bars width (default is 0.5 pt)
     * @param data sequence of x, y points in the Euclidean space
     */
   def bar(
@@ -297,8 +300,8 @@ final class Figure private (
       pattern: Pattern = PLAIN,
       lineStyle: LineStyle = SOLID,
       lineSize: LineSize = THIN,
-      opacity: Double = 0.5,
-      barWidth: Double = 7)(data: Data): Figure =
+      opacity: Double = 1,
+      barWidth: Double = 0.5)(data: Data): Figure =
     new Figure(axis, colorIterator, name, graphics :+ yBar(
       data.coordinates,
       color,
@@ -333,7 +336,7 @@ final class Figure private (
     * @param marker mark style (default none)
     * @param markStrokeColor mark stroke color (optional)
     * @param markFillColor mark fill color (optional)
-    * @param markSize mark size (default is 2 pt)
+    * @param markSize mark size (default is 1 pt)
     * @param lineStyle line style (default is solid)
     * @param lineSize line size (default is thin)
     * @param smooth true for a smooth line (default is false)
@@ -344,7 +347,7 @@ final class Figure private (
       marker: Mark = NONE,
       markStrokeColor: Color = currentColor,
       markFillColor: Color = currentColor,
-      markSize: Double = 2,
+      markSize: Double = 1,
       lineStyle: LineStyle = SOLID,
       lineSize: LineSize = THIN,
       smooth: Boolean = false)(data: Data): Figure =
@@ -384,9 +387,10 @@ final class Figure private (
     * @param marker mark style (default none)
     * @param markStrokeColor mark stroke color (optional)
     * @param markFillColor mark fill color (optional)
-    * @param markSize mark size (default is 2 pt)
+    * @param markSize mark size (default is 1 pt)
     * @param lineStyle line style (default is solid)
     * @param lineSize line size (default is thin)
+    * @param pattern the pattern to fill the area (default is plain color)
     * @param opacity opacity of the area under curve (default is 0.5)
     * @param smooth true for a smooth line (default is false)
     * @param constant true for a constant area (default is false)
@@ -397,9 +401,10 @@ final class Figure private (
       marker: Mark = NONE,
       markStrokeColor: Color = currentColor,
       markFillColor: Color = currentColor,
-      markSize: Double = 2,
+      markSize: Double = 1,
       lineStyle: LineStyle = SOLID,
       lineSize: LineSize = THIN,
+      pattern: Pattern = PLAIN,
       opacity: Double = 0.5,
       smooth: Boolean = false,
       constant: Boolean = false)(data: Data): Figure =
@@ -412,6 +417,7 @@ final class Figure private (
       markSize,
       lineStyle,
       lineSize,
+      pattern,
       opacity,
       smooth,
       constant), axisType
@@ -441,7 +447,7 @@ final class Figure private (
     * @param marker mark style (default none)
     * @param markStrokeColor mark stroke color (optional)
     * @param markFillColor mark fill color (optional)
-    * @param markSize mark size (default is 2 pt)
+    * @param markSize mark size (default is 1 pt)
     * @param data sequence of x, y points in the Euclidean space
     */
   def stem(
@@ -449,7 +455,7 @@ final class Figure private (
       marker: Mark = NONE,
       markStrokeColor: Color = currentColor,
       markFillColor: Color = currentColor,
-      markSize: Double = 2)(data: Data): Figure =
+      markSize: Double = 1)(data: Data): Figure =
     new Figure(axis, colorIterator, name, graphics :+ Stem(
       data.coordinates,
       color,
@@ -483,7 +489,7 @@ final class Figure private (
     * @param marker mark style (default none)
     * @param markStrokeColor mark stroke color (optional)
     * @param markFillColor mark fill color (optional)
-    * @param markSize mark size (default is 2 pt)
+    * @param markSize mark size (default is 1 pt)
     * @param lineStyle line style (default is solid)
     * @param lineSize line size (default is thin)
     * @param data sequence of x, y points in the Euclidean space
@@ -493,7 +499,7 @@ final class Figure private (
       marker: Mark = NONE,
       markStrokeColor: Color = currentColor,
       markFillColor: Color = currentColor,
-      markSize: Double = 2,
+      markSize: Double = 1,
       lineStyle: LineStyle = SOLID,
       lineSize: LineSize = THIN)(data: Data): Figure =
     new Figure(axis, colorIterator, name, graphics :+ Stair(
@@ -530,14 +536,14 @@ final class Figure private (
     * @param marker mark style (default none)
     * @param markStrokeColor mark stroke color (optional)
     * @param markFillColor mark fill color (optional)
-    * @param markSize mark size (default is 2 pt)
+    * @param markSize mark size (default is 1 pt)
     * @param data sequence of x, y points in the Euclidean space
     */
   def scatter(
       marker: Mark = NONE,
       markStrokeColor: Color = nextColor,
       markFillColor: Color = currentColor,
-      markSize: Double = 2)(data: Data): Figure =
+      markSize: Double = 1)(data: Data): Figure =
     new Figure(axis, colorIterator, name, graphics :+ Scatter(
       data.coordinates,
       marker,
@@ -583,7 +589,7 @@ final class Figure private (
       marker: Mark = NONE,
       markStrokeColor: Color = currentColor,
       markFillColor: Color = currentColor,
-      markSize: Double = 2,
+      markSize: Double = 1,
       lineStyle: LineStyle = SOLID,
       lineSize: LineSize = THIN,
       smooth: Boolean = false)(data: Data)(error: Data): Figure =

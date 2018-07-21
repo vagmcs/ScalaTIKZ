@@ -23,6 +23,7 @@ import scalatikz.graphics.pgf.LineStyle._
 import scalatikz.graphics.pgf.Mark._
 import scalatikz.graphics.pgf.LegendPos._
 import scalatikz.graphics.pgf.AxisLinePos._
+import scalatikz.graphics.pgf.Pattern._
 import scalatikz.graphics.pgf._
 
 object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
@@ -90,6 +91,10 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
   opt[Unit]('R', "error-bar".underlined).unbounded
     .action((_, conf) => conf.copy(graphics = conf.graphics :+ GraphicConf(ERROR_BAR)))
     .text("Plots a data sequence as a 2D line along vertical and/or horizontal error bars at each data point.")
+
+  opt[Unit]('B', "bar".underlined).unbounded
+    .action((_, conf) => conf.copy(graphics = conf.graphics :+ GraphicConf(BAR)))
+    .text("Plots a data sequence as a 2D bars at each data point.")
 
   // Input data options
 
@@ -175,7 +180,7 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
     .action { (size, conf) =>
       if (conf.graphics.isEmpty) fatal("You must define a plot type before a mark size option.")
       else conf.copy(graphics = conf.graphics.init :+ conf.graphics.last.copy(markSize = size))
-    }.text("Marker size (default is 2).\n")
+    }.text("Marker size (default is 1 pt).\n")
 
   opt[LineSize]('S', "line-size".underlined).valueName("<size>".bold).unbounded.optional
     .action { (size, conf) =>
@@ -190,6 +195,19 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
       else conf.copy(graphics = conf.graphics.init :+ conf.graphics.last.copy(lineStyle = Some(style)))
     }.text(s"Set line style (default is solid)." +
       s"\n\t${"Available line styles:".green.bold} ${lineStyles.mkString(", ")}\b")
+
+  opt[Pattern]('U', "pattern".underlined).valueName("<pattern>".bold).unbounded.optional
+    .action { (pattern, conf) =>
+      if (conf.graphics.isEmpty) fatal("You must define a plot type before a pattern option.")
+      else conf.copy(graphics = conf.graphics.init :+ conf.graphics.last.copy(pattern = Some(pattern)))
+    }.text(s"Set pattern (default is plain)." +
+      s"\n\t${"Available patterns:".green.bold} ${patterns.mkString(", ")}\n")
+
+  opt[Double]('w', "bar-width".underlined).valueName("<double>".bold).unbounded.optional
+    .action { (width, conf) =>
+      if (conf.graphics.isEmpty) fatal("You must define a plot type before a bar width option.")
+      else conf.copy(graphics = conf.graphics.init :+ conf.graphics.last.copy(barWidth = width))
+    }.text("Bar width (default is 0.5 pt).\n")
 
   opt[Unit]('h', "smooth".underlined).unbounded.optional
     .action { (_, conf) =>
@@ -236,7 +254,7 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
     .action((_, conf) => conf.copy(figure = conf.figure.havingMinorGridOn))
     .text("Enables minor grid (optional).\n")
 
-  opt[Unit]('B', "bothGridOn".underlined).optional.unbounded
+  opt[Unit]('G', "bothGridOn".underlined).optional.unbounded
     .action((_, conf) => conf.copy(figure = conf.figure.havingGridsOn))
     .text("Enables both minor and major grids (optional).\n")
 
@@ -369,6 +387,7 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
                   markSize        = graphic.markSize,
                   lineStyle       = graphic.lineStyle.getOrElse(SOLID),
                   lineSize        = graphic.lineSize.getOrElse(THIN),
+                  pattern         = graphic.pattern.getOrElse(PLAIN),
                   opacity         = graphic.opacity,
                   smooth          = graphic.smooth,
                   constant        = graphic.constant
@@ -420,6 +439,18 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
                   lineSize        = graphic.lineSize.getOrElse(THIN),
                   smooth          = graphic.smooth
                 )(coordinates)(error)
+
+            case BAR =>
+
+              resultedFigure =
+                resultedFigure.bar(
+                  color     = graphic.lineColor.getOrElse(nextColor),
+                  pattern   = graphic.pattern.getOrElse(PLAIN),
+                  lineStyle = graphic.lineStyle.getOrElse(SOLID),
+                  lineSize  = graphic.lineSize.getOrElse(THIN),
+                  opacity   = graphic.opacity,
+                  barWidth  = graphic.barWidth
+                )(coordinates)
           }
       }
 
