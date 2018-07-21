@@ -335,7 +335,7 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
               conf.delimiters.applyOrElse(i, (_: Int) => ','),
               Seq(graphic.xColumn, graphic.yColumn).flatten: _*): @unchecked) match {
 
-              case Success(y :: Nil) => (1 to y.length) zip y
+              case Success(y :: Nil) => (1 to y.length).map(_.toDouble) zip y
               case Success(x :: y :: Nil) => x zip y
               case Failure(ex) => fatal(s"${ex.getMessage}")
             }
