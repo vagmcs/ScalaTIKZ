@@ -13,19 +13,19 @@ package scalatikz.examples
 
 import math._
 import scala.util.Random
-import scalatikz.graphics.pgf.LineStyle._
-import scalatikz.graphics.pgf.LineSize._
-import scalatikz.graphics.pgf.LegendPos._
-import scalatikz.graphics.pgf.Color._
-import scalatikz.graphics.pgf.FontSize._
-import scalatikz.graphics.pgf.Mark._
-import scalatikz.graphics.pgf.AxisLinePos._
 import scalatikz.graphics.pgf.Figure
+import scalatikz.graphics.pgf.enums.AxisLinePos.{BOTTOM, LEFT}
+import scalatikz.graphics.pgf.enums.Color.{BLACK, BLUE, GREEN, RED, YELLOW}
+import scalatikz.graphics.pgf.enums.FontSize.FOOTNOTE
+import scalatikz.graphics.pgf.enums.LegendPos.{NORTH_EAST, SOUTH_WEST}
+import scalatikz.graphics.pgf.enums.LineSize.VERY_THIN
+import scalatikz.graphics.pgf.enums.LineStyle.DASHED
+import scalatikz.graphics.pgf.enums.Mark.{CIRCLE, DOT}
 
 object Examples extends App {
 
   /*
-   * Sin vs Cosine plot
+   * Sine vs Cosine plot
    */
   val domain = -2 * Pi to 2 * Pi by 0.1
 

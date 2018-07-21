@@ -12,16 +12,13 @@
 package scalatikz.graphics.pgf.plots
 
 import scalatikz.graphics.PGFPlot
-import scalatikz.graphics.pgf.Color.Color
 import scalatikz.graphics.pgf.DataTypes.Coordinates
-import scalatikz.graphics.pgf.Mark.Mark
+import scalatikz.graphics.pgf.enums.{ Color, Mark }
 
 /**
   * Creates a scatter at the locations specified by the data sequence. The type
   * of the graph is also called a bubble plot.
   *
-  * @see [[scalatikz.graphics.pgf.Color]]
-  *      [[scalatikz.graphics.pgf.Mark]]
   * @param coordinates sequence of x, y points in the Euclidean space
   * @param marker mark style
   * @param markStrokeColor mark stroke color
@@ -51,8 +48,6 @@ private[graphics] object Scatter {
     * Creates a scatter at the locations specified by the data sequence. The type
     * of the graph is also called a bubble plot.
     *
-    * @see [[scalatikz.graphics.pgf.Color]]
-    *      [[scalatikz.graphics.pgf.Mark]]
     * @param coordinates sequence of x, y points in the Euclidean space
     * @param marker mark style
     * @param markStrokeColor mark stroke color

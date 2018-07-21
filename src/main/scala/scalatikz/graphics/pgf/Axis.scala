@@ -11,25 +11,23 @@
 
 package scalatikz.graphics.pgf
 
-import scalatikz.graphics.pgf.AxisLinePos._
-import scalatikz.graphics.pgf.AxisStyle._
-import scalatikz.graphics.pgf.Color._
-import scalatikz.graphics.pgf.ColorMap._
-import scalatikz.graphics.pgf.FontSize._
-import scalatikz.graphics.pgf.GridStyle._
-import scalatikz.graphics.pgf.LegendPos._
 import com.github.dwickern.macros.NameOf._
+import scalatikz.graphics.pgf.enums.AxisLinePos.BOX
+import scalatikz.graphics.pgf.enums.AxisStyle.LINEAR
+import scalatikz.graphics.pgf.enums.Color.WHITE
+import scalatikz.graphics.pgf.enums.LegendPos.OUTER_NORTH_EAST
+import scalatikz.graphics.pgf.enums._
 
 /**
   * Axis configuration.
   *
-  * @see [[scalatikz.graphics.pgf.Color]]
-  *      [[scalatikz.graphics.pgf.GridStyle]]
-  *      [[scalatikz.graphics.pgf.FontSize]]
-  *      [[scalatikz.graphics.pgf.LegendPos]]
-  *      [[scalatikz.graphics.pgf.ColorMap]]
-  *      [[scalatikz.graphics.pgf.AxisStyle]]
-  *      [[scalatikz.graphics.pgf.AxisLinePos]]
+  * @see [[scalatikz.graphics.pgf.enums.Color]]
+  *      [[scalatikz.graphics.pgf.enums.GridStyle]]
+  *      [[scalatikz.graphics.pgf.enums.FontSize]]
+  *      [[scalatikz.graphics.pgf.enums.LegendPos]]
+  *      [[scalatikz.graphics.pgf.enums.ColorMap]]
+  *      [[scalatikz.graphics.pgf.enums.AxisStyle]]
+  *      [[scalatikz.graphics.pgf.enums.AxisLinePos]]
   * @param xMode X axis scale (linear or log)
   * @param yMode Y axis scale (linear or log)
   * @param zMode Z axis scale (linear or log)

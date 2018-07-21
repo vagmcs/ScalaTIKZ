@@ -12,19 +12,13 @@
 package scalatikz.graphics.pgf.plots
 
 import scalatikz.graphics.PGFPlot
-import scalatikz.graphics.pgf.Color.Color
 import scalatikz.graphics.pgf.DataTypes.Coordinates
-import scalatikz.graphics.pgf.LineSize.LineSize
-import scalatikz.graphics.pgf.LineStyle.LineStyle
-import scalatikz.graphics.pgf.Pattern._
+import scalatikz.graphics.pgf.enums.Pattern.PLAIN
+import scalatikz.graphics.pgf.enums.{ Color, LineSize, LineStyle, Pattern }
 
 /**
   * Creates 2D bars of the data in Y versus the corresponding values in X.
   *
-  * @see [[scalatikz.graphics.pgf.Color]]
-  *      [[scalatikz.graphics.pgf.LineStyle]]
-  *      [[scalatikz.graphics.pgf.LineSize]]
-  *      [[scalatikz.graphics.pgf.Pattern]]
   * @param coordinates sequence of x, y points in the Euclidean space
   * @param color line color
   * @param pattern a pattern to fill the bars
@@ -54,10 +48,6 @@ final class xBar private (
 /**
   * Creates 2D bars of the data in X versus the corresponding values in Y.
   *
-  * @see [[scalatikz.graphics.pgf.Color]]
-  *      [[scalatikz.graphics.pgf.LineStyle]]
-  *      [[scalatikz.graphics.pgf.LineSize]]
-  *      [[scalatikz.graphics.pgf.Pattern]]
   * @param coordinates sequence of x, y points in the Euclidean space
   * @param color line color
   * @param pattern a pattern to fill the bars
@@ -89,10 +79,6 @@ private[graphics] object xBar {
   /**
     * Creates 2D bars of the data in Y versus the corresponding values in X.
     *
-    * @see [[scalatikz.graphics.pgf.Color]]
-    *      [[scalatikz.graphics.pgf.LineStyle]]
-    *      [[scalatikz.graphics.pgf.LineSize]]
-    *      [[scalatikz.graphics.pgf.Pattern]]
     * @param coordinates sequence of x, y points in the Euclidean space
     * @param color line color
     * @param pattern a pattern to fill the bars
@@ -117,10 +103,6 @@ private[graphics] object yBar {
   /**
     * Creates 2D bars of the data in X versus the corresponding values in Y.
     *
-    * @see [[scalatikz.graphics.pgf.Color]]
-    *      [[scalatikz.graphics.pgf.LineStyle]]
-    *      [[scalatikz.graphics.pgf.LineSize]]
-    *      [[scalatikz.graphics.pgf.Pattern]]
     * @param coordinates sequence of x, y points in the Euclidean space
     * @param color line color
     * @param pattern a pattern to fill the bars

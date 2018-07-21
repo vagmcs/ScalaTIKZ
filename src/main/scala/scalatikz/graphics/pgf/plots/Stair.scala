@@ -12,19 +12,12 @@
 package scalatikz.graphics.pgf.plots
 
 import scalatikz.graphics.PGFPlot
-import scalatikz.graphics.pgf.Color.Color
 import scalatikz.graphics.pgf.DataTypes.Coordinates
-import scalatikz.graphics.pgf.LineSize.LineSize
-import scalatikz.graphics.pgf.LineStyle.LineStyle
-import scalatikz.graphics.pgf.Mark.Mark
+import scalatikz.graphics.pgf.enums.{ Color, LineSize, LineStyle, Mark }
 
 /**
   * Creates a stair step of the data in Y versus the corresponding values in X.
   *
-  * @see [[scalatikz.graphics.pgf.Color]]
-  *      [[scalatikz.graphics.pgf.Mark]]
-  *      [[scalatikz.graphics.pgf.LineStyle]]
-  *      [[scalatikz.graphics.pgf.LineSize]]
   * @param coordinates sequence of x, y points in the Euclidean space
   * @param lineColor line color
   * @param marker mark style
@@ -58,10 +51,6 @@ private[graphics] object Stair {
   /**
     * Creates a stair step of the data in Y versus the corresponding values in X.
     *
-    * @see [[scalatikz.graphics.pgf.Color]]
-    *      [[scalatikz.graphics.pgf.Mark]]
-    *      [[scalatikz.graphics.pgf.LineStyle]]
-    *      [[scalatikz.graphics.pgf.LineSize]]
     * @param coordinates sequence of x, y points in the Euclidean space
     * @param lineColor line color
     * @param marker mark style

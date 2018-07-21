@@ -12,12 +12,8 @@
 package scalatikz.app
 
 import scalatikz.app.GraphType.GraphType
-import scalatikz.graphics.pgf.Color.Color
 import scalatikz.graphics.pgf.Figure
-import scalatikz.graphics.pgf.LineSize.LineSize
-import scalatikz.graphics.pgf.LineStyle.LineStyle
-import scalatikz.graphics.pgf.Mark.Mark
-import scalatikz.graphics.pgf.Pattern.Pattern
+import scalatikz.graphics.pgf.enums._
 
 trait OptionConf
 

@@ -12,20 +12,13 @@
 package scalatikz.graphics.pgf.plots
 
 import scalatikz.graphics.PGFPlot
-import scalatikz.graphics.pgf.Color._
-import scalatikz.graphics.pgf.LineSize._
-import scalatikz.graphics.pgf.LineStyle._
-import scalatikz.graphics.pgf.Mark._
 import scalatikz.graphics.pgf.DataTypes.Coordinates
+import scalatikz.graphics.pgf.enums.{ Color, LineSize, LineStyle, Mark }
 
 /**
   * Creates a 2D line of the data in Y versus the corresponding values in X
   * along vertical and/or horizontal error bars at each data point.
   *
-  * @see [[scalatikz.graphics.pgf.Color]]
-  *      [[scalatikz.graphics.pgf.Mark]]
-  *      [[scalatikz.graphics.pgf.LineStyle]]
-  *      [[scalatikz.graphics.pgf.LineSize]]
   * @param coordinates sequence of x, y points in the Euclidean space
   * @param error sequence of x, y error points
   * @param lineColor line color
@@ -67,10 +60,6 @@ private[graphics] object ErrorBar {
     * Creates a 2D line of the data in Y versus the corresponding values in X
     * along vertical and/or horizontal error bars at each data point.
     *
-    * @see [[scalatikz.graphics.pgf.Color]]
-    *      [[scalatikz.graphics.pgf.Mark]]
-    *      [[scalatikz.graphics.pgf.LineStyle]]
-    *      [[scalatikz.graphics.pgf.LineSize]]
     * @param coordinates sequence of x, y points in the Euclidean space
     * @param error sequence of x, y error points
     * @param lineColor line color

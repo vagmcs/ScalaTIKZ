@@ -12,16 +12,13 @@
 package scalatikz.graphics.pgf.plots
 
 import scalatikz.graphics.PGFPlot
-import scalatikz.graphics.pgf.Color.Color
-import scalatikz.graphics.pgf.Mark.Mark
 import scalatikz.graphics.pgf.DataTypes.Coordinates
+import scalatikz.graphics.pgf.enums.{ Color, Mark }
 
 /**
   * Creates stems of the a data sequence that extend from a baseline along the
   * x-axis. The data values are indicated by marks terminating each stem.
   *
-  * @see [[scalatikz.graphics.pgf.Color]]
-  *      [[scalatikz.graphics.pgf.Mark]]
   * @param coordinates sequence of x, y points in the Euclidean space
   * @param lineColor line color
   * @param marker mark style
@@ -52,8 +49,6 @@ private[graphics] object Stem {
     * Creates stems of the a data sequence that extend from a baseline along the
     * x-axis. The data values are indicated by marks terminating each stem.
     *
-    * @see [[scalatikz.graphics.pgf.Color]]
-    *      [[scalatikz.graphics.pgf.Mark]]
     * @param coordinates sequence of x, y points in the Euclidean space
     * @param lineColor line color
     * @param marker mark style

@@ -11,7 +11,7 @@
 
 package scalatikz
 
-import scalatikz.graphics.pgf._
+import scalatikz.graphics.pgf.enums._
 
 package object app {
 
@@ -22,7 +22,7 @@ package object app {
     val PLOT, STEM, SCATTER, STAIR, AREA, ERROR_BAR, BAR = Value
   }
 
-  implicit val colorMixRead: scopt.Read[Color.Value] = scopt.Read.reads { x =>
+  implicit val colorMixRead: scopt.Read[Color] = scopt.Read.reads { x =>
     val colors = x.toLowerCase.split("#")
     colors.tail.foldLeft(Color.withName(colors.head)) {
       case (color, next) if next matches "\\d++" => color ! next.toInt
@@ -30,24 +30,24 @@ package object app {
     }
   }
 
-  implicit val markRead: scopt.Read[Mark.Value] =
+  implicit val markRead: scopt.Read[Mark] =
     scopt.Read.reads(x => Mark.withName(x.toLowerCase))
 
-  implicit val lineStyleRead: scopt.Read[LineStyle.Value] =
+  implicit val lineStyleRead: scopt.Read[LineStyle] =
     scopt.Read.reads(x => LineStyle.withName(x.toLowerCase))
 
-  implicit val lineSizeRead: scopt.Read[LineSize.Value] =
+  implicit val lineSizeRead: scopt.Read[LineSize] =
     scopt.Read.reads(x => LineSize.withName(x.toLowerCase))
 
-  implicit val fontSizeRead: scopt.Read[FontSize.Value] =
+  implicit val fontSizeRead: scopt.Read[FontSize] =
     scopt.Read.reads(FontSize.withName)
 
-  implicit val legendPosRead: scopt.Read[LegendPos.Value] =
+  implicit val legendPosRead: scopt.Read[LegendPos] =
     scopt.Read.reads(x => LegendPos.withName(x.toLowerCase))
 
-  implicit val axisLinePosRead: scopt.Read[AxisLinePos.Value] =
+  implicit val axisLinePosRead: scopt.Read[AxisLinePos] =
     scopt.Read.reads(x => AxisLinePos.withName(x.toLowerCase))
 
-  implicit val patternRead: scopt.Read[Pattern.Value] =
+  implicit val patternRead: scopt.Read[Pattern] =
     scopt.Read.reads(x => Pattern.withName(x.toLowerCase))
 }

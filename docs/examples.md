@@ -4,9 +4,9 @@ Lets create a sine vs cosine plot:
 
 ```scala
 import math._
-import scalatikz.graphics.pgf.LineStyle._
-import scalatikz.graphics.pgf.LegendPos._
 import scalatikz.graphics.pgf.Figure
+import scalatikz.graphics.pgf.enums.LegendPos.SOUTH_WEST
+import scalatikz.graphics.pgf.enums.LineStyle.DASHED
 
 val domain = -2 * Pi to 2 * Pi by 0.1
 
@@ -27,10 +27,10 @@ Lets create a plot of Gaussian distributions:
 
 ```scala
 import math._
-import scalatikz.graphics.pgf.Color._
-import scalatikz.graphics.pgf.LegendPos._
-import scalatikz.graphics.pgf.FontSize._
 import scalatikz.graphics.pgf.Figure
+import scalatikz.graphics.pgf.enums.Color.{BLACK, BLUE, GREEN, RED, YELLOW}
+import scalatikz.graphics.pgf.enums.FontSize.FOOTNOTE
+import scalatikz.graphics.pgf.enums.LegendPos.NORTH_EAST
 
 def gaussian(mean: Double, variance: Double)(x: Double): Double =
     1 / sqrt(2 * Pi * variance) * exp( -pow(x - mean, 2) / (2 * variance))
@@ -63,8 +63,8 @@ Lets plot an area:
 
 ```scala
 import math._
-import scalatikz.graphics.pgf.LineSize._
 import scalatikz.graphics.pgf.Figure
+import scalatikz.graphics.pgf.enums.LineSize.VERY_THIN
 
 val xx = 0.0 to 1.0 by 0.01
 
@@ -81,9 +81,9 @@ Lets plot a line and then plot a scatter of points along the line:
 ```scala
 import math._
 import scala.util.Random
-import scalatikz.graphics.pgf.LineStyle._
-import scalatikz.graphics.pgf.Color._
 import scalatikz.graphics.pgf.Figure
+import scalatikz.graphics.pgf.enums.Color.{BLACK, RED}
+import scalatikz.graphics.pgf.enums.LineStyle.DASHED
 
 val xs = 0.0 to 2 * Pi by 0.1
 
@@ -100,10 +100,9 @@ Lets plot a set of sinus functions and add some dark background to make the plot
 
 ```scala
 import math._
-import scala.util.Random
-import scalatikz.graphics.pgf.Mark._
-import scalatikz.graphics.pgf.Color._
 import scalatikz.graphics.pgf.Figure
+import scalatikz.graphics.pgf.enums.Color.BLACK
+import scalatikz.graphics.pgf.enums.Mark.DOT
 
 val xxs = 0.0 to 6.0 by 0.1
 
@@ -123,10 +122,10 @@ Lets plot a stem function and a line passing through the stems:
 ```scala
 import math._
 import scala.util.Random
-import scalatikz.graphics.pgf.Mark._
-import scalatikz.graphics.pgf.LineStyle._
-import scalatikz.graphics.pgf.Color._
 import scalatikz.graphics.pgf.Figure
+import scalatikz.graphics.pgf.enums.Color.{BLACK, BLUE, GREEN}
+import scalatikz.graphics.pgf.enums.LineStyle.DASHED
+import scalatikz.graphics.pgf.enums.Mark.CIRCLE
 
 val randomPoints = (1 to 20).map(_ => Random.nextDouble)
 
@@ -143,11 +142,9 @@ Lets plot a line having random error bars:
 ```scala
 import math._
 import scala.util.Random
-import scalatikz.graphics.pgf.Mark._
-import scalatikz.graphics.pgf.LineStyle._
-import scalatikz.graphics.pgf.Color._
-import scalatikz.graphics.pgf.AxisLinePos._
 import scalatikz.graphics.pgf.Figure
+import scalatikz.graphics.pgf.enums.AxisLinePos.{BOTTOM, LEFT}
+import scalatikz.graphics.pgf.enums.Color.{BLACK, BLUE}
 
   Figure("error_bar")
       .errorBar(BLUE!50!BLACK) {
@@ -169,12 +166,8 @@ Finally, lets plot an array of plots:
 
 ```scala
 import math._
-import scala.util.Random
-import scalatikz.graphics.pgf.Mark._
-import scalatikz.graphics.pgf.LineStyle._
-import scalatikz.graphics.pgf.Color._
-import scalatikz.graphics.pgf.AxisLinePos._
 import scalatikz.graphics.pgf.Figure
+import scalatikz.graphics.pgf.enums.Color.{BLACK, BLUE, GREEN, YELLOW}
 
   Figure("array", 2, 2)
       .subFigure(0, 0) { x =>

@@ -24,6 +24,7 @@ object Dependencies {
     final val Ghost4J = "1.0.0"
     final val CSVParser = "2.7.2"
     final val NameOf = "1.0.3"
+    final val Enums = "1.5.13"
   }
 
   // Logging using slf4j and logback
@@ -43,6 +44,7 @@ object Dependencies {
     "com.github.scopt" %% "scopt" % v.ScalaOpt,
     "org.ghost4j" % "ghost4j" % v.Ghost4J,
     "com.univocity" % "univocity-parsers" % v.CSVParser,
-    "com.github.dwickern" %% "scala-nameof" % v.NameOf % "provided"
+    "com.github.dwickern" %% "scala-nameof" % v.NameOf % "provided",
+    "com.beachape" %% "enumeratum" % v.Enums
   )
 }

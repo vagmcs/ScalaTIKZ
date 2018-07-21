@@ -12,22 +12,14 @@
 package scalatikz.graphics.pgf.plots
 
 import scalatikz.graphics.PGFPlot
-import scalatikz.graphics.pgf.Color.Color
-import scalatikz.graphics.pgf.LineSize.LineSize
-import scalatikz.graphics.pgf.LineStyle.LineStyle
-import scalatikz.graphics.pgf.Mark.Mark
 import scalatikz.graphics.pgf.DataTypes.Coordinates
-import scalatikz.graphics.pgf.Pattern._
+import scalatikz.graphics.pgf.enums.Pattern.PLAIN
+import scalatikz.graphics.pgf.enums._
 
 /**
   * Creates a 2D line of the data in Y versus the corresponding values in X
   * and fills the area beneath the curve.
   *
-  * @see [[scalatikz.graphics.pgf.Color]]
-  *      [[scalatikz.graphics.pgf.Mark]]
-  *      [[scalatikz.graphics.pgf.LineStyle]]
-  *      [[scalatikz.graphics.pgf.LineSize]]
-  *      [[scalatikz.graphics.pgf.Pattern]]
   * @param coordinates sequence of x, y points in the Euclidean space.
   * @param color area color
   * @param marker mark style
@@ -72,11 +64,6 @@ private[graphics] object Area {
     * Creates a 2D line of the data in Y versus the corresponding values in X
     * and fills the area beneath the curve.
     *
-    * @see [[scalatikz.graphics.pgf.Color]]
-    *      [[scalatikz.graphics.pgf.Mark]]
-    *      [[scalatikz.graphics.pgf.LineStyle]]
-    *      [[scalatikz.graphics.pgf.LineSize]]
-    *      [[scalatikz.graphics.pgf.Pattern]]
     * @param coordinates sequence of x, y points in the Euclidean space.
     * @param color area color
     * @param marker mark style

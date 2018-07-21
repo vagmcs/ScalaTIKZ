@@ -15,22 +15,20 @@ import java.io.File
 import scala.util.{ Failure, Success }
 import scalatikz.app.GraphType._
 import scalatikz.common.CSV
-import scalatikz.graphics.pgf.Color._
 import scalatikz.graphics.pgf.DataTypes._
-import scalatikz.graphics.pgf.FontSize._
-import scalatikz.graphics.pgf.LineSize._
-import scalatikz.graphics.pgf.LineStyle._
-import scalatikz.graphics.pgf.Mark._
-import scalatikz.graphics.pgf.LegendPos._
-import scalatikz.graphics.pgf.AxisLinePos._
-import scalatikz.graphics.pgf.Pattern._
-import scalatikz.graphics.pgf._
+import scalatikz.graphics.pgf.enums._
+import scalatikz.graphics.pgf.enums.AxisLinePos.BOX
+import scalatikz.graphics.pgf.enums.FontSize.NORMAL
+import scalatikz.graphics.pgf.enums.LineSize.THIN
+import scalatikz.graphics.pgf.enums.LineStyle.SOLID
+import scalatikz.graphics.pgf.enums.Mark.{ CIRCLE, NONE }
+import scalatikz.graphics.pgf.enums.Pattern.PLAIN
 
 object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
 
   // An iterator over available colors in case user does not specify one.
-  private val colorIterator = Iterator.continually(colors).flatten
-  private var currentColor: Color = colors.head
+  private val colorIterator = Iterator.continually(Color.values).flatten
+  private var currentColor: Color = Color.values.head
 
   private def nextColor: Color = {
     currentColor = colorIterator.next
@@ -150,7 +148,7 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
     .action { (color, conf) =>
       if (conf.graphics.isEmpty) fatal("You must define a plot type before a color option.")
       else conf.copy(graphics = conf.graphics.init :+ conf.graphics.last.copy(lineColor = Some(color)))
-    }.text(s"Line color. Available line colors: ${colors.mkString(", ")}" +
+    }.text(s"Line color. Available line colors: ${Color.values.mkString(", ")}" +
       "\n\tNote: ".green.bold + "Colors can also be mixed by using the symbol #. " +
       s"For instance ${"red#20#green".underlined} defines a color that has 20% red and 80% green.\n")
 
@@ -158,13 +156,13 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
     .action { (mark, conf) =>
       if (conf.graphics.isEmpty) fatal("You must define a plot type before a marker option.")
       else conf.copy(graphics = conf.graphics.init :+ conf.graphics.last.copy(marker = Some(mark)))
-    }.text(s"Point marker. Available markers: ${markers.tail.mkString(", ")}\n")
+    }.text(s"Point marker. Available markers: ${Mark.values.tail.mkString(", ")}\n")
 
   opt[Color]('k', "mark-stroke".underlined).valueName("<color>".bold).unbounded.optional
     .action { (color, conf) =>
       if (conf.graphics.isEmpty) fatal("You must define a plot type before a mark stroke color option.")
       else conf.copy(graphics = conf.graphics.init :+ conf.graphics.last.copy(markStrokeColor = Some(color)))
-    }.text(s"Mark stroke color. Available line colors: ${colors.mkString(", ")}" +
+    }.text(s"Mark stroke color. Available line colors: ${Color.values.mkString(", ")}" +
       "\n\tNote: ".green.bold + "Colors can also be mixed by using the symbol #. " +
       s"For instance ${"red#20#green".underlined} defines a color that has 20% red and 80% green.\n")
 
@@ -172,7 +170,7 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
     .action { (color, conf) =>
       if (conf.graphics.isEmpty) fatal("You must define a plot type before a mark fill color option.")
       else conf.copy(graphics = conf.graphics.init :+ conf.graphics.last.copy(markFillColor = Some(color)))
-    }.text(s"Mark fill color. Available line colors: ${colors.mkString(", ")}" +
+    }.text(s"Mark fill color. Available line colors: ${Color.values.mkString(", ")}" +
       "\n\tNote: ".green.bold + "Colors can also be mixed by using the symbol #. " +
       s"For instance ${"red#20#green".underlined} defines a color that has 20% red and 80% green.\n")
 
@@ -187,21 +185,21 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
       if (conf.graphics.isEmpty) fatal("You must define a plot type before a line size option.")
       else conf.copy(graphics = conf.graphics.init :+ conf.graphics.last.copy(lineSize = Some(size)))
     }.text(s"Set line size (default is thin)." +
-      s"\n\t${"Available line sizes:".green.bold} ${lineSizes.mkString(", ")}\n")
+      s"\n\t${"Available line sizes:".green.bold} ${LineSize.values.mkString(", ")}\n")
 
   opt[LineStyle]('b', "line-style".underlined).valueName("<style>".bold).unbounded.optional
     .action { (style, conf) =>
       if (conf.graphics.isEmpty) fatal("You must define a plot type before a line style option.")
       else conf.copy(graphics = conf.graphics.init :+ conf.graphics.last.copy(lineStyle = Some(style)))
     }.text(s"Set line style (default is solid)." +
-      s"\n\t${"Available line styles:".green.bold} ${lineStyles.mkString(", ")}\n")
+      s"\n\t${"Available line styles:".green.bold} ${LineStyle.values.mkString(", ")}\n")
 
   opt[Pattern]('U', "pattern".underlined).valueName("<pattern>".bold).unbounded.optional
     .action { (pattern, conf) =>
       if (conf.graphics.isEmpty) fatal("You must define a plot type before a pattern option.")
       else conf.copy(graphics = conf.graphics.init :+ conf.graphics.last.copy(pattern = Some(pattern)))
     }.text(s"Set pattern (default is plain)." +
-      s"\n\t${"Available patterns:".green.bold} ${patterns.mkString(", ")}\n")
+      s"\n\t${"Available patterns:".green.bold} ${Pattern.values.mkString(", ")}\n")
 
   opt[Double]('w', "bar-width".underlined).valueName("<double>".bold).unbounded.optional
     .action { (width, conf) =>
@@ -262,7 +260,7 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
     .action { (size, conf) =>
       conf.copy(figure = conf.figure.havingFontSize(size))
     }.text(s"Set figure's font size (default is $NORMAL). " +
-      s"\n\t${"Available font sizes:".green.bold} ${fontSizes.mkString(", ")}\n")
+      s"\n\t${"Available font sizes:".green.bold} ${FontSize.values.mkString(", ")}\n")
 
   opt[Seq[Double]]('a', "axis".underlined).valueName("<double,double,double,double>".bold).optional.unbounded
     .action((limits, conf) => conf.copy(figure = conf.figure.havingLimits(limits.head, limits(1), limits(2), limits(3))))
@@ -276,13 +274,13 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
     .action { (position, conf) =>
       conf.copy(figure = conf.figure.havingXAxisLinePos(position))
     }.text(s"Set figure's X axis position (default is $BOX). " +
-      s"\n\t${"Available axis positions:".green.bold} ${axisPositions.mkString(", ")}\n")
+      s"\n\t${"Available axis positions:".green.bold} ${AxisLinePos.values.mkString(", ")}\n")
 
   opt[AxisLinePos]('Q', "y-axis-position".underlined).valueName("<position>".bold).optional.unbounded
     .action { (position, conf) =>
       conf.copy(figure = conf.figure.havingYAxisLinePos(position))
     }.text(s"Set figure's Y axis position (default is $BOX). " +
-      s"\n\t${"Available axis positions:".green.bold} ${axisPositions.mkString(", ")}\n")
+      s"\n\t${"Available axis positions:".green.bold} ${AxisLinePos.values.mkString(", ")}\n")
 
   opt[Unit]('z', "hideXTicks".underlined).optional.unbounded
     .action((_, conf) => conf.copy(figure = conf.figure.hideXAxisTicks))
@@ -299,7 +297,7 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
   opt[LegendPos]('p', "legend-pos".underlined).valueName("<position>".bold).optional.unbounded
     .action((x, conf) => conf.copy(figure = conf.figure.havingLegendPos(x)))
     .text(s"Change legend panel position (default is outer north east)." +
-      s"\n\t${"Available legend positions:".green.bold} ${legendsPositions.mkString(", ")}\n")
+      s"\n\t${"Available legend positions:".green.bold} ${LegendPos.values.mkString(", ")}\n")
 
   opt[Unit]('l', "logX".underlined).optional.unbounded
     .action((_, conf) => conf.copy(figure = conf.figure.havingLogXAxis))

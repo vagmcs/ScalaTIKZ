@@ -12,19 +12,16 @@
 package scalatikz.graphics.pgf
 
 import scalatikz.graphics.{ PGFPlot, TIKZPicture }
-import scalatikz.graphics.pgf.Color._
-import scalatikz.graphics.pgf.LineSize._
-import scalatikz.graphics.pgf.LineStyle._
-import scalatikz.graphics.pgf.Mark._
 import scalatikz.graphics.pgf.plots._
-import scalatikz.graphics.pgf.AxisLinePos._
 import scalatikz.graphics.pgf.DataTypes._
-import scalatikz.graphics.pgf.FontSize._
-import scalatikz.graphics.pgf.LegendPos._
-import scalatikz.graphics.pgf.AxisStyle._
-import scalatikz.graphics.pgf.AxisType._
-import scalatikz.graphics.pgf.GridStyle._
-import scalatikz.graphics.pgf.Pattern._
+import scalatikz.graphics.pgf.enums.AxisStyle.{ LINEAR, LOG }
+import scalatikz.graphics.pgf.enums.AxisType.{ CARTESIAN, POLAR }
+import scalatikz.graphics.pgf.enums.GridStyle.{ BOTH, MAJOR, MINOR }
+import scalatikz.graphics.pgf.enums.LineSize.THIN
+import scalatikz.graphics.pgf.enums.LineStyle.SOLID
+import scalatikz.graphics.pgf.enums.Mark.NONE
+import scalatikz.graphics.pgf.enums.Pattern.PLAIN
+import scalatikz.graphics.pgf.enums._
 
 final class Figure private (
     val axis: Axis,
@@ -34,7 +31,7 @@ final class Figure private (
     axisType: AxisType) extends TIKZPicture[PGFPlot] with PGFPlot {
 
   // An iterator over available colors in case user does not specify one.
-  private[this] var currentColor: Color = colors.head
+  private[this] var currentColor: Color = Color.values.head
   private[this] def nextColor: Color = {
     currentColor = colorIterator.next
     currentColor
@@ -163,7 +160,7 @@ final class Figure private (
   /**
     * Sets the axis background color
     *
-    * @see [[scalatikz.graphics.pgf.Color]]
+    * @see [[scalatikz.graphics.pgf.enums.Color]]
     *
     * @param color a color
     * @return a Figure having the given background color
@@ -183,7 +180,7 @@ final class Figure private (
   /**
     * Sets the legends position.
     *
-    * @see [[scalatikz.graphics.pgf.LegendPos]]
+    * @see [[scalatikz.graphics.pgf.enums.LegendPos]]
     * @param pos a legend position
     * @return a Figure having the given legend position
     */
@@ -193,7 +190,7 @@ final class Figure private (
   /**
     * Sets the position of the X axis.
     *
-    * @see [[scalatikz.graphics.pgf.AxisLinePos]]
+    * @see [[scalatikz.graphics.pgf.enums.AxisLinePos]]
     *
     * @param pos an axis position
     * @return a Figure having the given position on the X axis
@@ -204,7 +201,7 @@ final class Figure private (
   /**
     * Sets the position of the Y axis.
     *
-    * @see [[scalatikz.graphics.pgf.AxisLinePos]]
+    * @see [[scalatikz.graphics.pgf.enums.AxisLinePos]]
     *
     * @param pos an axis position
     * @return a Figure having the given position on the Y axis
@@ -648,7 +645,7 @@ final class FigureArray private[graphics] (
 object Figure {
 
   def apply(name: String): Figure =
-    new Figure(Axis(), Iterator.continually(colors).flatten, name, Seq.empty[PGFPlot], CARTESIAN)
+    new Figure(Axis(), Iterator.continually(Color.values).flatten, name, Seq.empty[PGFPlot], CARTESIAN)
 
   def apply(name: String, N: Int, M: Int): FigureArray =
     new FigureArray(name, Seq.fill(N * M)(Figure("")), N, M)
