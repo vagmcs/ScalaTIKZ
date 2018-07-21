@@ -194,7 +194,7 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
       if (conf.graphics.isEmpty) fatal("You must define a plot type before a line style option.")
       else conf.copy(graphics = conf.graphics.init :+ conf.graphics.last.copy(lineStyle = Some(style)))
     }.text(s"Set line style (default is solid)." +
-      s"\n\t${"Available line styles:".green.bold} ${lineStyles.mkString(", ")}\b")
+      s"\n\t${"Available line styles:".green.bold} ${lineStyles.mkString(", ")}\n")
 
   opt[Pattern]('U', "pattern".underlined).valueName("<pattern>".bold).unbounded.optional
     .action { (pattern, conf) =>
@@ -219,7 +219,7 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
     .action { (opacity, conf) =>
       if (conf.graphics.isEmpty) fatal("You must define a plot type before an opacity option.")
       else conf.copy(graphics = conf.graphics.init :+ conf.graphics.last.copy(opacity = opacity))
-    }.text("Set the opacity of the area under a curve.\n")
+    }.text("Set the opacity of the area under a curve or the bars.\n")
 
   opt[Unit]('r', "constant-area".underlined).unbounded.optional
     .action { (_, conf) =>
