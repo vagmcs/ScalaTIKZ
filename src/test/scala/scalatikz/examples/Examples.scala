@@ -15,7 +15,7 @@ import math._
 import scala.util.Random
 import scalatikz.graphics.pgf.Figure
 import scalatikz.graphics.pgf.enums.AxisLinePos.{BOTTOM, LEFT}
-import scalatikz.graphics.pgf.enums.Color.{BLACK, BLUE, GREEN, RED, YELLOW}
+import scalatikz.graphics.pgf.enums.Color.{BLACK, BLUE, GREEN, RED, WHITE, YELLOW}
 import scalatikz.graphics.pgf.enums.FontSize.FOOTNOTE
 import scalatikz.graphics.pgf.enums.LegendPos.{NORTH_EAST, SOUTH_WEST}
 import scalatikz.graphics.pgf.enums.LineSize.VERY_THIN
@@ -23,6 +23,15 @@ import scalatikz.graphics.pgf.enums.LineStyle.DASHED
 import scalatikz.graphics.pgf.enums.Mark.{CIRCLE, DOT}
 
 object Examples extends App {
+
+  /*
+   * Bars for the function y = x^2
+   */
+  Figure("bar")
+    .bar(color = BLUE!80!WHITE)((-20 to 20).map(x => (x, x * x)))
+    .havingXLabel("$X$")
+    .havingYLabel("$Y$")
+    .saveAsPNG("images")
 
   /*
    * Sine vs Cosine plot

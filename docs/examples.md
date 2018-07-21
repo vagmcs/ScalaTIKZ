@@ -162,6 +162,23 @@ import scalatikz.graphics.pgf.enums.Color.{BLACK, BLUE}
 
 ![error-bar](../images/error_bar.png)
 
+Lets create a bar plot for the function `y = x^2`:
+
+```scala
+import math._
+import scala.util.Random
+import scalatikz.graphics.pgf.Figure
+import scalatikz.graphics.pgf.enums.Color.{WHITE, BLUE}
+
+Figure("bar")
+    .bar(color = BLUE!80!WHITE)((-20 to 20).map(x => (x, x * x)))
+    .havingXLabel("$X$")
+    .havingYLabel("$Y$")
+    .saveAsPNG("images")
+```
+
+![bar](../images/bar.png)
+
 Finally, lets plot an array of plots:
 
 ```scala
