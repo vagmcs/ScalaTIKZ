@@ -225,6 +225,32 @@ final class Figure private (
   def hideYAxisTicks: Figure =
     new Figure(axis.copy(yAxisHideTicks = true), colorIterator, name, graphics, axisType)
 
+  /**
+    * Rotates the X axis ticks by the given degrees.
+    *
+    * @param degrees the degrees to rotate the ticks
+    * @return a Figure having the X ticks rotated
+    */
+  def rotateXTicks(degrees: Int): Figure =
+    new Figure(axis.copy(rotateXTicks = degrees), colorIterator, name, graphics, axisType)
+
+  /**
+    * Rotates the Y axis ticks by the given degrees.
+    *
+    * @param degrees the degrees to rotate the ticks
+    * @return a Figure having the Y ticks rotated
+    */
+  def rotateYTicks(degrees: Int): Figure =
+    new Figure(axis.copy(rotateYTicks = degrees), colorIterator, name, graphics, axisType)
+
+  /*
+   * =====================================
+   *
+   * ========: Polar functions
+   *
+   * =====================================
+   */
+
   def polar(data: Data): Figure = polar()(data)
 
   def polar(
