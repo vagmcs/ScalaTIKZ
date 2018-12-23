@@ -226,6 +226,24 @@ final class Figure private (
     new Figure(axis.copy(yAxisHideTicks = true), colorIterator, name, graphics, axisType)
 
   /**
+    * Changes the X axis tick labels.
+    *
+    * @param labels a list of labels
+    * @return a Figure having the given X axis tick labels
+    */
+  def havingAxisXLabels(labels: Seq[String]): Figure =
+    new Figure(axis.copy(xTickLabels = labels), colorIterator, name, graphics, axisType)
+
+  /**
+    * Changes the Y axis tick labels.
+    *
+    * @param labels a list of labels
+    * @return a Figure having the given Y axis tick labels
+    */
+  def havingAxisYLabels(labels: Seq[String]): Figure =
+    new Figure(axis.copy(yTickLabels = labels), colorIterator, name, graphics, axisType)
+
+  /**
     * Rotates the X axis ticks by the given degrees.
     *
     * @param degrees the degrees to rotate the ticks

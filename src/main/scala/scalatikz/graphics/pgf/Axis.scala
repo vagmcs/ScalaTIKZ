@@ -76,6 +76,8 @@ final case class Axis private (
     yAxisLinePos: AxisLinePos = BOX,
     xAxisHideTicks: Boolean = false,
     yAxisHideTicks: Boolean = false,
+    xTickLabels: Seq[String] = List.empty,
+    yTickLabels: Seq[String] = List.empty,
     rotateXTicks: Int = 0,
     rotateYTicks: Int = 0) {
 
@@ -83,8 +85,8 @@ final case class Axis private (
     s"${nameOf(xMode).toLowerCase}=$xMode, ${nameOf(yMode).toLowerCase}=$yMode, " +
       s"${nameOf(zMode).toLowerCase}=$zMode, axis background/.style={fill=$backgroundColor}, " +
       s"axis x line=$xAxisLinePos, axis y line=$yAxisLinePos\n" +
-      s"${if (xAxisHideTicks) ", xticklabels={,,}" else ""}" +
-      s"${if (yAxisHideTicks) ", yticklabels={,,}" else ""}" +
+      s"${if (xAxisHideTicks) s", ${nameOf(xTickLabels).toLowerCase}={,,}" else if (xTickLabels.nonEmpty) s", xtick=data, ${nameOf(xTickLabels).toLowerCase}={${xTickLabels.mkString(",")}}" else ""}" +
+      s"${if (yAxisHideTicks) s", ${nameOf(yTickLabels).toLowerCase}={,,}" else if (yTickLabels.nonEmpty) s", ytick=data, ${nameOf(yTickLabels).toLowerCase}={${yTickLabels.mkString(",")}}" else ""}" +
       s", x tick label style={rotate=$rotateXTicks}" +
       s", y tick label style={rotate=$rotateYTicks}" +
       s"${if (xLabel.isDefined) s" ,${nameOf(xLabel).toLowerCase}=${xLabel.get.toTex}" else ""}" +
