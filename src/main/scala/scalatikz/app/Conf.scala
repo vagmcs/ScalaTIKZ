@@ -12,6 +12,7 @@
 package scalatikz.app
 
 import scalatikz.app.GraphType.GraphType
+import scalatikz.graphics.Compiler
 import scalatikz.graphics.pgf.Figure
 import scalatikz.graphics.pgf.enums._
 
@@ -20,6 +21,7 @@ trait OptionConf
 final case class Conf(
     output: String = System.getProperty("user.dir"),
     format: String = "PDF",
+    compiler: Compiler = Compiler.PDFLATEX,
     figure: Figure = Figure(DEFAULT_NAME),
     inputs: IndexedSeq[String] = IndexedSeq.empty,
     delimiters: IndexedSeq[Char] = IndexedSeq.empty,

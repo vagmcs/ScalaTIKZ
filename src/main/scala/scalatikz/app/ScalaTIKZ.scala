@@ -23,6 +23,7 @@ import scalatikz.graphics.pgf.enums.LineSize.THIN
 import scalatikz.graphics.pgf.enums.LineStyle.SOLID
 import scalatikz.graphics.pgf.enums.Mark.{ CIRCLE, NONE }
 import scalatikz.graphics.pgf.enums.Pattern.PLAIN
+import scalatikz.graphics.Compiler
 
 object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
 
@@ -307,6 +308,11 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
     .action((_, conf) => conf.copy(figure = conf.figure.havingLogYAxis))
     .text("Enables logarithmic Y scale (default is linear).\n")
 
+  opt[Compiler]('V', "compiler".underlined).valueName("<compiler>".bold).optional.unbounded
+    .action((x, conf) => conf.copy(compiler = x))
+    .text(s"Change the underlying compiler (default is pdflatex)." +
+      s"\n\t${"Available compilers:".green.bold} ${Compiler.values.mkString(", ")}\n")
+
   help("help").text("Print usage options.\n")
 
   version("version").text("Display the version.")
@@ -454,9 +460,9 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
 
       // Try to save the resulted figure in the requested FORMAT.
       val result = conf.format.toUpperCase match {
-        case "PDF" => resultedFigure.saveAsPDF(conf.output)
-        case "PNG" => resultedFigure.saveAsPNG(conf.output)
-        case "JPEG" => resultedFigure.saveAsJPEG(conf.output)
+        case "PDF" => resultedFigure.saveAsPDF(conf.output, conf.compiler)
+        case "PNG" => resultedFigure.saveAsPNG(conf.output, conf.compiler)
+        case "JPEG" => resultedFigure.saveAsJPEG(conf.output, conf.compiler)
         case "TEX" => resultedFigure.saveAsTeX(conf.output)
       }
       result match {

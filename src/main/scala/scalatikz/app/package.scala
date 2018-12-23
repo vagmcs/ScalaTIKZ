@@ -11,6 +11,7 @@
 
 package scalatikz
 
+import scalatikz.graphics.Compiler
 import scalatikz.graphics.pgf.enums._
 
 package object app {
@@ -29,6 +30,9 @@ package object app {
       case (color, next) => color ! Color.withName(next)
     }
   }
+
+  implicit val compilerRead: scopt.Read[Compiler] =
+    scopt.Read.reads(x => Compiler.withName(x.toLowerCase))
 
   implicit val markRead: scopt.Read[Mark] =
     scopt.Read.reads(x => Mark.withName(x.toLowerCase))
