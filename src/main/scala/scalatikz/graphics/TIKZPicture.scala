@@ -21,6 +21,7 @@ import org.ghost4j.renderer.SimpleRenderer
 import scala.io.Source
 import scala.util.{Failure, Try}
 import scalatikz.common.Logging
+import scalatikz.graphics.Compiler._
 import sys.process._
 
 /**
@@ -45,7 +46,7 @@ trait TIKZPicture[T <: Graphic] extends Logging {
     raw"""
        | \documentclass{standalone}
        |
-       | \usepackage{tikz,pgfplots}
+       | \usepackage{tikz,pgfplots,luatex85}
        | \usetikzlibrary{plotmarks}
        | \usetikzlibrary{patterns}
        | \usetikzlibrary{pgfplots.polar}
@@ -57,7 +58,6 @@ trait TIKZPicture[T <: Graphic] extends Logging {
        |   ${this.toString}
        |  \end{tikzpicture}
        | \end{document}
-       |
     """.stripMargin
 
   /**
@@ -65,14 +65,14 @@ trait TIKZPicture[T <: Graphic] extends Logging {
     *
     * @return a file for the generated PDF
     */
-  private def compilePDF: File = {
+  private def compilePDF(compiler: Compiler = PDFLATEX): File = {
     if (!path.exists) path.mkdir
 
     val stream: PrintStream = new PrintStream(texFile)
     stream println asTex
     stream.close()
 
-    s"pdflatex --shell-escape -output-directory $path ${texFile.getAbsolutePath}" ! devNullLogger
+    s"$compiler --shell-escape -output-directory $path ${texFile.getAbsolutePath}" ! devNullLogger
 
     if (!Files.exists(Paths.get(s"$path/source.pdf"))) fatal {
       Source.fromFile(s"$path/source.log").getLines.find(_.startsWith("!")) match {
@@ -91,7 +91,7 @@ trait TIKZPicture[T <: Graphic] extends Logging {
     * Generate and open the resulted figure as PDF using the default
     * desktop application used for PDFs.
     */
-  final def show(): Unit = Try(Desktop.getDesktop.open(compilePDF)) match {
+  final def show(compiler: Compiler = PDFLATEX): Unit = Try(Desktop.getDesktop.open(compilePDF(compiler))) match {
     case Failure(ex) =>
       logger.warn(s"Cannot open PDF: ${ex.getMessage}")
     case _ =>
@@ -104,9 +104,9 @@ trait TIKZPicture[T <: Graphic] extends Logging {
     * @return a Try holding the saved PDF file. In case of non-fatal
     *         exception, a Failure object is returned holding the exception.
     */
-  final def saveAsPDF(path: String): Try[File] = Try {
+  final def saveAsPDF(path: String, compiler: Compiler = PDFLATEX): Try[File] = Try {
     Files.move(
-      Paths.get(compilePDF.getAbsolutePath),
+      Paths.get(compilePDF(compiler).getAbsolutePath),
       Paths.get(s"$path/$name.pdf"),
       StandardCopyOption.REPLACE_EXISTING
     )
@@ -136,10 +136,10 @@ trait TIKZPicture[T <: Graphic] extends Logging {
     * @return a Try holding the saved PNG file. In case of non-fatal
     *         exception, a Failure object is returned holding the exception.
     */
-  final def saveAsPNG(path: String): Try[File] = Try {
+  final def saveAsPNG(path: String, compiler: Compiler = PDFLATEX): Try[File] = Try {
     // load PDF document
     val doc = new PDFDocument()
-    doc.load(compilePDF)
+    doc.load(compilePDF(compiler))
 
     // create renderer
     val renderer = new SimpleRenderer()
@@ -162,10 +162,10 @@ trait TIKZPicture[T <: Graphic] extends Logging {
     * @return a Try holding the saved JPEG file. In case of non-fatal
     *         exception, a Failure object is returned holding the exception.
     */
-  final def saveAsJPEG(path: String): Try[File] = Try {
+  final def saveAsJPEG(path: String, compiler: Compiler = PDFLATEX): Try[File] = Try {
     // load PDF document
     val doc = new PDFDocument()
-    doc.load(compilePDF)
+    doc.load(compilePDF(compiler))
 
     // create renderer
     val renderer = new SimpleRenderer()
