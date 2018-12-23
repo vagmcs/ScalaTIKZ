@@ -283,6 +283,22 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
     }.text(s"Set figure's Y axis position (default is $BOX). " +
       s"\n\t${"Available axis positions:".green.bold} ${AxisLinePos.values.mkString(", ")}\n")
 
+  opt[Seq[Int]]('j', "ticks-rotation".underlined).valueName("<int,int>".bold).optional.unbounded
+    .action((degrees, conf) => conf.copy(figure = conf.figure.rotateXTicks(degrees.head).rotateYTicks(degrees.last)))
+    .text("Rotate X and Y axis ticks: x axis degrees,y axis degrees.\n")
+    .validate { seq =>
+      if (seq.length == 2) success
+      else failure("Axis degree values should be exactly 2.")
+    }
+
+  opt[Seq[String]]('I', "x-tick-labels".underlined).valueName("<comma separated labels>".bold).optional.unbounded
+    .action((x, conf) => conf.copy(figure = conf.figure.havingAxisXLabels(x)))
+    .text("Comma separated labels for the X axis ticks.\n")
+
+  opt[Seq[String]]('K', "y-tick-labels".underlined).valueName("<comma separated labels>".bold).optional.unbounded
+    .action((x, conf) => conf.copy(figure = conf.figure.havingAxisYLabels(x)))
+    .text("Comma separated labels for the Y axis ticks.\n")
+
   opt[Unit]('z', "hideXTicks".underlined).optional.unbounded
     .action((_, conf) => conf.copy(figure = conf.figure.hideXAxisTicks))
     .text("Hides the ticks on the X axis (default is false).\n")
