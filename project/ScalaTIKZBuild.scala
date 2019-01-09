@@ -103,11 +103,6 @@ object ScalaTIKZBuild extends AutoPlugin {
             <url>https://www.gnu.org/licenses/lgpl-3.0.en.html</url>
           </license>
         </licenses>
-        <scm>
-          <connection>scm:git:github.com/vagmcs/ScalaTIKZ.git</connection>
-          <developerConnection>scm:git:git@github.com:vagmcs/ScalaTIKZ.git</developerConnection>
-          <url>github.com/vagmcs/ScalaTIKZ</url>
-        </scm>
         <developers>
           <developer>
             <id>vagmcs</id>
