@@ -22,10 +22,10 @@ line interface. Depending on your OS configuration you have to add and export th
 to the `PATH` variable.
 
 For example, lets say that the ScalaTIKZ distribution version 0.3.5-SNAPSHOT is being installed in your home directory in
-`$HOME/ScalaTIKZ-0.3.5-SNAPSHOT`, the directory structure inside the ScalaTIKZ directory is the following:
+`$HOME/ScalaTIKZ-0.3.5`, the directory structure inside the ScalaTIKZ directory is the following:
 
 ```bash
-ScalaTIKZ-0.3.5-SNAPSHOT/
+ScalaTIKZ-0.3.5/
 |-- bin
 |-- etc
 |-- lib
@@ -38,7 +38,7 @@ add the following line in you profile file.
 
 **BASH** e.g., inside `.profile`, `.bashrc` or `.bash_profile` file in your home directory:
 ```bash
-export PATH=$PATH:$HOME/ScalaTIKZ-0.3.5-SNAPSHOT/bin
+export PATH=$PATH:$HOME/ScalaTIKZ-0.3.5/bin
 ```
 
 ## Local publish ScalaTIKZ
@@ -53,7 +53,7 @@ ScalaTIKZ cross builds for Scala versions 2.11 and 2.12. Thereafter, in order to
 your [SBT](http://www.scala-sbt.org/) project, add the following dependency:
 
 ```
-libraryDependencies += "com.github.vagmcs" %% "scalatikz" % "0.3.5-SNAPSHOT"
+libraryDependencies += "com.github.vagmcs" %% "scalatikz" % "0.3.5"
 ```
 
 Similarly, in an [Apache Maven](https://maven.apache.org/) pom file:
@@ -62,7 +62,7 @@ Similarly, in an [Apache Maven](https://maven.apache.org/) pom file:
 <dependency>
     <groupId>com.github.vagmcs</groupId>
     <artifactId>scalatikz_2.11</artifactId>
-    <version>0.3.5-SNAPSHOT</version>
+    <version>0.3.5</version>
 </dependency>
 ```
 or
@@ -71,7 +71,7 @@ or
 <dependency>
     <groupId>com.github.vagmcs</groupId>
     <artifactId>scalatikz_2.12</artifactId>
-    <version>0.3.5-SNAPSHOT</version>
+    <version>0.3.5</version>
 </dependency>
 ```
 
@@ -80,7 +80,7 @@ or
 ScalaTIKZ is published into the Maven Central. In order to link ScalaTIKZ to your [SBT](http://www.scala-sbt.org/) project, add the following dependency:
 
 ```sbt
-libraryDependencies += "com.github.vagmcs" %% "scalatikz" % "0.3.5-SNAPSHOT"
+libraryDependencies += "com.github.vagmcs" %% "scalatikz" % "0.3.5"
 ```
 
 Likewise in an [Apache Maven](https://maven.apache.org/) pom xml file add:
@@ -89,7 +89,7 @@ Likewise in an [Apache Maven](https://maven.apache.org/) pom xml file add:
 <dependency>
   <groupId>com.github.vagmcs</groupId>
   <artifactId>scalatikz_2.11</artifactId>
-  <version>0.3.5-SNAPSHOT</version>
+  <version>0.3.5</version>
 </dependency>
 ```
 
@@ -99,6 +99,6 @@ or
 <dependency>
   <groupId>com.github.vagmcs</groupId>
   <artifactId>scalatikz_2.12</artifactId>
-  <version>0.3.5-SNAPSHOT</version>
+  <version>0.3.5</version>
 </dependency>
 ```
