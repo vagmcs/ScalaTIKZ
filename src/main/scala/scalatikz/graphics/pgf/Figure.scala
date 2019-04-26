@@ -391,9 +391,10 @@ final class Figure private (
       markSize: Double = 1,
       lineStyle: LineStyle = SOLID,
       lineSize: LineSize = THIN,
-      smooth: Boolean = false)(data: Data): Figure =
+      smooth: Boolean = false,
+      sparse: Boolean = false)(data: Data): Figure =
     new Figure(axis, colorIterator, name, graphics :+ Line(
-      data.coordinates,
+      if (sparse) data.sparse.coordinates else data.coordinates,
       color,
       marker,
       markStrokeColor,

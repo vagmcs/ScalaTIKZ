@@ -16,15 +16,16 @@ object DataTypes {
   // Point types in the Euclidean space
   type Point = Double
   type Point2D = (Point, Point)
-  type Point3D = (Point, Point)
+  type Point3D = (Point, Point, Point)
 
   // Point sequence types
   type DataSeq = Seq[Point]
   type Coordinates = Seq[Point2D]
 
   /**
-    * Data is a construct that automatically converts various inputs into the underlying data
-    * sequences required by the plot functions in order to enable a form of syntactic sugar.
+    * Data is a construct that automatically converts various inputs
+    * into the underlying data sequences required by the plot functions.
+    * It enables a form of syntactic sugar.
     *
     * @example Data input examples: {{{
     *
@@ -40,7 +41,7 @@ object DataTypes {
     *
     *          X, Y data sequences:
     *
-    *          Seq(1,2,3) -> Seq(7,9,12)
+    *          Seq(1, 2, 3) -> Seq(7, 9, 12)
     *
     *          Sequence of tuple:
     *
@@ -53,9 +54,20 @@ object DataTypes {
     */
   sealed trait Data {
     val coordinates: Coordinates
+
+    def sparse: Data = coordinates.foldLeft(Seq.empty[Point2D]) {
+      case (data, point) =>
+        if (data.isEmpty || coordinates.last == point) data :+ point
+        else if (data.last != point) data :+ point
+        else data
+    }
   }
 
   object Data {
+
+    implicit def fromY(y: DataSeq): Data = new Data {
+      val coordinates: Coordinates = (1 to y.length).map(_.toDouble) zip y
+    }
 
     implicit def fromIntY(y: Seq[Int]): Data = new Data {
       val coordinates: Coordinates = (1 to y.length).map(_.toDouble) zip y.map(_.toDouble)
@@ -63,10 +75,6 @@ object DataTypes {
 
     implicit def fromLongY(y: Seq[Long]): Data = new Data {
       val coordinates: Coordinates = (1 to y.length).map(_.toDouble) zip y.map(_.toDouble)
-    }
-
-    implicit def fromY(y: DataSeq): Data = new Data {
-      val coordinates: Coordinates = (1 to y.length).map(_.toDouble) zip y
     }
 
     implicit def fromIntXIntY(xy: Seq[(Int, Int)]): Data = new Data {
