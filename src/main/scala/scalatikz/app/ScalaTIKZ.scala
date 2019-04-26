@@ -87,6 +87,10 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
     .action((_, conf) => conf.copy(graphics = conf.graphics :+ GraphicConf(STAIR)))
     .text("Plots a data sequence as a 2D stair step.")
 
+  opt[Unit]('W', "error-area".underlined).unbounded
+    .action((_, conf) => conf.copy(graphics = conf.graphics :+ GraphicConf(ERROR_AREA)))
+    .text("Plots a data sequence as a 2D line along an error area around the data points.")
+
   opt[Unit]('R', "error-bar".underlined).unbounded
     .action((_, conf) => conf.copy(graphics = conf.graphics :+ GraphicConf(ERROR_BAR)))
     .text("Plots a data sequence as a 2D line along vertical and/or horizontal error bars at each data point.")
@@ -425,6 +429,41 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
                   lineStyle       = graphic.lineStyle.getOrElse(SOLID),
                   lineSize        = graphic.lineSize.getOrElse(THIN)
                 )(coordinates)
+
+            case ERROR_AREA =>
+
+              val error: Coordinates =
+                (CSV.parseColumns(
+                  new File(conf.inputs.applyOrElse(i, notFound(conf.inputs))),
+                  conf.delimiters.applyOrElse(i, (_: Int) => ','),
+                  Seq(graphic.xErrorColumn, graphic.yErrorColumn).flatten: _*): @unchecked) match {
+
+                  case Success(Nil) =>
+                    val zeroError = Seq.fill(coordinates.length)(0.0)
+                    zeroError zip zeroError
+
+                  case Success(y :: Nil) if graphic.xErrorColumn.isEmpty =>
+                    Seq.fill(coordinates.length)(0.0) zip y
+
+                  case Success(x :: Nil) if graphic.yErrorColumn.isEmpty =>
+                    x zip Seq.fill(coordinates.length)(0.0)
+
+                  case Success(x :: y :: Nil) => x zip y
+                  case Failure(ex) => fatal(s"${ex.getMessage}")
+                }
+
+              resultedFigure =
+                resultedFigure.errorArea(
+                  color           = graphic.lineColor.getOrElse(nextColor),
+                  marker          = graphic.marker.getOrElse(NONE),
+                  markStrokeColor = graphic.markStrokeColor.getOrElse(graphic.lineColor.getOrElse(currentColor)),
+                  markFillColor   = graphic.markFillColor.getOrElse(graphic.lineColor.getOrElse(currentColor)),
+                  markSize        = graphic.markSize,
+                  lineStyle       = graphic.lineStyle.getOrElse(SOLID),
+                  lineSize        = graphic.lineSize.getOrElse(THIN),
+                  opacity         = graphic.opacity,
+                  smooth          = graphic.smooth
+                )(coordinates)(error)
 
             case ERROR_BAR =>
 

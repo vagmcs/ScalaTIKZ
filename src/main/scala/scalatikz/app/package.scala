@@ -20,7 +20,7 @@ package object app {
 
   object GraphType extends Enumeration {
     type GraphType = Value
-    val PLOT, STEM, SCATTER, STAIR, AREA, ERROR_BAR, BAR = Value
+    val PLOT, STEM, SCATTER, STAIR, AREA, ERROR_AREA, ERROR_BAR, BAR = Value
   }
 
   implicit val colorMixRead: scopt.Read[Color] = scopt.Read.reads { x =>
