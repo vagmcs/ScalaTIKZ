@@ -648,6 +648,63 @@ final class Figure private (
       smooth), axisType
     )
 
+  /*
+   * =====================================
+   *
+   * ========: ErrorArea functions
+   *
+   * =====================================
+   */
+
+  /**
+    * Plots a 2D line of the data in Y versus the corresponding values in X
+    * along an error area around the data points.
+    *
+    * @param data sequence of x, y points in the Euclidean space along
+    *             a sequence of x-error, y-error points.
+    */
+  def errorArea(data: Data)(error: Data): Figure = errorArea()(data)(error)
+
+  /**
+    * Plots a 2D line of the data in Y versus the corresponding values in X
+    * along an error area around the data points.
+    *
+    * @param color line color
+    * @param marker mark style
+    * @param markStrokeColor mark stroke color
+    * @param markFillColor mark fill color
+    * @param markSize mark size
+    * @param lineStyle line style
+    * @param lineSize line size
+    * @param opacity opacity of the error area
+    * @param smooth true in case the line is smooth
+    * @param data sequence of x, y points in the Euclidean space along
+    *             a sequence of x-error, y-error points.
+    */
+  def errorArea(
+      color: Color = nextColor,
+      marker: Mark = NONE,
+      markStrokeColor: Color = currentColor,
+      markFillColor: Color = currentColor,
+      markSize: Double = 1,
+      lineStyle: LineStyle = SOLID,
+      lineSize: LineSize = THIN,
+      opacity: Double = 0.2,
+      smooth: Boolean = false)(data: Data)(error: Data): Figure =
+    new Figure(axis, colorIterator, name, graphics :+ ErrorArea(
+      data.coordinates,
+      error.coordinates,
+      color,
+      marker,
+      markStrokeColor,
+      markFillColor,
+      markSize,
+      lineStyle,
+      lineSize,
+      opacity,
+      smooth), axisType
+    )
+
   override def toString: String =
     s"\\begin{$axisType}[" +
       s"$axis] " +

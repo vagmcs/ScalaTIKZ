@@ -50,6 +50,7 @@ trait TIKZPicture[T <: Graphic] extends Logging {
        | \usetikzlibrary{plotmarks}
        | \usetikzlibrary{patterns}
        | \usetikzlibrary{pgfplots.polar}
+       | \usepgfplotslibrary{fillbetween}
        | \pgfplotsset{compat=newest}
        |
        | \begin{document}
