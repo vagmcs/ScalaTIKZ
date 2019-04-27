@@ -14,14 +14,14 @@ package scalatikz.graphics.pgf.enums
 import enumeratum._
 import scala.collection.immutable._
 
-sealed abstract class AxisStyle(override val entryName: String) extends EnumEntry {
-  override def toString: String = entryName
+sealed abstract class AxisSystem(override val entryName: String) extends EnumEntry {
+  override def toString: String = this.entryName
 }
 
-object AxisStyle extends Enum[AxisStyle] {
+object AxisSystem extends Enum[AxisSystem] {
 
-  val values: IndexedSeq[AxisStyle] = findValues
+  val values: IndexedSeq[AxisSystem] = findValues
 
-  case object LINEAR extends AxisStyle("linear")
-  case object LOG extends AxisStyle("log")
+  case object CARTESIAN extends AxisSystem("axis")
+  case object POLAR extends AxisSystem("polar" + "axis")
 }

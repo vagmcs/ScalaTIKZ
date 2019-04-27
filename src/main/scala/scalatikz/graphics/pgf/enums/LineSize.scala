@@ -25,6 +25,7 @@ object LineSize extends Enum[LineSize] {
   case object ULTRA_THIN extends LineSize("ultra thin")
   case object VERY_THIN extends LineSize("very thin")
   case object THIN extends LineSize("thin")
+  case object SEMI_THICK extends LineSize("semi" + "thick")
   case object THICK extends LineSize("thick")
   case object VERY_THICK extends LineSize("very thick")
   case object ULTRA_THICK extends LineSize("ultra thick")

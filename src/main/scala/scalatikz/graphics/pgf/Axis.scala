@@ -13,7 +13,7 @@ package scalatikz.graphics.pgf
 
 import com.github.dwickern.macros.NameOf._
 import scalatikz.graphics.pgf.enums.AxisLinePos.BOX
-import scalatikz.graphics.pgf.enums.AxisStyle.LINEAR
+import scalatikz.graphics.pgf.enums.AxisScale.LINEAR
 import scalatikz.graphics.pgf.enums.Color.WHITE
 import scalatikz.graphics.pgf.enums.LegendPos.OUTER_NORTH_EAST
 import scalatikz.graphics.pgf.enums._
@@ -26,7 +26,7 @@ import scalatikz.graphics.pgf.enums._
   *      [[scalatikz.graphics.pgf.enums.FontSize]]
   *      [[scalatikz.graphics.pgf.enums.LegendPos]]
   *      [[scalatikz.graphics.pgf.enums.ColorMap]]
-  *      [[scalatikz.graphics.pgf.enums.AxisStyle]]
+  *      [[scalatikz.graphics.pgf.enums.AxisScale]]
   *      [[scalatikz.graphics.pgf.enums.AxisLinePos]]
   * @param xMode X axis scale (linear or log)
   * @param yMode Y axis scale (linear or log)
@@ -53,9 +53,9 @@ import scalatikz.graphics.pgf.enums._
   * @param yAxisHideTicks hide Y axis ticks
   */
 final case class Axis private (
-    xMode: AxisStyle = LINEAR,
-    yMode: AxisStyle = LINEAR,
-    zMode: AxisStyle = LINEAR,
+    xMode: AxisScale = LINEAR,
+    yMode: AxisScale = LINEAR,
+    zMode: AxisScale = LINEAR,
     xLabel: Option[String] = None,
     yLabel: Option[String] = None,
     zLabel: Option[String] = None,

@@ -14,8 +14,8 @@ package scalatikz.graphics.pgf
 import scalatikz.graphics.{ PGFPlot, TIKZPicture }
 import scalatikz.graphics.pgf.plots._
 import scalatikz.graphics.pgf.DataTypes._
-import scalatikz.graphics.pgf.enums.AxisStyle.{ LINEAR, LOG }
-import scalatikz.graphics.pgf.enums.AxisType.{ CARTESIAN, POLAR }
+import scalatikz.graphics.pgf.enums.AxisScale.{ LINEAR, LOG }
+import scalatikz.graphics.pgf.enums.AxisSystem.{ CARTESIAN, POLAR }
 import scalatikz.graphics.pgf.enums.GridStyle.{ BOTH, MAJOR, MINOR }
 import scalatikz.graphics.pgf.enums.LineSize.THIN
 import scalatikz.graphics.pgf.enums.LineStyle.SOLID
@@ -28,7 +28,7 @@ final class Figure private (
     colorIterator: Iterator[Color],
     override val name: String,
     override val graphics: Seq[PGFPlot],
-    axisType: AxisType) extends TIKZPicture[PGFPlot] with PGFPlot {
+    axisType: AxisSystem) extends TIKZPicture[PGFPlot] with PGFPlot {
 
   // An iterator over available colors in case user does not specify one.
   private[this] var currentColor: Color = Color.values.head

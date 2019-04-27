@@ -35,8 +35,10 @@ object Color extends Enum[Color] {
   case object VIOLET extends Color("violet")
   case object TEAL extends Color("teal")
   case object LIME extends Color("lime")
+  case object OLIVE extends Color("olive")
   case object BLACK extends Color("black")
   case object GRAY extends Color("gray")
+  case object LIGHT_GRAY extends Color("lightgray")
   case object WHITE extends Color("white")
 
   implicit class ColorMix(val color: Color) extends AnyVal {

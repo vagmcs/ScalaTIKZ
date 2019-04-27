@@ -29,4 +29,10 @@ object LineStyle extends Enum[LineStyle] {
   case object DASHED extends LineStyle("dashed")
   case object DENSELY_DASHED extends LineStyle("densely dashed")
   case object LOOSELY_DASHED extends LineStyle("loosely dashed")
+  case object DASH_DOTTED extends LineStyle("dash" + "dotted")
+  case object DENSELY_DASH_DOTTED extends LineStyle("densely dash" + "dotted")
+  case object LOOSELY_DASH_DOTTED extends LineStyle("loosely dash" + "dotted")
+  case object DASH_DOT_DOTTED extends LineStyle("dash" + "dot" + "dotted")
+  case object DENSELY_DASH_DOT_DOTTED extends LineStyle("dash" + "dot" + "dotted")
+  case object LOOSELY_DASH_DOT_DOTTED extends LineStyle("dash" + "dot" + "dotted")
 }
