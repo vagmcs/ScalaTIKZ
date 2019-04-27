@@ -13,6 +13,7 @@ package scalatikz
 
 import enumeratum._
 import scala.collection.immutable._
+import scala.language.reflectiveCalls
 
 package object graphics {
 
@@ -24,7 +25,20 @@ package object graphics {
 
     val values: IndexedSeq[Compiler] = findValues
 
-    case object PDFLATEX extends Compiler("pdflatex")
-    case object LUALATEX extends Compiler("lualatex")
+    case object PDF_LATEX extends Compiler("pdflatex")
+    case object LUA_LATEX extends Compiler("lua" + "latex")
   }
+
+  /**
+    * Uses an object that can be closed (e.g. BufferedSource) and
+    * applies a function to get a result. Finally it closes the source.
+    *
+    * @param closeable a closable instance
+    * @param f a function
+    * @tparam C type of the closable
+    * @tparam R type of the return value
+    * @return a result from the function
+    */
+  def using[R, C <: { def close(): Unit }] (closeable: C) (f: C => R): R =
+    try { f(closeable) } finally { closeable.close() }
 }

@@ -21,7 +21,7 @@ trait OptionConf
 final case class Conf(
     output: String = System.getProperty("user.dir"),
     format: String = "PDF",
-    compiler: Compiler = Compiler.PDFLATEX,
+    compiler: Compiler = Compiler.PDF_LATEX,
     figure: Figure = Figure(DEFAULT_NAME),
     inputs: IndexedSeq[String] = IndexedSeq.empty,
     delimiters: IndexedSeq[Char] = IndexedSeq.empty,
