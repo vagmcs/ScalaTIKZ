@@ -32,4 +32,6 @@ object Pattern extends Enum[Pattern] {
   case object DOTS extends Pattern("dots")
   case object CROSSHATCH_DOTS extends Pattern("crosshatch dots")
   case object BRICKS extends Pattern("bricks")
+  case object FIVE_POINTED_STARS extends Pattern("five" + "pointed stars")
+  case object SIX_POINTED_STARS extends Pattern("six" + "pointed stars")
 }

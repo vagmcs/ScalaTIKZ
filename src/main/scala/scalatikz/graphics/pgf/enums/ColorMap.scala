@@ -22,7 +22,10 @@ object ColorMap extends Enum[ColorMap] {
 
   val values: IndexedSeq[ColorMap] = findValues
 
+  case object ViRiDiS extends ColorMap("vi" + "ri" + "dis")
   case object HOT extends ColorMap("hot")
+  case object HOTTER extends ColorMap("hot2")
+  case object JET extends ColorMap("jet")
   case object COOL extends ColorMap("cool")
   case object BLUE_RED extends ColorMap("blue" + "red")
   case object GREEN_YELLOW extends ColorMap("green" + "yellow")
