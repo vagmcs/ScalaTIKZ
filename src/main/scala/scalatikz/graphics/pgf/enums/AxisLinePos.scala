@@ -22,6 +22,7 @@ object AxisLinePos extends Enum[AxisLinePos] {
 
   val values: IndexedSeq[AxisLinePos] = findValues
 
+  case object NONE extends AxisLinePos("none")
   case object BOX extends AxisLinePos("box")
   case object TOP extends AxisLinePos("top")
   case object MIDDLE extends AxisLinePos("middle")

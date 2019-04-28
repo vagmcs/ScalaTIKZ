@@ -39,6 +39,6 @@ package object graphics {
     * @tparam R type of the return value
     * @return a result from the function
     */
-  def using[R, C <: { def close(): Unit }] (closeable: C) (f: C => R): R =
+  def using[R, C <: { def close(): Unit }](closeable: C)(f: C => R): R =
     try { f(closeable) } finally { closeable.close() }
 }

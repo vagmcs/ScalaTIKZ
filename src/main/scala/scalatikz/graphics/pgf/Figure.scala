@@ -712,6 +712,36 @@ final class Figure private (
       s"\\end{$axisType}"
 }
 
+final class BipolarFigure private[graphics] (
+    override val name: String,
+    override protected val graphics: Seq[Figure]) extends TIKZPicture[Figure] {
+
+  def left(f: Figure => Figure): BipolarFigure = {
+    val transformed = f(graphics.head)
+    val _transformed = if (transformed.axis.yAxisLinePos != AxisLinePos.LEFT) {
+      logger.warn("y axis line position should be left. Changing to left.")
+      transformed.havingYAxisLinePos(AxisLinePos.LEFT)
+    } else transformed
+    new BipolarFigure(name, graphics.updated(0, _transformed))
+  }
+
+  def right(f: Figure => Figure): BipolarFigure = {
+    val transformed = f(graphics.last)
+    val _transformed = if (transformed.axis.yAxisLinePos != AxisLinePos.RIGHT) {
+      logger.warn("y axis line position should be right. Changing to left.")
+      transformed.havingYAxisLinePos(AxisLinePos.RIGHT)
+    } else transformed
+    new BipolarFigure(name, graphics.updated(1, _transformed))
+  }
+
+  override def toString: String =
+    raw"""
+      |\pgfplotsset{set layers}
+      |${graphics.head}
+      |${graphics.last}
+    """.stripMargin
+}
+
 final class FigureArray private[graphics] (
     override val name: String,
     override protected val graphics: Seq[Figure],
@@ -748,6 +778,12 @@ object Figure {
 
   def apply(name: String): Figure =
     new Figure(Axis(), Iterator.continually(Color.values).flatten, name, Seq.empty[PGFPlot], CARTESIAN)
+
+  def doubleAxis(name: String): BipolarFigure =
+    new BipolarFigure(name, Seq(
+      Figure("").havingXAxisLinePos(AxisLinePos.BOTTOM).havingYAxisLinePos(AxisLinePos.LEFT),
+      Figure("").havingXAxisLinePos(AxisLinePos.TOP).havingYAxisLinePos(AxisLinePos.RIGHT)
+    ))
 
   def apply(name: String, N: Int, M: Int): FigureArray =
     new FigureArray(name, Seq.fill(N * M)(Figure("")), N, M)
