@@ -21,38 +21,35 @@ import scalatikz.graphics.pgf.enums._
 /**
   * Axis configuration.
   *
-  * @see [[scalatikz.graphics.pgf.enums.Color]]
-  *      [[scalatikz.graphics.pgf.enums.GridStyle]]
-  *      [[scalatikz.graphics.pgf.enums.FontSize]]
-  *      [[scalatikz.graphics.pgf.enums.LegendPos]]
-  *      [[scalatikz.graphics.pgf.enums.ColorMap]]
-  *      [[scalatikz.graphics.pgf.enums.AxisScale]]
-  *      [[scalatikz.graphics.pgf.enums.AxisLinePos]]
   * @param xMode X axis scale (linear or log)
   * @param yMode Y axis scale (linear or log)
   * @param zMode Z axis scale (linear or log)
-  * @param xLabel X label
-  * @param yLabel Y label
-  * @param zLabel Z label
-  * @param xMin X lower bound
-  * @param xMax X upper bound
-  * @param yMin Y lower bound
-  * @param yMax Y upper bound
-  * @param zMin Z lower bound
-  * @param zMax Z upper bound
+  * @param xLabel X axis label
+  * @param yLabel Y axis label
+  * @param zLabel Z axis label
+  * @param xMin X axis lower bound
+  * @param xMax X axis upper bound
+  * @param yMin Y axis lower bound
+  * @param yMax Y axis upper bound
+  * @param zMin Z axis lower bound
+  * @param zMax Z axis upper bound
   * @param grid axis grid type (minor, major or both)
-  * @param colorMap color map type
+  * @param colorMap color map type (used for mesh plots)
   * @param backgroundColor axis background color
-  * @param header axis header
+  * @param header axis header title
   * @param fontSize font size
-  * @param legends legends for the data sequences
-  * @param legendPos legend position
+  * @param legends legends for the plotted data sequences
+  * @param legendPos legends position
   * @param xAxisLinePos X axis position
   * @param yAxisLinePos Y axis position
   * @param xAxisHideTicks hide X axis ticks
   * @param yAxisHideTicks hide Y axis ticks
+  * @param xTickLabels a sequence of labels for X axis ticks
+  * @param yTickLabels a sequence of labels for Y axis ticks
+  * @param rotateXTicks rotate X axis ticks by the given degrees
+  * @param rotateYTicks rotate Y axis ticks by the given degrees
   */
-final case class Axis private (
+case class Axis private (
     xMode: AxisScale = LINEAR,
     yMode: AxisScale = LINEAR,
     zMode: AxisScale = LINEAR,
@@ -81,26 +78,46 @@ final case class Axis private (
     rotateXTicks: Int = 0,
     rotateYTicks: Int = 0) {
 
-  override def toString: String =
-    s"${nameOf(xMode).toLowerCase}=$xMode, ${nameOf(yMode).toLowerCase}=$yMode, " +
-      s"${nameOf(zMode).toLowerCase}=$zMode, axis background/.style={fill=$backgroundColor}, " +
-      s"axis x line=$xAxisLinePos, axis y line=$yAxisLinePos\n" +
-      s"${if (xAxisHideTicks) s", ${nameOf(xTickLabels).toLowerCase}={,,}" else if (xTickLabels.nonEmpty) s", xtick=data, ${nameOf(xTickLabels).toLowerCase}={${xTickLabels.mkString(",")}}" else ""}" +
-      s"${if (yAxisHideTicks) s", ${nameOf(yTickLabels).toLowerCase}={,,}" else if (yTickLabels.nonEmpty) s", ytick=data, ${nameOf(yTickLabels).toLowerCase}={${yTickLabels.mkString(",")}}" else ""}" +
-      s", x tick label style={rotate=$rotateXTicks}" +
-      s", y tick label style={rotate=$rotateYTicks}" +
-      s"${if (xLabel.isDefined) s" ,${nameOf(xLabel).toLowerCase}=${xLabel.get.toTex}" else ""}" +
-      s"${if (yLabel.isDefined) s" ,${nameOf(yLabel).toLowerCase}=${yLabel.get.toTex}" else ""}" +
-      s"${if (zLabel.isDefined) s" ,${nameOf(zLabel).toLowerCase}=${zLabel.get.toTex}" else ""}" +
-      s"${if (xMin.isDefined) s" ,${nameOf(xMin).toLowerCase}=${xMin.get}" else ""}" +
-      s"${if (xMax.isDefined) s" ,${nameOf(xMax).toLowerCase}=${xMax.get}" else ""}" +
-      s"${if (yMin.isDefined) s" ,${nameOf(yMin).toLowerCase}=${yMin.get}" else ""}" +
-      s"${if (yMax.isDefined) s" ,${nameOf(yMax).toLowerCase}=${yMax.get}" else ""}" +
-      s"${if (zMin.isDefined) s" ,${nameOf(zMin).toLowerCase}=${zMin.get}" else ""}" +
-      s"${if (zMax.isDefined) s" ,${nameOf(zMax).toLowerCase}=${zMax.get}" else ""}" +
-      s"${if (grid.isDefined) s" ,${nameOf(grid)}=${grid.get}" else ""}" +
-      s"${if (colorMap.isDefined) s" ,colormap/${colorMap.get}, colorbar" else ""}" +
-      s"${if (header.isDefined) s" ,title=${header.get.toTex}" else ""}" +
-      s"${if (legends.nonEmpty) s" ,legend entries={${legends.map(_.toTex).mkString(",")}}, legend pos=$legendPos" else ""}" +
-      s"${if (fontSize.isDefined) s" ,font=\\${fontSize.get}" else ""}"
+  override def toString: String = {
+    val builder = StringBuilder.newBuilder
+
+    builder ++= s"\t${nameOf(xMode).toLowerCase}=$xMode,\n"
+    builder ++= s"\t${nameOf(yMode).toLowerCase}=$yMode,\n"
+    builder ++= s"\t${nameOf(zMode).toLowerCase}=$zMode,\n"
+    builder ++= s"\taxis background/.style={fill=$backgroundColor},\n"
+    builder ++= s"\taxis x line=$xAxisLinePos,\n"
+    builder ++= s"\taxis y line=$yAxisLinePos,\n"
+    builder ++= s"\tx tick label style={rotate=$rotateXTicks},\n"
+    builder ++= s"\ty tick label style={rotate=$rotateYTicks}"
+
+    if (xAxisHideTicks)
+      builder ++= s",\n\t${nameOf(xTickLabels).toLowerCase}={,,}"
+    else if (xTickLabels.nonEmpty)
+      builder ++= s",\n\tx" + s"tick=data,\n${nameOf(xTickLabels).toLowerCase}={${xTickLabels.mkString(",")}}"
+
+    if (yAxisHideTicks)
+      builder ++= s",\n\t${nameOf(yTickLabels).toLowerCase}={,,}"
+    else if (yTickLabels.nonEmpty)
+      builder ++= s",\n\ty" + s"tick=data,\n${nameOf(yTickLabels).toLowerCase}={${yTickLabels.mkString(",")}}"
+
+    if (xLabel.isDefined) builder ++= s",\n\t${nameOf(xLabel).toLowerCase}=${xLabel.get.toTex}"
+    if (yLabel.isDefined) builder ++= s",\n\t${nameOf(yLabel).toLowerCase}=${yLabel.get.toTex}"
+    if (zLabel.isDefined) builder ++= s",\n\t${nameOf(zLabel).toLowerCase}=${zLabel.get.toTex}"
+
+    if (xMin.isDefined) builder ++= s",\n\t${nameOf(xMin).toLowerCase}=${xMin.get}"
+    if (xMax.isDefined) builder ++= s",\n\t${nameOf(xMax).toLowerCase}=${xMax.get}"
+    if (yMin.isDefined) builder ++= s",\n\t${nameOf(yMin).toLowerCase}=${yMin.get}"
+    if (yMax.isDefined) builder ++= s",\n\t${nameOf(yMax).toLowerCase}=${yMax.get}"
+    if (zMin.isDefined) builder ++= s",\n\t${nameOf(zMin).toLowerCase}=${zMin.get}"
+    if (zMax.isDefined) builder ++= s",\n\t${nameOf(zMax).toLowerCase}=${zMax.get}"
+
+    if (grid.isDefined) builder ++= s",\n\t${nameOf(grid)}=${grid.get}"
+    if (colorMap.isDefined) builder ++= s",\n\tcolormap/${colorMap.get},\n\tcolor" + "bar"
+    if (header.isDefined) builder ++ s",\n\ttitle=${header.get.toTex}"
+    if (fontSize.isDefined) builder ++= s",\n\tfont=\\${fontSize.get}"
+    if (legends.nonEmpty)
+      builder ++= s",\n\tlegend entries={${legends.map(_.toTex).mkString(",")}},\n\tlegend pos=$legendPos"
+
+    builder.result
+  }
 }
