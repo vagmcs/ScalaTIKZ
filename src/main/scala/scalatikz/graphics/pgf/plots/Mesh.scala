@@ -13,42 +13,26 @@ package scalatikz.graphics.pgf.plots
 
 import scalatikz.graphics.PGFPlot
 import scalatikz.graphics.pgf.DataTypes.Coordinates
-import scalatikz.graphics.pgf.enums.{ Color, LineSize, LineStyle, LineType, Mark }
+import scalatikz.graphics.pgf.enums.{ LineSize, LineStyle }
 
 /**
   * Creates a 2D line of the data in Y versus the corresponding values in X.
   *
   * @param coordinates sequence of x, y points in the Euclidean space
-  * @param lineColor line color
-  * @param marker mark style
-  * @param markStrokeColor mark stroke color
-  * @param markFillColor mark fill color
-  * @param markSize mark size
   * @param lineStyle line style
   * @param lineSize line size
-  * @param lineType line type
   */
-case class Line(
+case class Mesh(
     coordinates: Coordinates,
-    lineColor: Color,
-    marker: Mark,
-    markStrokeColor: Color,
-    markFillColor: Color,
-    markSize: Double,
     lineStyle: LineStyle,
-    lineSize: LineSize,
-    lineType: LineType) extends PGFPlot {
+    lineSize: LineSize) extends PGFPlot {
 
   override def toString: String =
     raw"""
          |\addplot[
-         |  $lineType,
-         |  color=$lineColor,
+         |  mesh,
          |  $lineStyle,
-         |  $lineSize,
-         |  mark=$marker,
-         |  mark size=${markSize}pt,
-         |  mark options={draw=$markStrokeColor, fill=$markFillColor}
+         |  $lineSize
          |] coordinates {
          |${coordinates.mkString("\n")}
          |};

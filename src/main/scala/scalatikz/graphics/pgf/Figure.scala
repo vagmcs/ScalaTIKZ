@@ -19,6 +19,7 @@ import scalatikz.graphics.pgf.enums.AxisSystem.{ CARTESIAN, POLAR }
 import scalatikz.graphics.pgf.enums.GridStyle.{ BOTH, MAJOR, MINOR }
 import scalatikz.graphics.pgf.enums.LineSize.THIN
 import scalatikz.graphics.pgf.enums.LineStyle.SOLID
+import scalatikz.graphics.pgf.enums.LineType.{ SHARP, STEPS }
 import scalatikz.graphics.pgf.enums.Mark.NONE
 import scalatikz.graphics.pgf.enums.Pattern.PLAIN
 import scalatikz.graphics.pgf.enums._
@@ -158,7 +159,7 @@ final class Figure private (
     new Figure(axis.copy(fontSize = Some(size)), colorIterator, name, graphics, axisType)
 
   /**
-    * Sets the axis background color
+    * Sets the axis background color.
     *
     * @see [[scalatikz.graphics.pgf.enums.Color]]
     *
@@ -167,6 +168,15 @@ final class Figure private (
     */
   def havingBackgroundColor(color: Color): Figure =
     new Figure(axis.copy(backgroundColor = color), colorIterator, name, graphics, axisType)
+
+  /**
+    * Sets the axis color map.
+    *
+    * @param map a color map
+    * @return a Figure having the given color map
+    */
+  def havingColorMap(map: ColorMap): Figure =
+    new Figure(axis.copy(colorMap = Some(map)), colorIterator, name, graphics, axisType)
 
   /**
     * Sets the legends of the data sequences.
@@ -278,8 +288,7 @@ final class Figure private (
       markFillColor: Color = currentColor,
       markSize: Double = 2,
       lineStyle: LineStyle = SOLID,
-      lineSize: LineSize = THIN,
-      smooth: Boolean = false)(data: Data): Figure =
+      lineSize: LineSize = THIN)(data: Data): Figure =
     new Figure(axis, colorIterator, name, graphics :+ Line(
       data.coordinates,
       color,
@@ -289,7 +298,7 @@ final class Figure private (
       markSize,
       lineStyle,
       lineSize,
-      smooth), POLAR
+      SHARP), POLAR
     )
 
   def polarScatter(data: Data): Figure = polarScatter()(data)
@@ -305,6 +314,26 @@ final class Figure private (
       markStrokeColor,
       markFillColor,
       markSize), POLAR
+    )
+
+  /*
+   * =====================================
+   *
+   * ========: Mesh functions
+   *
+   * =====================================
+   */
+
+  def mesh(data: Data): Figure = mesh()(data)
+
+  def mesh(
+      lineStyle: LineStyle = SOLID,
+      lineSize: LineSize = THIN,
+      lineType: LineType = SHARP)(data: Data): Figure =
+    new Figure(axis, colorIterator, name, graphics :+ Mesh(
+      data.coordinates,
+      lineStyle,
+      lineSize), axisType
     )
 
   /*
@@ -380,7 +409,7 @@ final class Figure private (
     * @param markSize mark size (default is 1 pt)
     * @param lineStyle line style (default is solid)
     * @param lineSize line size (default is thin)
-    * @param smooth true for a smooth line (default is false)
+    * @param lineType line type (default is sharp)
     * @param data sequence of x, y points in the Euclidean space
     */
   def plot(
@@ -391,7 +420,7 @@ final class Figure private (
       markSize: Double = 1,
       lineStyle: LineStyle = SOLID,
       lineSize: LineSize = THIN,
-      smooth: Boolean = false,
+      lineType: LineType = SHARP,
       sparse: Boolean = false)(data: Data): Figure =
     new Figure(axis, colorIterator, name, graphics :+ Line(
       if (sparse) data.sparse.coordinates else data.coordinates,
@@ -402,7 +431,7 @@ final class Figure private (
       markSize,
       lineStyle,
       lineSize,
-      smooth), axisType
+      lineType), axisType
     )
 
   /*
@@ -434,8 +463,7 @@ final class Figure private (
     * @param lineSize line size (default is thin)
     * @param pattern the pattern to fill the area (default is plain color)
     * @param opacity opacity of the area under curve (default is 0.5)
-    * @param smooth true for a smooth line (default is false)
-    * @param constant true for a constant area (default is false)
+    * @param lineType line type (default is sharp)
     * @param data sequence of x, y points in the Euclidean space
     */
   def area(
@@ -448,10 +476,10 @@ final class Figure private (
       lineSize: LineSize = THIN,
       pattern: Pattern = PLAIN,
       opacity: Double = 0.5,
-      smooth: Boolean = false,
-      constant: Boolean = false)(data: Data): Figure =
+      lineType: LineType = SHARP)(data: Data): Figure =
     new Figure(axis, colorIterator, name, graphics :+ Area(
       data.coordinates,
+      color,
       color,
       marker,
       markStrokeColor,
@@ -461,8 +489,7 @@ final class Figure private (
       lineSize,
       pattern,
       opacity,
-      smooth,
-      constant), axisType
+      lineType), axisType
     )
 
   /*
@@ -544,7 +571,7 @@ final class Figure private (
       markSize: Double = 1,
       lineStyle: LineStyle = SOLID,
       lineSize: LineSize = THIN)(data: Data): Figure =
-    new Figure(axis, colorIterator, name, graphics :+ Stair(
+    new Figure(axis, colorIterator, name, graphics :+ Line(
       data.coordinates,
       color,
       marker,
@@ -552,7 +579,8 @@ final class Figure private (
       markFillColor,
       markSize,
       lineStyle,
-      lineSize), axisType
+      lineSize,
+      STEPS), axisType
     )
 
   /*
@@ -622,7 +650,7 @@ final class Figure private (
     * @param markSize mark size
     * @param lineStyle line style
     * @param lineSize line size
-    * @param smooth true in case the line is smooth
+    * @param lineType line type
     * @param data sequence of x, y points in the Euclidean space along
     *             a sequence of x-error, y-error points.
     */
@@ -634,7 +662,7 @@ final class Figure private (
       markSize: Double = 1,
       lineStyle: LineStyle = SOLID,
       lineSize: LineSize = THIN,
-      smooth: Boolean = false)(data: Data)(error: Data): Figure =
+      lineType: LineType = SHARP)(data: Data)(error: Data): Figure =
     new Figure(axis, colorIterator, name, graphics :+ ErrorBar(
       data.coordinates,
       error.coordinates,
@@ -645,7 +673,7 @@ final class Figure private (
       markSize,
       lineStyle,
       lineSize,
-      smooth), axisType
+      lineType), axisType
     )
 
   /*
@@ -677,7 +705,7 @@ final class Figure private (
     * @param lineStyle line style
     * @param lineSize line size
     * @param opacity opacity of the error area
-    * @param smooth true in case the line is smooth
+    * @param lineType line type
     * @param data sequence of x, y points in the Euclidean space along
     *             a sequence of x-error, y-error points.
     */
@@ -690,7 +718,7 @@ final class Figure private (
       lineStyle: LineStyle = SOLID,
       lineSize: LineSize = THIN,
       opacity: Double = 0.2,
-      smooth: Boolean = false)(data: Data)(error: Data): Figure =
+      lineType: LineType = SHARP)(data: Data)(error: Data): Figure =
     new Figure(axis, colorIterator, name, graphics :+ ErrorArea(
       data.coordinates,
       error.coordinates,
@@ -702,14 +730,22 @@ final class Figure private (
       lineStyle,
       lineSize,
       opacity,
-      smooth), axisType
+      lineType), axisType
     )
 
   override def toString: String =
-    s"\\begin{$axisType}[" +
-      s"$axis] " +
-      s"${graphics.mkString("\n")} " +
-      s"\\end{$axisType}"
+    raw"""
+      |\begin{$axisType}[
+      |$axis
+      |]
+      |${graphics.mkString("\n")}
+      |\end{$axisType}
+    """.stripMargin
+
+  //    s"\\begin{$axisType}[" +
+  //      s"$axis] " +
+  //      s"${graphics.mkString("\n")} " +
+  //      s"\\end{$axisType}"
 }
 
 final class BipolarFigure private[graphics] (

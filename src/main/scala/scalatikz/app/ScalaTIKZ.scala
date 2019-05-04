@@ -17,6 +17,7 @@ import scalatikz.app.GraphType._
 import scalatikz.common.CSV
 import scalatikz.graphics.pgf.DataTypes._
 import scalatikz.graphics.pgf.enums._
+import scalatikz.graphics.pgf.enums.LineType._
 import scalatikz.graphics.pgf.enums.AxisLinePos.BOX
 import scalatikz.graphics.pgf.enums.FontSize.NORMAL
 import scalatikz.graphics.pgf.enums.LineSize.THIN
@@ -85,7 +86,7 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
 
   opt[Unit]('T', "stair".underlined).unbounded
     .action((_, conf) => conf.copy(graphics = conf.graphics :+ GraphicConf(STAIR)))
-    .text("Plots a data sequence as a 2D stair step.")
+    .text("Plots a data sequence as a 2D stair steps.")
 
   opt[Unit]('W', "error-area".underlined).unbounded
     .action((_, conf) => conf.copy(graphics = conf.graphics :+ GraphicConf(ERROR_AREA)))
@@ -215,7 +216,7 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
   opt[Unit]('h', "smooth".underlined).unbounded.optional
     .action { (_, conf) =>
       if (conf.graphics.isEmpty) fatal("You must define a plot type before a smooth option.")
-      else conf.copy(graphics = conf.graphics.init :+ conf.graphics.last.copy(smooth = true))
+      else conf.copy(graphics = conf.graphics.init :+ conf.graphics.last.copy(lineType = SMOOTH))
     }.text("Smooth lines.\n")
 
   opt[Double]('O', "opacity".underlined).valueName("<double>".bold).unbounded.optional
@@ -227,7 +228,7 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
   opt[Unit]('r', "constant-area".underlined).unbounded.optional
     .action { (_, conf) =>
       if (conf.graphics.isEmpty) fatal("You must define a plot type before a constant area option.")
-      else conf.copy(graphics = conf.graphics.init :+ conf.graphics.last.copy(constant = true))
+      else conf.copy(graphics = conf.graphics.init :+ conf.graphics.last.copy(lineType = STEPS))
     }.text("Enable constant area plots.")
 
   // Figure options
@@ -376,7 +377,7 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
                   markSize        = graphic.markSize,
                   lineStyle       = graphic.lineStyle.getOrElse(SOLID),
                   lineSize        = graphic.lineSize.getOrElse(THIN),
-                  smooth          = graphic.smooth
+                  lineType        = graphic.lineType
                 )(coordinates)
 
             case STEM =>
@@ -413,8 +414,7 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
                   lineSize        = graphic.lineSize.getOrElse(THIN),
                   pattern         = graphic.pattern.getOrElse(PLAIN),
                   opacity         = graphic.opacity,
-                  smooth          = graphic.smooth,
-                  constant        = graphic.constant
+                  lineType        = graphic.lineType
                 )(coordinates)
 
             case STAIR =>
@@ -462,7 +462,7 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
                   lineStyle       = graphic.lineStyle.getOrElse(SOLID),
                   lineSize        = graphic.lineSize.getOrElse(THIN),
                   opacity         = graphic.opacity,
-                  smooth          = graphic.smooth
+                  lineType        = graphic.lineType
                 )(coordinates)(error)
 
             case ERROR_BAR =>
@@ -496,7 +496,7 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
                   markSize        = graphic.markSize,
                   lineStyle       = graphic.lineStyle.getOrElse(SOLID),
                   lineSize        = graphic.lineSize.getOrElse(THIN),
-                  smooth          = graphic.smooth
+                  lineType        = graphic.lineType
                 )(coordinates)(error)
 
             case BAR =>

@@ -1,0 +1,42 @@
+package scalatikz.graphics.pgf.plots
+
+import scalatikz.graphics.PGFPlot
+import scalatikz.graphics.pgf.DataTypes.Coordinates
+import scalatikz.graphics.pgf.enums.Pattern.PLAIN
+import scalatikz.graphics.pgf.enums.{ Color, LineSize, LineStyle, Pattern }
+
+/**
+  * Creates 2D bars of the data in Y versus the corresponding values in X.
+  *
+  * @param coordinates sequence of x, y points in the Euclidean space
+  * @param color line color
+  * @param pattern a pattern to fill the bars
+  * @param lineStyle line style
+  * @param lineSize line size
+  * @param opacity opacity of the bars
+  * @param barWidth the bars width
+  */
+case class xBar(
+                 coordinates: Coordinates,
+                 color: Color,
+                 pattern: Pattern,
+                 lineStyle: LineStyle,
+                 lineSize: LineSize,
+                 opacity: Double,
+                 barWidth: Double) extends PGFPlot {
+
+  override def toString: String =
+    raw"""
+         |\addplot[
+         |  xbar,
+         |  color=$color,
+         |  $lineStyle,
+         |  $lineSize,
+         |  bar width=$barWidth,
+         |  fill opacity=$opacity,
+         |  ${if (pattern != PLAIN) s"pattern=$pattern, pattern color=$color" else s"fill=$color"}
+         |] coordinates {
+         |${coordinates.mkString("\n")}
+         |};
+    """.stripMargin
+}

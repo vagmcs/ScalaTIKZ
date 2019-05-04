@@ -13,42 +13,39 @@ package scalatikz.graphics.pgf.plots
 
 import scalatikz.graphics.PGFPlot
 import scalatikz.graphics.pgf.DataTypes.Coordinates
-import scalatikz.graphics.pgf.enums.{ Color, LineSize, LineStyle, LineType, Mark }
+import scalatikz.graphics.pgf.enums.Pattern.PLAIN
+import scalatikz.graphics.pgf.enums.{ Color, LineSize, LineStyle, Pattern }
 
 /**
-  * Creates a 2D line of the data in Y versus the corresponding values in X.
+  * Creates 2D bars of the data in X versus the corresponding values in Y.
   *
   * @param coordinates sequence of x, y points in the Euclidean space
-  * @param lineColor line color
-  * @param marker mark style
-  * @param markStrokeColor mark stroke color
-  * @param markFillColor mark fill color
-  * @param markSize mark size
+  * @param color line color
+  * @param pattern a pattern to fill the bars
   * @param lineStyle line style
   * @param lineSize line size
-  * @param lineType line type
+  * @param opacity opacity of the bars
+  * @param barWidth the bars width
   */
-case class Line(
+case class yBar(
     coordinates: Coordinates,
-    lineColor: Color,
-    marker: Mark,
-    markStrokeColor: Color,
-    markFillColor: Color,
-    markSize: Double,
+    color: Color,
+    pattern: Pattern,
     lineStyle: LineStyle,
     lineSize: LineSize,
-    lineType: LineType) extends PGFPlot {
+    opacity: Double,
+    barWidth: Double) extends PGFPlot {
 
   override def toString: String =
     raw"""
          |\addplot[
-         |  $lineType,
-         |  color=$lineColor,
+         |  ybar,
+         |  color=$color,
          |  $lineStyle,
          |  $lineSize,
-         |  mark=$marker,
-         |  mark size=${markSize}pt,
-         |  mark options={draw=$markStrokeColor, fill=$markFillColor}
+         |  bar width=$barWidth,
+         |  fill opacity=$opacity,
+         |  ${if (pattern != PLAIN) s"pattern=$pattern, pattern color=$color" else s"fill=$color"}
          |] coordinates {
          |${coordinates.mkString("\n")}
          |};

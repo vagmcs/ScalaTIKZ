@@ -14,6 +14,7 @@ package scalatikz.app
 import scalatikz.app.GraphType.GraphType
 import scalatikz.graphics.Compiler
 import scalatikz.graphics.pgf.Figure
+import scalatikz.graphics.pgf.enums.LineType.SHARP
 import scalatikz.graphics.pgf.enums._
 
 trait OptionConf
@@ -43,5 +44,4 @@ final case class GraphicConf(
     pattern: Option[Pattern] = None,
     barWidth: Double = .5,
     opacity: Double = .5,
-    smooth: Boolean = false,
-    constant: Boolean = false)
+    lineType: LineType = SHARP)

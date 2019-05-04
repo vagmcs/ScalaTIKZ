@@ -16,8 +16,9 @@ import scalatikz.graphics.pgf.DataTypes.Coordinates
 import scalatikz.graphics.pgf.enums.{ Color, Mark }
 
 /**
-  * Creates a scatter at the locations specified by the data sequence. The type
-  * of the graph is also called a bubble plot.
+  * Creates a scatter of points specified by the data sequence.
+  *
+  * @note Scatter plot is also called a bubble plot.
   *
   * @param coordinates sequence of x, y points in the Euclidean space
   * @param marker mark style
@@ -25,7 +26,7 @@ import scalatikz.graphics.pgf.enums.{ Color, Mark }
   * @param markFillColor mark fill color
   * @param markSize mark size
   */
-final class Scatter private (
+case class Scatter(
     coordinates: Coordinates,
     marker: Mark,
     markStrokeColor: Color,
@@ -34,31 +35,13 @@ final class Scatter private (
 
   override def toString: String =
     raw"""
-       | \addplot[mark=$marker, only marks, mark size=${markSize}pt,
-       |          mark options={draw=$markStrokeColor, fill=$markFillColor}
-       |         ] coordinates {
-       |   ${coordinates.mkString("\n")}
-       | };
-  """.stripMargin
-}
-
-private[graphics] object Scatter {
-
-  /**
-    * Creates a scatter at the locations specified by the data sequence. The type
-    * of the graph is also called a bubble plot.
-    *
-    * @param coordinates sequence of x, y points in the Euclidean space
-    * @param marker mark style
-    * @param markStrokeColor mark stroke color
-    * @param markFillColor mark fill color
-    * @param markSize mark size
-    */
-  def apply(
-      coordinates: Coordinates,
-      marker: Mark,
-      markStrokeColor: Color,
-      markFillColor: Color,
-      markSize: Double): Scatter =
-    new Scatter(coordinates, marker, markStrokeColor, markFillColor, markSize)
+       |\addplot[
+       |  only marks,
+       |  mark=$marker,
+       |  mark size=${markSize}pt,
+       |  mark options={draw=$markStrokeColor, fill=$markFillColor}
+       |] coordinates {
+       |${coordinates.mkString("\n")}
+       |};
+    """.stripMargin
 }

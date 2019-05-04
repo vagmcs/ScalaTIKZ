@@ -44,21 +44,21 @@ trait TIKZPicture[T <: Graphic] extends Logging {
   // Keep scale to 2. It seems much cleaner.
   private def asTex: String =
     raw"""
-       | \documentclass{standalone}
+       |\documentclass{standalone}
        |
-       | \usepackage{tikz,pgfplots,luatex85}
-       | \usetikzlibrary{plotmarks}
-       | \usetikzlibrary{patterns}
-       | \usetikzlibrary{pgfplots.polar}
-       | \usepgfplotslibrary{fillbetween}
-       | \pgfplotsset{compat=newest}
+       |\usepackage{tikz,pgfplots,luatex85}
+       |\usetikzlibrary{plotmarks}
+       |\usetikzlibrary{patterns}
+       |\usetikzlibrary{pgfplots.polar}
+       |\usepgfplotslibrary{fillbetween}
+       |\pgfplotsset{compat=newest}
        |
-       | \begin{document}
-       | \pagestyle{empty}
-       |  \begin{tikzpicture}[scale=2]
-       |   ${this.toString}
-       |  \end{tikzpicture}
-       | \end{document}
+       |\begin{document}
+       |\pagestyle{empty}
+       |\begin{tikzpicture}[scale=2]
+       |${this.toString}
+       |\end{tikzpicture}
+       |\end{document}
     """.stripMargin
 
   /**
@@ -124,7 +124,7 @@ trait TIKZPicture[T <: Graphic] extends Logging {
     *         exception, a Failure object is returned holding the exception.
     */
   final def saveAsTeX(path: String): Try[File] = Try {
-    val stream: PrintStream = new PrintStream(s"$path/$name.tex")
+    val stream = new PrintStream(s"$path/$name.tex")
     stream println asTex
     stream.close()
 
