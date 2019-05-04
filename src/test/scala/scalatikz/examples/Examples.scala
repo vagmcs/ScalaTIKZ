@@ -20,6 +20,7 @@ import scalatikz.graphics.pgf.enums.FontSize.FOOTNOTE
 import scalatikz.graphics.pgf.enums.LegendPos.{NORTH_EAST, SOUTH_WEST}
 import scalatikz.graphics.pgf.enums.LineSize.VERY_THIN
 import scalatikz.graphics.pgf.enums.LineStyle.DASHED
+import scalatikz.graphics.pgf.enums.LineType.SMOOTH
 import scalatikz.graphics.pgf.enums.Mark.{CIRCLE, DOT}
 
 object Examples extends App {
@@ -58,7 +59,7 @@ object Examples extends App {
   val x = -5.0 to 5.0 by 0.1
 
   Figure("gaussian")
-    .plot(color = BLUE, smooth = true)(x -> gaussian(0, 0.2) _)
+    .plot(color = BLUE, lineType = SMOOTH)(x -> gaussian(0, 0.2) _)
     .plot(color = RED)(x -> gaussian(0, 1) _)
     .plot(color = YELLOW!70!BLACK)(x -> gaussian(0, 5) _)
     .plot(color = GREEN)(x -> gaussian(-2, 0.5) _)
@@ -120,7 +121,7 @@ object Examples extends App {
 
   Figure("stem")
     .stem(color = BLUE!50!BLACK, marker = CIRCLE)(randomPoints)
-    .plot(color = GREEN!50!BLACK, lineStyle = DASHED, smooth = true)(randomPoints)
+    .plot(color = GREEN!50!BLACK, lineStyle = DASHED, lineType = SMOOTH)(randomPoints)
     .saveAsPNG("images")
 
 
