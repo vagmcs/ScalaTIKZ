@@ -12,10 +12,10 @@
 package scalatikz.app
 
 import scalatikz.app.GraphType.GraphType
-import scalatikz.graphics.Compiler
-import scalatikz.graphics.pgf.Figure
-import scalatikz.graphics.pgf.enums.LineType.SHARP
-import scalatikz.graphics.pgf.enums._
+import scalatikz.pgf.Compiler
+import scalatikz.pgf.plots.Figure
+import scalatikz.pgf.plots.enums.LineType.SHARP
+import scalatikz.pgf.plots.enums._
 
 trait OptionConf
 

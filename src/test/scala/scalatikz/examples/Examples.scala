@@ -5,7 +5,7 @@
  *  _\ \/ __/ _ `/ / _ `// / _/ // ,<   / /_
  * /___/\__/\_,_/_/\_,_//_/ /___/_/|_| /___/
  *
- * A plot library for Scala.
+ * A PGF/TIKZ plot library for Scala.
  *
  */
 
@@ -13,15 +13,15 @@ package scalatikz.examples
 
 import math._
 import scala.util.Random
-import scalatikz.graphics.pgf.Figure
-import scalatikz.graphics.pgf.enums.AxisLinePos.{BOTTOM, LEFT}
-import scalatikz.graphics.pgf.enums.Color.{BLACK, BLUE, GREEN, RED, WHITE, YELLOW}
-import scalatikz.graphics.pgf.enums.FontSize.FOOTNOTE
-import scalatikz.graphics.pgf.enums.LegendPos.{NORTH_EAST, SOUTH_WEST}
-import scalatikz.graphics.pgf.enums.LineSize.VERY_THIN
-import scalatikz.graphics.pgf.enums.LineStyle.DASHED
-import scalatikz.graphics.pgf.enums.LineType.SMOOTH
-import scalatikz.graphics.pgf.enums.Mark.{CIRCLE, DOT}
+import scalatikz.pgf.plots.Figure
+import scalatikz.pgf.plots.enums.AxisLinePos.{ BOTTOM, LEFT }
+import scalatikz.pgf.plots.enums.Color.{ BLACK, BLUE, GREEN, RED, WHITE, YELLOW }
+import scalatikz.pgf.plots.enums.FontSize.FOOTNOTE
+import scalatikz.pgf.plots.enums.LegendPos.{ NORTH_EAST, SOUTH_WEST }
+import scalatikz.pgf.plots.enums.LineSize.VERY_THIN
+import scalatikz.pgf.plots.enums.LineStyle.DASHED
+import scalatikz.pgf.plots.enums.LineType.SMOOTH
+import scalatikz.pgf.plots.enums.Mark.{ CIRCLE, DOT }
 
 object Examples extends App {
 
@@ -29,7 +29,7 @@ object Examples extends App {
    * Bars for the function y = x^2
    */
   Figure("bar")
-    .bar(color = BLUE!80!WHITE)((-20 to 20).map(x => (x, x * x)))
+    .bar(color = BLUE ! 80 ! WHITE)((-20 to 20).map(x => (x, x * x)))
     .havingXLabel("$X$")
     .havingYLabel("$Y$")
     .saveAsPNG("images")
@@ -49,19 +49,18 @@ object Examples extends App {
     .havingTitle("$\\sin(x)$ vs $\\cos(x)$")
     .saveAsPNG("images")
 
-
   /*
    * Gaussian distributions
    */
   def gaussian(mean: Double, variance: Double)(x: Double): Double =
-    1 / sqrt(2 * Pi * variance) * exp( -pow(x - mean, 2) / (2 * variance))
+    1 / sqrt(2 * Pi * variance) * exp(-pow(x - mean, 2) / (2 * variance))
 
   val x = -5.0 to 5.0 by 0.1
 
   Figure("gaussian")
-    .plot(color = BLUE, lineType = SMOOTH)(x -> gaussian(0, 0.2) _)
+    .plot(color    = BLUE, lineType = SMOOTH)(x -> gaussian(0, 0.2) _)
     .plot(color = RED)(x -> gaussian(0, 1) _)
-    .plot(color = YELLOW!70!BLACK)(x -> gaussian(0, 5) _)
+    .plot(color = YELLOW ! 70 ! BLACK)(x -> gaussian(0, 5) _)
     .plot(color = GREEN)(x -> gaussian(-2, 0.5) _)
     .havingXLabel("$X$")
     .havingXLimits(-5, 5)
@@ -77,7 +76,6 @@ object Examples extends App {
     .havingFontSize(FOOTNOTE)
     .saveAsPNG("images")
 
-
   /*
    * Area plot
    */
@@ -88,18 +86,16 @@ object Examples extends App {
       xx -> ((x: Double) => sin(4 * Pi * x) * exp(-5 * x))
     }.saveAsPNG("images")
 
-
   /*
    * Spline plot
    */
   val xs = 0.0 to 2 * Pi by 0.1
 
   Figure("spline")
-    .plot(color = BLACK, lineStyle = DASHED)(xs -> sin _)
+    .plot(color     = BLACK, lineStyle = DASHED)(xs -> sin _)
     .scatter(markFillColor = RED, markSize = 1.5) {
       xs -> ((x: Double) => sin(x) + 0.1 * Random.nextGaussian)
     }.saveAsPNG("images")
-
 
   /*
    * Dark background plot
@@ -108,10 +104,11 @@ object Examples extends App {
 
   val figure =
     Figure("dark")
-      .havingBackgroundColor(BLACK!50)
+      .havingBackgroundColor(BLACK ! 50)
 
-  (1 to 6).foldLeft(figure) { case (fig, s) =>
-    fig.plot(marker = DOT, markSize = 1.5)(xxs -> ((x: Double) => sin(x + s)))
+  (1 to 6).foldLeft(figure) {
+    case (fig, s) =>
+      fig.plot(marker   = DOT, markSize = 1.5)(xxs -> ((x: Double) => sin(x + s)))
   }.saveAsPNG("images")
 
   /*
@@ -120,16 +117,15 @@ object Examples extends App {
   val randomPoints = (1 to 20).map(_ => Random.nextDouble)
 
   Figure("stem")
-    .stem(color = BLUE!50!BLACK, marker = CIRCLE)(randomPoints)
-    .plot(color = GREEN!50!BLACK, lineStyle = DASHED, lineType = SMOOTH)(randomPoints)
+    .stem(color  = BLUE ! 50 ! BLACK, marker = CIRCLE)(randomPoints)
+    .plot(color     = GREEN ! 50 ! BLACK, lineStyle = DASHED, lineType = SMOOTH)(randomPoints)
     .saveAsPNG("images")
-
 
   /*
    * Error bar
    */
   Figure("error_bar")
-    .errorBar(BLUE!50!BLACK) {
+    .errorBar(BLUE ! 50 ! BLACK) {
       (0.0 to 1.0 by 0.1) -> ((x: Double) => x / 2.0)
     } {
       (1 to (0.0 to 1.0 by 0.1).length).map(_ => 0.0 -> scala.util.Random.nextDouble)
@@ -151,12 +147,12 @@ object Examples extends App {
         .havingYLabel("$\\log(x)$")
     }
     .subFigure(0, 1) { x =>
-      x.plot(GREEN!40!BLACK)((-5.0 to 5.0 by 0.1) -> ((x: Double) => pow(x, 2)))
+      x.plot(GREEN ! 40 ! BLACK)((-5.0 to 5.0 by 0.1) -> ((x: Double) => pow(x, 2)))
         .havingXLabel("$x$")
         .havingYLabel("$x^2$")
     }
     .subFigure(1, 0) { x =>
-      x.plot(YELLOW!BLACK)((0.0 to 1.0 by 0.1) -> ((x: Double) => x))
+      x.plot(YELLOW ! BLACK)((0.0 to 1.0 by 0.1) -> ((x: Double) => x))
         .havingXLabel("$x$")
         .havingYLabel("$y$")
     }

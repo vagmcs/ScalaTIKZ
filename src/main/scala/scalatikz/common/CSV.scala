@@ -17,7 +17,7 @@ import java.io.{ File, FileInputStream, InputStream, UnsupportedEncodingExceptio
 import java.util.zip.{ GZIPInputStream, ZipInputStream }
 import scala.collection.JavaConverters._
 import scala.util.{ Failure, Success, Try }
-import scalatikz.graphics.pgf.DataTypes.DataSeq
+import scalatikz.pgf.plots.DataTypes.DataSeq
 
 object CSV {
 
