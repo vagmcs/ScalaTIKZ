@@ -17,7 +17,7 @@ import java.awt.event.WindowEvent
 
 import javax.swing.SwingUtilities
 import scalatikz.pgf.automata.{Automaton, State}
-import scalatikz.pgf.plots.{DoubleAxisFigure, Figure}
+import scalatikz.pgf.plots.{BarFigure, DoubleAxisFigure, Figure}
 import scalatikz.pgf.plots.enums.LineSize.VERY_THIN
 import scalatikz.pgf.plots.enums.{AxisLinePos, ColorMap}
 import scalatikz.pgf.plots.enums.Color._
@@ -50,6 +50,17 @@ object Test extends App {
   //
   //  sys.exit()
 
+  BarFigure("test")
+    .bar(Seq(1,2,3))
+    .bar(Seq(7,1,8))
+    .plot(Seq(1,2,8))
+    .havingHeight(8)
+    .havingWidth(15.3)
+    .havingAxisXLabels(Seq("MacOS", "Linux", "Windows"))
+    .show()
+
+  sys.exit
+
   val xx = -2 * math.Pi to 2 * math.Pi by 0.01
 
   Figure("test")
@@ -76,7 +87,7 @@ object Test extends App {
     .state("$q_3$").havingLoopAbove("$aa$").rightOf("$q_2$")
     .state("$q_4$").rightOf("$q_3$")
     .acceptingState("o").rightOf("$q_4$")
-    .showIntoFrame()
+    .show()
 
   //.state("$q_1$").belowOf("$q_0$")
   //.acceptingState("$q_2$").belowOf("$q_1$")

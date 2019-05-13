@@ -19,6 +19,8 @@ import scalatikz.pgf.plots.enums._
 
 trait OptionConf
 
+final case class InitialConf(three: Int = -1) extends OptionConf
+
 final case class Conf(
     output: String = System.getProperty("user.dir"),
     format: String = "PDF",

@@ -24,7 +24,7 @@ import scalatikz.pgf.plots.enums.Mark.NONE
 import scalatikz.pgf.plots.enums.Pattern.PLAIN
 import scalatikz.pgf.plots.enums._
 
-final class Figure private (
+final class Figure private[plots] (
     val axis: Axis,
     colorIterator: Iterator[Color],
     override val name: String,
@@ -268,6 +268,12 @@ final class Figure private (
   def rotateYTicks(degrees: Int): Figure =
     new Figure(axis.copy(rotateYTicks = degrees), colorIterator, name, graphics, axisType)
 
+  def havingHeight(centimeters: Double): Figure =
+    new Figure(axis.copy(height = Some(centimeters)), colorIterator, name, graphics, axisType)
+
+  def havingWidth(centimeters: Double): Figure =
+    new Figure(axis.copy(width = Some(centimeters)), colorIterator, name, graphics, axisType)
+
   /*
    * =====================================
    *
@@ -368,7 +374,7 @@ final class Figure private (
       lineStyle: LineStyle = SOLID,
       lineSize: LineSize = THIN,
       opacity: Double = 1,
-      barWidth: Double = 0.5)(data: Data): Figure =
+      barWidth: Double = 0.1)(data: Data): Figure =
     new Figure(axis, colorIterator, name, graphics :+ yBar(
       data.coordinates,
       color,
@@ -829,4 +835,9 @@ object DoubleAxisFigure {
       Figure("").havingXAxisLinePos(AxisLinePos.BOTTOM).havingYAxisLinePos(AxisLinePos.LEFT),
       Figure("").havingXAxisLinePos(AxisLinePos.TOP).havingYAxisLinePos(AxisLinePos.RIGHT)
     ))
+}
+
+object BarFigure {
+  def apply(name: String): Figure =
+    new Figure(Axis().copy(yBarOnly = true), Iterator.continually(Color.values).flatten, name, Seq.empty[PGFPlot], CARTESIAN)
 }

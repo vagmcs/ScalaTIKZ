@@ -62,6 +62,10 @@ case class Axis private (
     yMax: Option[Double] = None,
     zMin: Option[Double] = None,
     zMax: Option[Double] = None,
+    xBarOnly: Boolean = false,
+    yBarOnly: Boolean = false,
+    width: Option[Double] = None,
+    height: Option[Double] = None,
     grid: Option[GridStyle] = None,
     colorMap: Option[ColorMap] = None,
     backgroundColor: Color = WHITE,
@@ -78,12 +82,23 @@ case class Axis private (
     rotateXTicks: Int = 0,
     rotateYTicks: Int = 0) {
 
+  // TODO enlarge x,y,z limits
+  // TODO ybar stacked
+
   override def toString: String = {
     val builder = StringBuilder.newBuilder
 
-    builder ++= s"\t${nameOf(xMode).toLowerCase}=$xMode,\n"
-    builder ++= s"\t${nameOf(yMode).toLowerCase}=$yMode,\n"
-    builder ++= s"\t${nameOf(zMode).toLowerCase}=$zMode,\n"
+    if (xBarOnly) builder ++= s"\t${'xBar.name.toLowerCase},\n"
+    else if (yBarOnly) builder ++= s"\t${'yBar.name.toLowerCase},\n"
+
+    builder ++= s"\tnodes near coords,\n" // TODO can it go to each addplot command
+
+    if (height.isDefined) builder ++= s"\theight=${height.get}cm,\n"
+    if (width.isDefined) builder ++= s"\twidth=${width.get}cm,\n"
+
+    builder ++= s"\t${'xMode.name.toLowerCase}=$xMode,\n"
+    builder ++= s"\t${'yMode.name.toLowerCase}=$yMode,\n"
+    builder ++= s"\t${'zMode.name.toLowerCase}=$zMode,\n"
     builder ++= s"\taxis background/.style={fill=$backgroundColor},\n"
     builder ++= s"\taxis x line=$xAxisLinePos,\n"
     builder ++= s"\taxis y line=$yAxisLinePos,\n"
@@ -104,8 +119,8 @@ case class Axis private (
     if (yLabel.isDefined) builder ++= s",\n\t${nameOf(yLabel).toLowerCase}=${yLabel.get.toTex}"
     if (zLabel.isDefined) builder ++= s",\n\t${nameOf(zLabel).toLowerCase}=${zLabel.get.toTex}"
 
-    if (xMin.isDefined) builder ++= s",\n\t${nameOf(xMin).toLowerCase}=${xMin.get}"
-    if (xMax.isDefined) builder ++= s",\n\t${nameOf(xMax).toLowerCase}=${xMax.get}"
+    if (xMin.isDefined) builder ++= s",\n\t${'xMin.name.toLowerCase}=${xMin.get}"
+    if (xMax.isDefined) builder ++= s",\n\t${'xMax.name.toLowerCase}=${xMax.get}"
     if (yMin.isDefined) builder ++= s",\n\t${nameOf(yMin).toLowerCase}=${yMin.get}"
     if (yMax.isDefined) builder ++= s",\n\t${nameOf(yMax).toLowerCase}=${yMax.get}"
     if (zMin.isDefined) builder ++= s",\n\t${nameOf(zMin).toLowerCase}=${zMin.get}"
