@@ -11,68 +11,66 @@
 
 package scalatikz.pgf.plots.types
 
-import scalatikz.pgf.PGFPlot
 import scalatikz.pgf.plots.DataTypes.Coordinates2D
-import scalatikz.pgf.plots.enums.{ Color, LineSize, LineStyle, Mark }
+import scalatikz.pgf.plots.enums.Pattern.PLAIN
+import scalatikz.pgf.plots.enums._
 
 /**
+  * Creates a 2D line of the data in Y versus the corresponding values in X
+  * and fills the area beneath the curve.
+  *
   * Creates a 2D line of the data in Y versus the corresponding values in X.
   *
-  * @param coordinates sequence of x, y points in the Euclidean space
-  * @param lineColor line color
+  * @param coordinates sequence of x, y points in the Euclidean space.
+  * @param lineType
+  * @param lineColor area color
+  * @param lineStyle line style
+  * @param lineSize line size
   * @param marker mark style
   * @param markStrokeColor mark stroke color
   * @param markFillColor mark fill color
   * @param markSize mark size
-  * @param lineStyle line style
-  * @param lineSize line size
-  * @param smooth true in case the line is smooth
+  * @param pattern the pattern to fill the area under the curve
+  * @param fillColor
+  * @param opacity opacity of the area under the curve
   */
-final class Line private (
-                           coordinates: Coordinates2D,
-                           lineColor: Color,
-                           marker: Mark,
-                           markStrokeColor: Color,
-                           markFillColor: Color,
-                           markSize: Double,
-                           lineStyle: LineStyle,
-                           lineSize: LineSize,
-                           smooth: Boolean) extends PGFPlot {
+case class Line(
+    coordinates: Coordinates2D,
+    lineType: LineType,
+    lineColor: Color,
+    lineStyle: LineStyle,
+    lineSize: LineSize,
+    marker: Mark,
+    markStrokeColor: Color,
+    markFillColor: Color,
+    markSize: Double,
+    pattern: Pattern = PLAIN,
+    fillColor: Option[Color] = None,
+    opacity: Double = 0.5) extends PGFPlot {
 
-  override def toString: String =
+  override def toString: String = {
+
+    val fill =
+      if (fillColor.nonEmpty && pattern == PLAIN)
+        Some(s"fill=${fillColor.get}, fill opacity=$opacity")
+      else if (fillColor.nonEmpty && pattern != PLAIN)
+        Some(s"pattern=$pattern, pattern color=${fillColor.get}, fill opacity=$opacity")
+      else if (fillColor.isEmpty && pattern != PLAIN)
+        Some(s"pattern=$pattern, pattern color=$lineColor, fill opacity=$opacity")
+      else None
+
     raw"""
-    | \addplot[$lineStyle, $lineSize, color=$lineColor, mark=$marker, mark size=${markSize}pt,
-    |          mark options={draw=$markStrokeColor, fill=$markFillColor}
-    |          ${if (smooth) ", smooth]" else "]"} coordinates {
-    |   ${coordinates.mkString("\n")}
-    | };
-  """.stripMargin
-}
-
-private[pgf] object Line {
-
-  /**
-    * Creates a 2D line of the data in Y versus the corresponding values in X.
-    *
-    * @param coordinates sequence of x, y points in the Euclidean space
-    * @param lineColor line color
-    * @param marker mark style
-    * @param markStrokeColor mark stroke color
-    * @param markFillColor mark fill color
-    * @param markSize mark size (default is 2 pt)
-    * @param lineStyle line style (default is solid)
-    * @param lineSize line size (default is thin)
-    * @param smooth true in case the line is smooth
-    */
-  def apply(
-             coordinates: Coordinates2D,
-             lineColor: Color,
-             marker: Mark,
-             markStrokeColor: Color,
-             markFillColor: Color,
-             markSize: Double,
-             lineStyle: LineStyle,
-             lineSize: LineSize,
-             smooth: Boolean): Line =
-    new Line(coordinates, lineColor, marker, markStrokeColor, markFillColor, markSize, lineStyle, lineSize, smooth)
+         |\addplot[
+         |  $lineType,
+         |  color=$lineColor,
+         |  $lineStyle,
+         |  $lineSize,
+         |  mark=$marker,
+         |  mark size=${markSize}pt,
+         |  mark options={draw=$markStrokeColor, fill=$markFillColor}${if (fill.nonEmpty) s",\n  ${fill.get}" else ""}
+         |] coordinates {
+         |${coordinates.mkString("\n")}
+         |};
+    """.stripMargin
+  }
 }

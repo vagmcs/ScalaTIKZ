@@ -11,7 +11,6 @@
 
 package scalatikz.pgf.plots.types
 
-import scalatikz.pgf.PGFPlot
 import scalatikz.pgf.plots.DataTypes.Coordinates2D
 import scalatikz.pgf.plots.enums.{ Color, Mark }
 
@@ -26,42 +25,24 @@ import scalatikz.pgf.plots.enums.{ Color, Mark }
   * @param markFillColor mark fill color
   * @param markSize mark size
   */
-final class Stem private (
-                           coordinates: Coordinates2D,
-                           lineColor: Color,
-                           marker: Mark,
-                           markStrokeColor: Color,
-                           markFillColor: Color,
-                           markSize: Double) extends PGFPlot {
+case class Stem(
+    coordinates: Coordinates2D,
+    lineColor: Color,
+    marker: Mark,
+    markStrokeColor: Color,
+    markFillColor: Color,
+    markSize: Double) extends PGFPlot {
 
   override def toString: String =
     raw"""
-       | \addplot[ycomb, color=$lineColor, mark=$marker, mark size=${markSize}pt,
-       |          mark options={draw=$markStrokeColor, fill=$markFillColor}] coordinates {
-       |   ${coordinates.mkString("\n")}
-       | };
-  """.stripMargin
-}
-
-private[pgf] object Stem {
-
-  /**
-    * Creates stems of the a data sequence that extend from a baseline along the
-    * x-axis. The data values are indicated by marks terminating each stem.
-    *
-    * @param coordinates sequence of x, y points in the Euclidean space
-    * @param lineColor line color
-    * @param marker mark style
-    * @param markStrokeColor mark stroke color
-    * @param markFillColor mark fill color
-    * @param markSize mark size
-    */
-  def apply(
-             coordinates: Coordinates2D,
-             lineColor: Color,
-             marker: Mark,
-             markStrokeColor: Color,
-             markFillColor: Color,
-             markSize: Double): Stem =
-    new Stem(coordinates, lineColor, marker, markStrokeColor, markFillColor, markSize)
+         |\addplot[
+         |  ycomb,
+         |  color=$lineColor,
+         |  mark=$marker,
+         |  mark size=${markSize}pt,
+         |  mark options={draw=$markStrokeColor, fill=$markFillColor}
+         |] coordinates {
+         |${coordinates.mkString("\n")}
+         |};
+    """.stripMargin
 }

@@ -11,14 +11,15 @@
 
 package scalatikz.pgf.plots
 
-import scalatikz.pgf.{ PGFPlot, TIKZPicture }
+import scalatikz.pgf.TIKZPicture
 import scalatikz.pgf.plots.types._
 import scalatikz.pgf.plots.DataTypes._
-import scalatikz.pgf.plots.enums.AxisScale.{ LINEAR, LOG }
-import scalatikz.pgf.plots.enums.AxisSystem.{ CARTESIAN, POLAR }
-import scalatikz.pgf.plots.enums.GridStyle.{ BOTH, MAJOR, MINOR }
+import scalatikz.pgf.plots.enums.AxisScale.{LINEAR, LOG}
+import scalatikz.pgf.plots.enums.AxisSystem.{CARTESIAN, POLAR}
+import scalatikz.pgf.plots.enums.GridStyle.{BOTH, MAJOR, MINOR}
 import scalatikz.pgf.plots.enums.LineSize.THIN
 import scalatikz.pgf.plots.enums.LineStyle.SOLID
+import scalatikz.pgf.plots.enums.LineType.{CONST, SHARP, SMOOTH}
 import scalatikz.pgf.plots.enums.Mark.NONE
 import scalatikz.pgf.plots.enums.Pattern.PLAIN
 import scalatikz.pgf.plots.enums._
@@ -27,8 +28,8 @@ final class Figure private (
     val axis: Axis,
     colorIterator: Iterator[Color],
     override val name: String,
-    override val graphics: Seq[PGFPlot],
-    axisType: AxisSystem) extends TIKZPicture[PGFPlot] with PGFPlot {
+    val graphics: Seq[PGFPlot],
+    axisType: AxisSystem) extends TIKZPicture {
 
   // An iterator over available colors in case user does not specify one.
   private[this] var currentColor: Color = Color.values.head
@@ -293,14 +294,14 @@ final class Figure private (
       smooth: Boolean = false)(data: Data): Figure =
     new Figure(axis, colorIterator, name, graphics :+ Line(
       data.coordinates,
+      if (smooth) SMOOTH else SHARP,
       color,
+      lineStyle,
+      lineSize,
       marker,
       markStrokeColor,
       markFillColor,
-      markSize,
-      lineStyle,
-      lineSize,
-      smooth), POLAR
+      markSize), POLAR
     )
 
   def polarScatter(data: Data): Figure = polarScatter()(data)
@@ -406,14 +407,14 @@ final class Figure private (
       sparse: Boolean = false)(data: Data): Figure =
     new Figure(axis, colorIterator, name, graphics :+ Line(
       if (sparse) data.sparse.coordinates else data.coordinates,
+      if (smooth) SMOOTH else SHARP,
       color,
+      lineStyle,
+      lineSize,
       marker,
       markStrokeColor,
       markFillColor,
-      markSize,
-      lineStyle,
-      lineSize,
-      smooth), axisType
+      markSize), axisType
     )
 
   /*
@@ -461,19 +462,19 @@ final class Figure private (
       opacity: Double = 0.5,
       smooth: Boolean = false,
       constant: Boolean = false)(data: Data): Figure =
-    new Figure(axis, colorIterator, name, graphics :+ Area(
+    new Figure(axis, colorIterator, name, graphics :+ Line(
       data.coordinates,
+      if (SMOOTH) SMOOTH else if (constant) CONST else SHARP,
       color,
+      lineStyle,
+      lineSize,
       marker,
       markStrokeColor,
       markFillColor,
       markSize,
-      lineStyle,
-      lineSize,
       pattern,
-      opacity,
-      smooth,
-      constant), axisType
+      Some(color),
+      opacity), axisType
     )
 
   /*
@@ -555,15 +556,16 @@ final class Figure private (
       markSize: Double = 1,
       lineStyle: LineStyle = SOLID,
       lineSize: LineSize = THIN)(data: Data): Figure =
-    new Figure(axis, colorIterator, name, graphics :+ Stair(
+    new Figure(axis, colorIterator, name, graphics :+ Line(
       data.coordinates,
+      CONST,
       color,
+      lineStyle,
+      lineSize,
       marker,
       markStrokeColor,
       markFillColor,
-      markSize,
-      lineStyle,
-      lineSize), axisType
+      markSize), axisType
     )
 
   /*
@@ -717,15 +719,18 @@ final class Figure private (
     )
 
   override def toString: String =
-    s"\\begin{$axisType}[" +
-      s"$axis] " +
-      s"${graphics.mkString("\n")} " +
-      s"\\end{$axisType}"
+    raw"""
+         |\${'begin.name}{$axisType}[
+         |$axis
+         |]
+         |${graphics.mkString("\n")}
+         |\end{$axisType}
+    """.stripMargin
 }
 
 final class BipolarFigure private[pgf] (
     override val name: String,
-    override protected val graphics: Seq[Figure]) extends TIKZPicture[Figure] {
+    graphics: Seq[Figure]) extends TIKZPicture {
 
   def left(f: Figure => Figure): BipolarFigure = {
     val transformed = f(graphics.head)
@@ -755,8 +760,8 @@ final class BipolarFigure private[pgf] (
 
 final class FigureArray private[pgf] (
     override val name: String,
-    override protected val graphics: Seq[Figure],
-    N: Int, M: Int) extends TIKZPicture[Figure] {
+    val graphics: Seq[Figure],
+    N: Int, M: Int) extends TIKZPicture {
 
   /**
     * Creates a sub-figure in the given position and transforms the figure

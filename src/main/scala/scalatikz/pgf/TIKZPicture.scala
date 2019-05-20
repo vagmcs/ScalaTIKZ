@@ -25,15 +25,12 @@ import scalatikz.pgf.Compiler._
 import sys.process._
 
 /**
-  * TIKZ picture is the environment that contains a sequence
-  * of graphic elements to be compiled.
-  *
-  * @tparam T the type of the graphic elements
+  * TIKZ picture is the environment that contains (possibly) a sequence
+  * of pgf graphic elements to be compiled.
   */
-trait TIKZPicture[T <: Graphic] extends Logging {
+trait TIKZPicture extends Logging {
 
   val name: String
-  protected val graphics: Seq[T]
 
   private val path = new File(System.getProperty("java.io.tmpdir"))
   private val texFile: File = new File(s"$path/source.tex")
@@ -44,21 +41,21 @@ trait TIKZPicture[T <: Graphic] extends Logging {
   // Keep scale to 2. It seems much cleaner.
   private def asTex: String =
     raw"""
-       | \documentclass{standalone}
+       |\documentclass{standalone}
        |
-       | \usepackage{tikz,pgfplots,luatex85}
-       | \usetikzlibrary{plotmarks}
-       | \usetikzlibrary{patterns}
-       | \usetikzlibrary{pgfplots.polar}
-       | \usepgfplotslibrary{fillbetween}
-       | \pgfplotsset{compat=newest}
+       |\usepackage{tikz,pgfplots,luatex85}
+       |\usetikzlibrary{plotmarks}
+       |\usetikzlibrary{patterns}
+       |\usetikzlibrary{pgfplots.polar}
+       |\usepgfplotslibrary{fillbetween}
+       |\pgfplotsset{compat=newest}
        |
-       | \begin{document}
-       | \pagestyle{empty}
-       |  \begin{tikzpicture}[scale=2]
-       |   ${this.toString}
-       |  \end{tikzpicture}
-       | \end{document}
+       |\begin{document}
+       |\pagestyle{empty}
+       |\begin{tikzpicture}[scale=2]
+       |${this.toString}
+       |\end{tikzpicture}
+       |\end{document}
     """.stripMargin
 
   /**
