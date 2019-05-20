@@ -54,6 +54,20 @@ final class Figure private (
    */
 
   /**
+    * @param centimeters the height in centimeters
+    * @return a Figure having the given height
+    */
+  def havingHeight(centimeters: Double): Figure =
+    new Figure(axis.copy(height = Some(centimeters)), colorIterator, name, graphics, axisType)
+
+  /**
+    * @param centimeters the width in centimeters
+    * @return a Figure having the given width
+    */
+  def havingWidth(centimeters: Double): Figure =
+    new Figure(axis.copy(width = Some(centimeters)), colorIterator, name, graphics, axisType)
+
+  /**
     * @return a Figure having both X and Y log scale axis
     */
   def havingLogLogAxis: Figure =

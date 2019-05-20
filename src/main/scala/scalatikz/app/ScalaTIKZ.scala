@@ -328,6 +328,22 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
     .action((_, conf) => conf.copy(figure = conf.figure.havingLogYAxis))
     .text("Enables logarithmic Y scale (default is linear).\n")
 
+  opt[Double]('H', "height".underlined).valueName("<double>".bold).optional.unbounded
+    .action((x, conf) => conf.copy(figure = conf.figure.havingHeight(x)))
+    .text(s"Sets the figure height.\n")
+    .validate { x =>
+      if (x > 0) success
+      else failure("Height should be positive.")
+    }
+
+  opt[Double]('v', "width".underlined).valueName("<double>".bold).optional.unbounded
+    .action((x, conf) => conf.copy(figure = conf.figure.havingWidth(x)))
+    .text(s"Sets the figure width.\n")
+    .validate { x =>
+      if (x > 0) success
+      else failure("Width should be positive.")
+    }
+
   opt[Compiler]('V', "compiler".underlined).valueName("<compiler>".bold).optional.unbounded
     .action((x, conf) => conf.copy(compiler = x))
     .text(s"Change the underlying compiler (default is pdflatex)." +

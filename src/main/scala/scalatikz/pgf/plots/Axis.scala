@@ -11,7 +11,6 @@
 
 package scalatikz.pgf.plots
 
-import com.github.dwickern.macros.NameOf._
 import scalatikz.pgf.plots.enums.AxisLinePos.BOX
 import scalatikz.pgf.plots.enums.AxisScale.LINEAR
 import scalatikz.pgf.plots.enums.Color.WHITE
@@ -21,6 +20,8 @@ import scalatikz.pgf.plots.enums._
 /**
   * Axis configuration.
   *
+  * @param height axis height (in centimeters)
+  * @param width axis width (in centimeters)
   * @param xMode X axis scale (linear or log)
   * @param yMode Y axis scale (linear or log)
   * @param zMode Z axis scale (linear or log)
@@ -37,7 +38,7 @@ import scalatikz.pgf.plots.enums._
   * @param colorMap color map type (used for mesh plots)
   * @param backgroundColor axis background color
   * @param header axis header title
-  * @param fontSize font size
+  * @param fontSize axis font size
   * @param legends legends for the plotted data sequences
   * @param legendPos legends position
   * @param xAxisLinePos X axis position
@@ -50,6 +51,8 @@ import scalatikz.pgf.plots.enums._
   * @param rotateYTicks rotate Y axis ticks by the given degrees
   */
 case class Axis private (
+    height: Option[Double] = None,
+    width: Option[Double] = None,
     xMode: AxisScale = LINEAR,
     yMode: AxisScale = LINEAR,
     zMode: AxisScale = LINEAR,
@@ -81,9 +84,12 @@ case class Axis private (
   override def toString: String = {
     val builder = StringBuilder.newBuilder
 
-    builder ++= s"\t${nameOf(xMode).toLowerCase}=$xMode,\n"
-    builder ++= s"\t${nameOf(yMode).toLowerCase}=$yMode,\n"
-    builder ++= s"\t${nameOf(zMode).toLowerCase}=$zMode,\n"
+    if (height.isDefined) builder ++= s"\theight=${height.get}cm,\n"
+    if (width.isDefined) builder ++= s"\twidth=${width.get}cm,\n"
+
+    builder ++= s"\t${'xMode.name.toLowerCase}=$xMode,\n"
+    builder ++= s"\t${'yMode.name.toLowerCase}=$yMode,\n"
+    builder ++= s"\t${'zMode.name.toLowerCase}=$zMode,\n"
     builder ++= s"\taxis background/.style={fill=$backgroundColor},\n"
     builder ++= s"\taxis x line=$xAxisLinePos,\n"
     builder ++= s"\taxis y line=$yAxisLinePos,\n"
@@ -91,27 +97,27 @@ case class Axis private (
     builder ++= s"\ty tick label style={rotate=$rotateYTicks}"
 
     if (xAxisHideTicks)
-      builder ++= s",\n\t${nameOf(xTickLabels).toLowerCase}={,,}"
+      builder ++= s",\n\t${'xTickLabels.name.toLowerCase}={,,}"
     else if (xTickLabels.nonEmpty)
-      builder ++= s",\n\tx" + s"tick=data,\n${nameOf(xTickLabels).toLowerCase}={${xTickLabels.mkString(",")}}"
+      builder ++= s",\n\tx" + s"tick=data,\n${'xTickLabels.name.toLowerCase}={${xTickLabels.mkString(",")}}"
 
     if (yAxisHideTicks)
-      builder ++= s",\n\t${nameOf(yTickLabels).toLowerCase}={,,}"
+      builder ++= s",\n\t${'yTickLabels.name.toLowerCase}={,,}"
     else if (yTickLabels.nonEmpty)
-      builder ++= s",\n\ty" + s"tick=data,\n${nameOf(yTickLabels).toLowerCase}={${yTickLabels.mkString(",")}}"
+      builder ++= s",\n\ty" + s"tick=data,\n${'yTickLabels.name.toLowerCase}={${yTickLabels.mkString(",")}}"
 
-    if (xLabel.isDefined) builder ++= s",\n\t${nameOf(xLabel).toLowerCase}=${xLabel.get.toTex}"
-    if (yLabel.isDefined) builder ++= s",\n\t${nameOf(yLabel).toLowerCase}=${yLabel.get.toTex}"
-    if (zLabel.isDefined) builder ++= s",\n\t${nameOf(zLabel).toLowerCase}=${zLabel.get.toTex}"
+    if (xLabel.isDefined) builder ++= s",\n\t${'xLabel.name.toLowerCase}=${xLabel.get.toTex}"
+    if (yLabel.isDefined) builder ++= s",\n\t${'yLabel.name.toLowerCase}=${yLabel.get.toTex}"
+    if (zLabel.isDefined) builder ++= s",\n\t${'zLabel.name.toLowerCase}=${zLabel.get.toTex}"
 
-    if (xMin.isDefined) builder ++= s",\n\t${nameOf(xMin).toLowerCase}=${xMin.get}"
-    if (xMax.isDefined) builder ++= s",\n\t${nameOf(xMax).toLowerCase}=${xMax.get}"
-    if (yMin.isDefined) builder ++= s",\n\t${nameOf(yMin).toLowerCase}=${yMin.get}"
-    if (yMax.isDefined) builder ++= s",\n\t${nameOf(yMax).toLowerCase}=${yMax.get}"
-    if (zMin.isDefined) builder ++= s",\n\t${nameOf(zMin).toLowerCase}=${zMin.get}"
-    if (zMax.isDefined) builder ++= s",\n\t${nameOf(zMax).toLowerCase}=${zMax.get}"
+    if (xMin.isDefined) builder ++= s",\n\t${'xMin.name.toLowerCase}=${xMin.get}"
+    if (xMax.isDefined) builder ++= s",\n\t${'xMax.name.toLowerCase}=${xMax.get}"
+    if (yMin.isDefined) builder ++= s",\n\t${'yMin.name.toLowerCase}=${yMin.get}"
+    if (yMax.isDefined) builder ++= s",\n\t${'yMax.name.toLowerCase}=${yMax.get}"
+    if (zMin.isDefined) builder ++= s",\n\t${'zMin.name.toLowerCase}=${zMin.get}"
+    if (zMax.isDefined) builder ++= s",\n\t${'zMax.name.toLowerCase}=${zMax.get}"
 
-    if (grid.isDefined) builder ++= s",\n\t${nameOf(grid)}=${grid.get}"
+    if (grid.isDefined) builder ++= s",\n\tgrid=${grid.get}"
     if (colorMap.isDefined) builder ++= s",\n\tcolormap/${colorMap.get},\n\tcolor" + "bar"
     if (header.isDefined) builder ++ s",\n\ttitle=${header.get.toTex}"
     if (fontSize.isDefined) builder ++= s",\n\tfont=\\${fontSize.get}"
