@@ -12,7 +12,7 @@
 package scalatikz.pgf.plots.types
 
 import scalatikz.pgf.PGFPlot
-import scalatikz.pgf.plots.DataTypes.Coordinates
+import scalatikz.pgf.plots.DataTypes.Coordinates2D
 import scalatikz.pgf.plots.enums.{ Color, LineSize, LineStyle, Mark }
 
 /**
@@ -31,16 +31,16 @@ import scalatikz.pgf.plots.enums.{ Color, LineSize, LineStyle, Mark }
   * @param smooth true in case the line is smooth
   */
 final class ErrorBar private (
-    coordinates: Coordinates,
-    error: Coordinates,
-    lineColor: Color,
-    marker: Mark,
-    markStrokeColor: Color,
-    markFillColor: Color,
-    markSize: Double,
-    lineStyle: LineStyle,
-    lineSize: LineSize,
-    smooth: Boolean) extends PGFPlot {
+                               coordinates: Coordinates2D,
+                               error: Coordinates2D,
+                               lineColor: Color,
+                               marker: Mark,
+                               markStrokeColor: Color,
+                               markFillColor: Color,
+                               markSize: Double,
+                               lineStyle: LineStyle,
+                               lineSize: LineSize,
+                               smooth: Boolean) extends PGFPlot {
 
   override def toString: String =
     raw"""
@@ -72,16 +72,16 @@ private[pgf] object ErrorBar {
     * @param smooth true in case the line is smooth
     */
   def apply(
-      coordinates: Coordinates,
-      error: Coordinates,
-      lineColor: Color,
-      marker: Mark,
-      markStrokeColor: Color,
-      markFillColor: Color,
-      markSize: Double,
-      lineStyle: LineStyle,
-      lineSize: LineSize,
-      smooth: Boolean): ErrorBar =
+             coordinates: Coordinates2D,
+             error: Coordinates2D,
+             lineColor: Color,
+             marker: Mark,
+             markStrokeColor: Color,
+             markFillColor: Color,
+             markSize: Double,
+             lineStyle: LineStyle,
+             lineSize: LineSize,
+             smooth: Boolean): ErrorBar =
     new ErrorBar(coordinates, error, lineColor, marker, markStrokeColor, markFillColor, markSize, lineStyle, lineSize, smooth)
 
 }

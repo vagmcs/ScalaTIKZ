@@ -12,7 +12,7 @@
 package scalatikz.pgf.plots.types
 
 import scalatikz.pgf.PGFPlot
-import scalatikz.pgf.plots.DataTypes.Coordinates
+import scalatikz.pgf.plots.DataTypes.Coordinates2D
 import scalatikz.pgf.plots.enums.{ Color, Mark }
 
 /**
@@ -27,12 +27,12 @@ import scalatikz.pgf.plots.enums.{ Color, Mark }
   * @param markSize mark size
   */
 final class Stem private (
-    coordinates: Coordinates,
-    lineColor: Color,
-    marker: Mark,
-    markStrokeColor: Color,
-    markFillColor: Color,
-    markSize: Double) extends PGFPlot {
+                           coordinates: Coordinates2D,
+                           lineColor: Color,
+                           marker: Mark,
+                           markStrokeColor: Color,
+                           markFillColor: Color,
+                           markSize: Double) extends PGFPlot {
 
   override def toString: String =
     raw"""
@@ -57,11 +57,11 @@ private[pgf] object Stem {
     * @param markSize mark size
     */
   def apply(
-      coordinates: Coordinates,
-      lineColor: Color,
-      marker: Mark,
-      markStrokeColor: Color,
-      markFillColor: Color,
-      markSize: Double): Stem =
+             coordinates: Coordinates2D,
+             lineColor: Color,
+             marker: Mark,
+             markStrokeColor: Color,
+             markFillColor: Color,
+             markSize: Double): Stem =
     new Stem(coordinates, lineColor, marker, markStrokeColor, markFillColor, markSize)
 }

@@ -369,7 +369,7 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
       conf.graphics.zipWithIndex.foreach {
         case (graphic, i) =>
 
-          val coordinates: Coordinates =
+          val coordinates: Coordinates2D =
             (CSV.parseColumns(
               new File(conf.inputs.applyOrElse(i, notFound(conf.inputs))),
               conf.delimiters.applyOrElse(i, (_: Int) => ','),
@@ -448,7 +448,7 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
 
             case ERROR_AREA =>
 
-              val error: Coordinates =
+              val error: Coordinates2D =
                 (CSV.parseColumns(
                   new File(conf.inputs.applyOrElse(i, notFound(conf.inputs))),
                   conf.delimiters.applyOrElse(i, (_: Int) => ','),
@@ -483,7 +483,7 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
 
             case ERROR_BAR =>
 
-              val error: Coordinates =
+              val error: Coordinates2D =
                 (CSV.parseColumns(
                   new File(conf.inputs.applyOrElse(i, notFound(conf.inputs))),
                   conf.delimiters.applyOrElse(i, (_: Int) => ','),

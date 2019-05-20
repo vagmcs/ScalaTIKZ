@@ -11,6 +11,8 @@
 
 package scalatikz.pgf.plots
 
+import Numeric.Implicits._
+
 object DataTypes {
 
   // Point types in the Euclidean space
@@ -20,11 +22,13 @@ object DataTypes {
 
   // Point sequence types
   type DataSeq = Seq[Point]
-  type Coordinates = Seq[Point2D]
+  type Coordinates2D = Seq[Point2D]
+  type Coordinates3D = Seq[Point3D]
 
   /**
-    * Data is a construct that automatically converts various inputs
-    * into the underlying data sequences required by the plot functions.
+    * Data is a construct that automatically converts various inputs into the
+    * underlying data sequences required by the plot functions.
+    *
     * It enables a form of syntactic sugar.
     *
     * @example Data input examples: {{{
@@ -53,72 +57,31 @@ object DataTypes {
     * }}}
     */
   sealed trait Data {
-    val coordinates: Coordinates
+    val coordinates: Coordinates2D
+    private lazy val last = coordinates.last
 
     def sparse: Data = coordinates.foldLeft(Seq.empty[Point2D]) {
       case (data, point) =>
-        if (data.isEmpty || coordinates.last == point) data :+ point
-        else if (data.last != point) data :+ point
+        if (data.isEmpty || point == last || data.last != point) data :+ point
         else data
     }
   }
 
   object Data {
-
-    implicit def fromY(y: DataSeq): Data = new Data {
-      val coordinates: Coordinates = (1 to y.length).map(_.toDouble) zip y
+    implicit def fromY[Y: Numeric](y: Seq[Y]): Data = new Data {
+      val coordinates: Coordinates2D = (1 to y.length).map(_.toDouble) zip y.map(_.toDouble)
     }
 
-    implicit def fromIntY(y: Seq[Int]): Data = new Data {
-      val coordinates: Coordinates = (1 to y.length).map(_.toDouble) zip y.map(_.toDouble)
+    implicit def fromXY[X: Numeric, Y: Numeric](xy: Seq[(X, Y)]): Data = new Data {
+      val coordinates: Coordinates2D = xy.map { case (x, y) => (x.toDouble, y.toDouble) }
     }
 
-    implicit def fromLongY(y: Seq[Long]): Data = new Data {
-      val coordinates: Coordinates = (1 to y.length).map(_.toDouble) zip y.map(_.toDouble)
+    implicit def fromFunction[X: Numeric, Y: Numeric](xf: (Seq[X], X => Y)): Data = xf match {
+      case (seq, f) => new Data { val coordinates: Coordinates2D = seq.map(x => x.toDouble -> f(x).toDouble) }
     }
 
-    implicit def fromIntXIntY(xy: Seq[(Int, Int)]): Data = new Data {
-      val coordinates: Coordinates = xy.map { case (x, y) => (x.toDouble, y.toDouble) }
-    }
-
-    implicit def fromLongXLongY(xy: Seq[(Long, Long)]): Data = new Data {
-      val coordinates: Coordinates = xy.map { case (x, y) => (x.toDouble, y.toDouble) }
-    }
-
-    implicit def fromIntXLongY(xy: Seq[(Int, Long)]): Data = new Data {
-      val coordinates: Coordinates = xy.map { case (x, y) => (x.toDouble, y.toDouble) }
-    }
-
-    implicit def fromLongXIntY(xy: Seq[(Long, Int)]): Data = new Data {
-      val coordinates: Coordinates = xy.map { case (x, y) => (x.toDouble, y.toDouble) }
-    }
-
-    implicit def fromIntXDoubleY(xy: Seq[(Int, Double)]): Data = new Data {
-      val coordinates: Coordinates = xy.map { case (x, y) => (x.toDouble, y) }
-    }
-
-    implicit def fromDoubleXIntY(xy: Seq[(Double, Int)]): Data = new Data {
-      val coordinates: Coordinates = xy.map { case (x, y) => (x, y.toDouble) }
-    }
-
-    implicit def fromLongXDoubleY(xy: Seq[(Long, Double)]): Data = new Data {
-      val coordinates: Coordinates = xy.map { case (x, y) => (x.toDouble, y) }
-    }
-
-    implicit def fromDoubleXLongY(xy: Seq[(Double, Long)]): Data = new Data {
-      val coordinates: Coordinates = xy.map { case (x, y) => (x, y.toDouble) }
-    }
-
-    implicit def fromXY(xy: (DataSeq, DataSeq)): Data = xy match {
-      case (x, y) => new Data { val coordinates: Coordinates = x zip y }
-    }
-
-    implicit def fromCoordinates(c: Coordinates): Data = new Data {
-      val coordinates: Coordinates = c
-    }
-
-    implicit def fromFunction(xf: (DataSeq, Double => Double)): Data = xf match {
-      case (x, f) => new Data { val coordinates: Coordinates = x zip x.map(f) }
+    implicit def fromDoubleFunction[X: Numeric, Y: Numeric](xf: (Seq[X], Double => Y)): Data = xf match {
+      case (seq, f) => new Data { val coordinates: Coordinates2D = seq.map(x => x.toDouble -> f(x.toDouble).toDouble) }
     }
   }
 }

@@ -36,7 +36,7 @@ object Examples extends App {
   /*
    * Sine vs Cosine plot
    */
-  val domain = -2 * Pi to 2 * Pi by 0.1
+  val domain = BigDecimal(-2 * Pi) to BigDecimal(2 * Pi) by 0.1
 
   Figure("sine_vs_cosine")
     .plot(domain -> sin _)
@@ -55,7 +55,7 @@ object Examples extends App {
   def gaussian(mean: Double, variance: Double)(x: Double): Double =
     1 / sqrt(2 * Pi * variance) * exp( -pow(x - mean, 2) / (2 * variance))
 
-  val x = -5.0 to 5.0 by 0.1
+  val x = BigDecimal(-5) to BigDecimal(5) by 0.1
 
   Figure("gaussian")
     .plot(color = BLUE, smooth = true)(x -> gaussian(0, 0.2) _)
@@ -80,7 +80,7 @@ object Examples extends App {
   /*
    * Area plot
    */
-  val xx = 0.0 to 1.0 by 0.01
+  val xx = BigDecimal(0) to BigDecimal(1) by 0.01
 
   Figure("area")
     .area(lineSize = VERY_THIN, opacity = 0.2) {
@@ -91,7 +91,7 @@ object Examples extends App {
   /*
    * Spline plot
    */
-  val xs = 0.0 to 2 * Pi by 0.1
+  val xs = BigDecimal(0) to BigDecimal(2) * Pi by 0.1
 
   Figure("spline")
     .plot(color = BLACK, lineStyle = DASHED)(xs -> sin _)
@@ -103,7 +103,7 @@ object Examples extends App {
   /*
    * Dark background plot
    */
-  val xxs = 0.0 to 6.0 by 0.1
+  val xxs = BigDecimal(0) to BigDecimal(6) by 0.1
 
   val figure =
     Figure("dark")
@@ -129,9 +129,9 @@ object Examples extends App {
    */
   Figure("error_bar")
     .errorBar(BLUE!50!BLACK) {
-      (0.0 to 1.0 by 0.1) -> ((x: Double) => x / 2.0)
+      (BigDecimal(0) to BigDecimal(1) by 0.1) -> ((x: Double) => x / 2.0)
     } {
-      (1 to (0.0 to 1.0 by 0.1).length).map(_ => 0.0 -> scala.util.Random.nextDouble)
+      (1 to (BigDecimal(0) to BigDecimal(1) by 0.1).length).map(_ => 0 -> scala.util.Random.nextDouble)
     }
     .havingTitle("Error bar")
     .havingXAxisLinePos(BOTTOM)
@@ -145,22 +145,22 @@ object Examples extends App {
    */
   Figure("array", 2, 2)
     .subFigure(0, 0) { x =>
-      x.plot((0.01 to 10.0 by 0.1) -> log _)
+      x.plot((BigDecimal(0.01) to BigDecimal(10) by 0.1) -> log _)
         .havingXLabel("$x$")
         .havingYLabel("$\\log(x)$")
     }
     .subFigure(0, 1) { x =>
-      x.plot(GREEN!40!BLACK)((-5.0 to 5.0 by 0.1) -> ((x: Double) => pow(x, 2)))
+      x.plot(GREEN!40!BLACK)((BigDecimal(-5) to BigDecimal(5) by 0.1) -> ((x: Double) => pow(x, 2)))
         .havingXLabel("$x$")
         .havingYLabel("$x^2$")
     }
     .subFigure(1, 0) { x =>
-      x.plot(YELLOW!BLACK)((0.0 to 1.0 by 0.1) -> ((x: Double) => x))
+      x.plot(YELLOW!BLACK)((BigDecimal(0) to BigDecimal(1) by 0.1) -> ((x: Double) => x))
         .havingXLabel("$x$")
         .havingYLabel("$y$")
     }
     .subFigure(1, 1) { x =>
-      x.plot(BLUE)((-5.0 to 5.0 by 0.1) -> ((x: Double) => pow(x, 3)))
+      x.plot(BLUE)((BigDecimal(-5) to BigDecimal(5) by 0.1) -> ((x: Double) => pow(x, 3)))
         .havingXLabel("$x$")
         .havingYLabel("$x^3$")
     }

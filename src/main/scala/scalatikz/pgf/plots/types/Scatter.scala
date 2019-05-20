@@ -12,7 +12,7 @@
 package scalatikz.pgf.plots.types
 
 import scalatikz.pgf.PGFPlot
-import scalatikz.pgf.plots.DataTypes.Coordinates
+import scalatikz.pgf.plots.DataTypes.Coordinates2D
 import scalatikz.pgf.plots.enums.{ Color, Mark }
 
 /**
@@ -26,11 +26,11 @@ import scalatikz.pgf.plots.enums.{ Color, Mark }
   * @param markSize mark size
   */
 final class Scatter private (
-    coordinates: Coordinates,
-    marker: Mark,
-    markStrokeColor: Color,
-    markFillColor: Color,
-    markSize: Double) extends PGFPlot {
+                              coordinates: Coordinates2D,
+                              marker: Mark,
+                              markStrokeColor: Color,
+                              markFillColor: Color,
+                              markSize: Double) extends PGFPlot {
 
   override def toString: String =
     raw"""
@@ -55,10 +55,10 @@ private[pgf] object Scatter {
     * @param markSize mark size
     */
   def apply(
-      coordinates: Coordinates,
-      marker: Mark,
-      markStrokeColor: Color,
-      markFillColor: Color,
-      markSize: Double): Scatter =
+             coordinates: Coordinates2D,
+             marker: Mark,
+             markStrokeColor: Color,
+             markFillColor: Color,
+             markSize: Double): Scatter =
     new Scatter(coordinates, marker, markStrokeColor, markFillColor, markSize)
 }

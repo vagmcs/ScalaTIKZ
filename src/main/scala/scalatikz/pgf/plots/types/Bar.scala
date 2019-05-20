@@ -12,7 +12,7 @@
 package scalatikz.pgf.plots.types
 
 import scalatikz.pgf.PGFPlot
-import scalatikz.pgf.plots.DataTypes.Coordinates
+import scalatikz.pgf.plots.DataTypes.Coordinates2D
 import scalatikz.pgf.plots.enums.Pattern.PLAIN
 import scalatikz.pgf.plots.enums.{ Color, LineSize, LineStyle, Pattern }
 
@@ -28,13 +28,13 @@ import scalatikz.pgf.plots.enums.{ Color, LineSize, LineStyle, Pattern }
   * @param barWidth the bars width
   */
 final class xBar private (
-    coordinates: Coordinates,
-    color: Color,
-    pattern: Pattern,
-    lineStyle: LineStyle,
-    lineSize: LineSize,
-    opacity: Double,
-    barWidth: Double) extends PGFPlot {
+                           coordinates: Coordinates2D,
+                           color: Color,
+                           pattern: Pattern,
+                           lineStyle: LineStyle,
+                           lineSize: LineSize,
+                           opacity: Double,
+                           barWidth: Double) extends PGFPlot {
 
   override def toString: String =
     raw"""
@@ -57,13 +57,13 @@ final class xBar private (
   * @param barWidth the bars width
   */
 final class yBar private (
-    coordinates: Coordinates,
-    color: Color,
-    pattern: Pattern,
-    lineStyle: LineStyle,
-    lineSize: LineSize,
-    opacity: Double,
-    barWidth: Double) extends PGFPlot {
+                           coordinates: Coordinates2D,
+                           color: Color,
+                           pattern: Pattern,
+                           lineStyle: LineStyle,
+                           lineSize: LineSize,
+                           opacity: Double,
+                           barWidth: Double) extends PGFPlot {
 
   override def toString: String =
     raw"""
@@ -88,13 +88,13 @@ private[pgf] object xBar {
     * @param barWidth the bars width
     */
   def apply(
-      coordinates: Coordinates,
-      color: Color,
-      pattern: Pattern,
-      lineStyle: LineStyle,
-      lineSize: LineSize,
-      opacity: Double,
-      barWidth: Double): xBar =
+             coordinates: Coordinates2D,
+             color: Color,
+             pattern: Pattern,
+             lineStyle: LineStyle,
+             lineSize: LineSize,
+             opacity: Double,
+             barWidth: Double): xBar =
     new xBar(coordinates, color, pattern, lineStyle, lineSize, opacity, barWidth)
 }
 
@@ -112,12 +112,12 @@ private[pgf] object yBar {
     * @param barWidth the bars width
     */
   def apply(
-      coordinates: Coordinates,
-      color: Color,
-      pattern: Pattern,
-      lineStyle: LineStyle,
-      lineSize: LineSize,
-      opacity: Double,
-      barWidth: Double): yBar =
+             coordinates: Coordinates2D,
+             color: Color,
+             pattern: Pattern,
+             lineStyle: LineStyle,
+             lineSize: LineSize,
+             opacity: Double,
+             barWidth: Double): yBar =
     new yBar(coordinates, color, pattern, lineStyle, lineSize, opacity, barWidth)
 }

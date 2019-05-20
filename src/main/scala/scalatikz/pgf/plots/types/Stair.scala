@@ -12,7 +12,7 @@
 package scalatikz.pgf.plots.types
 
 import scalatikz.pgf.PGFPlot
-import scalatikz.pgf.plots.DataTypes.Coordinates
+import scalatikz.pgf.plots.DataTypes.Coordinates2D
 import scalatikz.pgf.plots.enums.{ Color, LineSize, LineStyle, Mark }
 
 /**
@@ -28,14 +28,14 @@ import scalatikz.pgf.plots.enums.{ Color, LineSize, LineStyle, Mark }
   * @param lineSize line size
   */
 final class Stair private (
-    coordinates: Coordinates,
-    lineColor: Color,
-    marker: Mark,
-    markStrokeColor: Color,
-    markFillColor: Color,
-    markSize: Double,
-    lineStyle: LineStyle,
-    lineSize: LineSize) extends PGFPlot {
+                            coordinates: Coordinates2D,
+                            lineColor: Color,
+                            marker: Mark,
+                            markStrokeColor: Color,
+                            markFillColor: Color,
+                            markSize: Double,
+                            lineStyle: LineStyle,
+                            lineSize: LineSize) extends PGFPlot {
 
   override def toString: String =
     raw"""
@@ -61,13 +61,13 @@ private[pgf] object Stair {
     * @param lineSize line size
     */
   def apply(
-      coordinates: Coordinates,
-      lineColor: Color,
-      marker: Mark,
-      markStrokeColor: Color,
-      markFillColor: Color,
-      markSize: Double,
-      lineStyle: LineStyle,
-      lineSize: LineSize): Stair =
+             coordinates: Coordinates2D,
+             lineColor: Color,
+             marker: Mark,
+             markStrokeColor: Color,
+             markFillColor: Color,
+             markSize: Double,
+             lineStyle: LineStyle,
+             lineSize: LineSize): Stair =
     new Stair(coordinates, lineColor, marker, markStrokeColor, markFillColor, markSize, lineStyle, lineSize)
 }
