@@ -9,9 +9,9 @@
  *
  */
 
-package scalatikz.graphics
+package scalatikz.pgf
 
-package object pgf {
+package object plots {
 
   implicit class TeX(val tex: String) extends AnyVal {
     def toTex: String = tex

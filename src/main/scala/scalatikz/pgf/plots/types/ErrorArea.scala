@@ -9,11 +9,11 @@
  *
  */
 
-package scalatikz.graphics.pgf.plots
+package scalatikz.pgf.plots.types
 
-import scalatikz.graphics.PGFPlot
-import scalatikz.graphics.pgf.DataTypes.Coordinates
-import scalatikz.graphics.pgf.enums.{ Color, LineSize, LineStyle, Mark }
+import scalatikz.pgf.PGFPlot
+import scalatikz.pgf.plots.DataTypes.Coordinates
+import scalatikz.pgf.plots.enums.{ Color, LineSize, LineStyle, Mark }
 
 /**
   * Creates a 2D line of the data in Y versus the corresponding values in X
@@ -30,7 +30,7 @@ import scalatikz.graphics.pgf.enums.{ Color, LineSize, LineStyle, Mark }
   * @param lineSize line size
   * @param smooth true in case the line is smooth
   */
-final class ErrorBar private (
+final class ErrorArea private (
     coordinates: Coordinates,
     error: Coordinates,
     lineColor: Color,
@@ -40,25 +40,31 @@ final class ErrorBar private (
     markSize: Double,
     lineStyle: LineStyle,
     lineSize: LineSize,
+    opacity: Double,
     smooth: Boolean) extends PGFPlot {
 
   override def toString: String =
     raw"""
-       | \addplot[$lineStyle, $lineSize, color=$lineColor,
-       |          mark=$marker, mark size=${markSize}pt, ${if (smooth) " smooth," else ""}
-       |          mark options={draw=$markStrokeColor, fill=$markFillColor},
-       |          error bars/.cd, y dir=both, x dir=both, y explicit, x explicit,
-       |          error bar style=solid] coordinates {
-       |   ${coordinates.zip(error).map { case (xy, e) => s"$xy +- $e" }.mkString("\n")}
-       | };
+         | \addplot[$lineStyle, $lineSize, color=$lineColor,
+         |          mark=$marker, mark size=${markSize}pt, ${if (smooth) " smooth," else ""}
+         |          mark options={draw=$markStrokeColor, fill=$markFillColor}] coordinates {
+         |   ${coordinates.mkString("\n")}
+         | };
+         | \addplot[name path=upper, color=$lineColor, ${if (smooth) " smooth," else ""}] coordinates {
+         |   ${coordinates.zip(error).map { case ((x, y), (_, e)) => s"($x,${y + e})" }.mkString("\n")}
+         | };
+         | \addplot[name path=lower, color=$lineColor, ${if (smooth) " smooth," else ""}] coordinates {
+         |   ${coordinates.zip(error).map { case ((x, y), (_, e)) => s"($x,${y - e})" }.mkString("\n")}
+         | };
+         | \addplot [$lineColor, fill opacity=$opacity] fill between [of=upper and lower];
   """.stripMargin
 }
 
-private[graphics] object ErrorBar {
+private[pgf] object ErrorArea {
 
   /**
     * Creates a 2D line of the data in Y versus the corresponding values in X
-    * along vertical and/or horizontal error bars at each data point.
+    * along an error area around the data points.
     *
     * @param coordinates sequence of x, y points in the Euclidean space
     * @param error sequence of x, y error points
@@ -69,6 +75,7 @@ private[graphics] object ErrorBar {
     * @param markSize mark size
     * @param lineStyle line style
     * @param lineSize line size
+    * @param opacity opacity of the error area
     * @param smooth true in case the line is smooth
     */
   def apply(
@@ -81,7 +88,7 @@ private[graphics] object ErrorBar {
       markSize: Double,
       lineStyle: LineStyle,
       lineSize: LineSize,
-      smooth: Boolean): ErrorBar =
-    new ErrorBar(coordinates, error, lineColor, marker, markStrokeColor, markFillColor, markSize, lineStyle, lineSize, smooth)
-
+      opacity: Double,
+      smooth: Boolean): ErrorArea =
+    new ErrorArea(coordinates, error, lineColor, marker, markStrokeColor, markFillColor, markSize, lineStyle, lineSize, opacity, smooth)
 }

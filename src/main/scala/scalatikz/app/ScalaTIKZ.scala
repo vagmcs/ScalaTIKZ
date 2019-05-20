@@ -15,15 +15,15 @@ import java.io.File
 import scala.util.{ Failure, Success }
 import scalatikz.app.GraphType._
 import scalatikz.common.CSV
-import scalatikz.graphics.pgf.DataTypes._
-import scalatikz.graphics.pgf.enums._
-import scalatikz.graphics.pgf.enums.AxisLinePos.BOX
-import scalatikz.graphics.pgf.enums.FontSize.NORMAL
-import scalatikz.graphics.pgf.enums.LineSize.THIN
-import scalatikz.graphics.pgf.enums.LineStyle.SOLID
-import scalatikz.graphics.pgf.enums.Mark.{ CIRCLE, NONE }
-import scalatikz.graphics.pgf.enums.Pattern.PLAIN
-import scalatikz.graphics.Compiler
+import scalatikz.pgf.plots.DataTypes._
+import scalatikz.pgf.plots.enums._
+import scalatikz.pgf.plots.enums.AxisLinePos.BOX
+import scalatikz.pgf.plots.enums.FontSize.NORMAL
+import scalatikz.pgf.plots.enums.LineSize.THIN
+import scalatikz.pgf.plots.enums.LineStyle.SOLID
+import scalatikz.pgf.plots.enums.Mark.{ CIRCLE, NONE }
+import scalatikz.pgf.plots.enums.Pattern.PLAIN
+import scalatikz.pgf.Compiler
 
 object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
 

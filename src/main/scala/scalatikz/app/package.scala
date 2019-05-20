@@ -11,8 +11,8 @@
 
 package scalatikz
 
-import scalatikz.graphics.Compiler
-import scalatikz.graphics.pgf.enums._
+import scalatikz.pgf.Compiler
+import scalatikz.pgf.plots.enums._
 
 package object app {
 

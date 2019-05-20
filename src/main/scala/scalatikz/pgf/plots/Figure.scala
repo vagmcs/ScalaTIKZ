@@ -9,19 +9,19 @@
  *
  */
 
-package scalatikz.graphics.pgf
+package scalatikz.pgf.plots
 
-import scalatikz.graphics.{ PGFPlot, TIKZPicture }
-import scalatikz.graphics.pgf.plots._
-import scalatikz.graphics.pgf.DataTypes._
-import scalatikz.graphics.pgf.enums.AxisScale.{ LINEAR, LOG }
-import scalatikz.graphics.pgf.enums.AxisSystem.{ CARTESIAN, POLAR }
-import scalatikz.graphics.pgf.enums.GridStyle.{ BOTH, MAJOR, MINOR }
-import scalatikz.graphics.pgf.enums.LineSize.THIN
-import scalatikz.graphics.pgf.enums.LineStyle.SOLID
-import scalatikz.graphics.pgf.enums.Mark.NONE
-import scalatikz.graphics.pgf.enums.Pattern.PLAIN
-import scalatikz.graphics.pgf.enums._
+import scalatikz.pgf.{ PGFPlot, TIKZPicture }
+import scalatikz.pgf.plots.types._
+import scalatikz.pgf.plots.DataTypes._
+import scalatikz.pgf.plots.enums.AxisScale.{ LINEAR, LOG }
+import scalatikz.pgf.plots.enums.AxisSystem.{ CARTESIAN, POLAR }
+import scalatikz.pgf.plots.enums.GridStyle.{ BOTH, MAJOR, MINOR }
+import scalatikz.pgf.plots.enums.LineSize.THIN
+import scalatikz.pgf.plots.enums.LineStyle.SOLID
+import scalatikz.pgf.plots.enums.Mark.NONE
+import scalatikz.pgf.plots.enums.Pattern.PLAIN
+import scalatikz.pgf.plots.enums._
 
 final class Figure private (
     val axis: Axis,
@@ -160,8 +160,7 @@ final class Figure private (
   /**
     * Sets the axis background color
     *
-    * @see [[scalatikz.graphics.pgf.enums.Color]]
-    *
+    * @see [[scalatikz.pgf.plots.enums.Color]]
     * @param color a color
     * @return a Figure having the given background color
     */
@@ -180,7 +179,7 @@ final class Figure private (
   /**
     * Sets the legends position.
     *
-    * @see [[scalatikz.graphics.pgf.enums.LegendPos]]
+    * @see [[scalatikz.pgf.plots.enums.LegendPos]]
     * @param pos a legend position
     * @return a Figure having the given legend position
     */
@@ -190,8 +189,7 @@ final class Figure private (
   /**
     * Sets the position of the X axis.
     *
-    * @see [[scalatikz.graphics.pgf.enums.AxisLinePos]]
-    *
+    * @see [[scalatikz.pgf.plots.enums.AxisLinePos]]
     * @param pos an axis position
     * @return a Figure having the given position on the X axis
     */
@@ -201,8 +199,7 @@ final class Figure private (
   /**
     * Sets the position of the Y axis.
     *
-    * @see [[scalatikz.graphics.pgf.enums.AxisLinePos]]
-    *
+    * @see [[scalatikz.pgf.plots.enums.AxisLinePos]]
     * @param pos an axis position
     * @return a Figure having the given position on the Y axis
     */
@@ -712,7 +709,7 @@ final class Figure private (
       s"\\end{$axisType}"
 }
 
-final class BipolarFigure private[graphics] (
+final class BipolarFigure private[pgf] (
     override val name: String,
     override protected val graphics: Seq[Figure]) extends TIKZPicture[Figure] {
 
@@ -742,7 +739,7 @@ final class BipolarFigure private[graphics] (
     """.stripMargin
 }
 
-final class FigureArray private[graphics] (
+final class FigureArray private[pgf] (
     override val name: String,
     override protected val graphics: Seq[Figure],
     N: Int, M: Int) extends TIKZPicture[Figure] {

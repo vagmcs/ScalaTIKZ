@@ -9,7 +9,7 @@
  *     
  */
 
-package scalatikz.graphics
+package scalatikz.pgf
 
 import java.awt.Desktop
 import java.awt.image.RenderedImage
@@ -21,7 +21,7 @@ import org.ghost4j.renderer.SimpleRenderer
 import scala.io.Source
 import scala.util.{Failure, Try}
 import scalatikz.common.Logging
-import scalatikz.graphics.Compiler._
+import scalatikz.pgf.Compiler._
 import sys.process._
 
 /**

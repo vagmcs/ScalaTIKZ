@@ -9,7 +9,7 @@
  *
  */
 
-package scalatikz.graphics.pgf
+package scalatikz.pgf.plots
 
 object DataTypes {
 

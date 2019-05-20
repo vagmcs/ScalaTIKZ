@@ -9,11 +9,11 @@
  *
  */
 
-package scalatikz.graphics.pgf.plots
+package scalatikz.pgf.plots.types
 
-import scalatikz.graphics.PGFPlot
-import scalatikz.graphics.pgf.DataTypes.Coordinates
-import scalatikz.graphics.pgf.enums.{ Color, Mark }
+import scalatikz.pgf.PGFPlot
+import scalatikz.pgf.plots.DataTypes.Coordinates
+import scalatikz.pgf.plots.enums.{ Color, Mark }
 
 /**
   * Creates stems of the a data sequence that extend from a baseline along the
@@ -43,7 +43,7 @@ final class Stem private (
   """.stripMargin
 }
 
-private[graphics] object Stem {
+private[pgf] object Stem {
 
   /**
     * Creates stems of the a data sequence that extend from a baseline along the

@@ -9,12 +9,12 @@
  *
  */
 
-package scalatikz.graphics.pgf.plots
+package scalatikz.pgf.plots.types
 
-import scalatikz.graphics.PGFPlot
-import scalatikz.graphics.pgf.DataTypes.Coordinates
-import scalatikz.graphics.pgf.enums.Pattern.PLAIN
-import scalatikz.graphics.pgf.enums.{ Color, LineSize, LineStyle, Pattern }
+import scalatikz.pgf.PGFPlot
+import scalatikz.pgf.plots.DataTypes.Coordinates
+import scalatikz.pgf.plots.enums.Pattern.PLAIN
+import scalatikz.pgf.plots.enums.{ Color, LineSize, LineStyle, Pattern }
 
 /**
   * Creates 2D bars of the data in Y versus the corresponding values in X.
@@ -74,7 +74,7 @@ final class yBar private (
   """.stripMargin
 }
 
-private[graphics] object xBar {
+private[pgf] object xBar {
 
   /**
     * Creates 2D bars of the data in Y versus the corresponding values in X.
@@ -98,7 +98,7 @@ private[graphics] object xBar {
     new xBar(coordinates, color, pattern, lineStyle, lineSize, opacity, barWidth)
 }
 
-private[graphics] object yBar {
+private[pgf] object yBar {
 
   /**
     * Creates 2D bars of the data in X versus the corresponding values in Y.

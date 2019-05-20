@@ -15,7 +15,7 @@ import enumeratum._
 import scala.collection.immutable._
 import scala.language.reflectiveCalls
 
-package object graphics {
+package object pgf {
 
   sealed abstract class Compiler(override val entryName: String) extends EnumEntry {
     override def toString: String = entryName

@@ -9,12 +9,12 @@
  *
  */
 
-package scalatikz.graphics.pgf.plots
+package scalatikz.pgf.plots.types
 
-import scalatikz.graphics.PGFPlot
-import scalatikz.graphics.pgf.DataTypes.Coordinates
-import scalatikz.graphics.pgf.enums.Pattern.PLAIN
-import scalatikz.graphics.pgf.enums._
+import scalatikz.pgf.PGFPlot
+import scalatikz.pgf.plots.DataTypes.Coordinates
+import scalatikz.pgf.plots.enums.Pattern.PLAIN
+import scalatikz.pgf.plots.enums._
 
 /**
   * Creates a 2D line of the data in Y versus the corresponding values in X
@@ -58,7 +58,7 @@ final class Area private (
   """.stripMargin
 }
 
-private[graphics] object Area {
+private[pgf] object Area {
 
   /**
     * Creates a 2D line of the data in Y versus the corresponding values in X

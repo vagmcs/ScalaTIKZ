@@ -13,14 +13,14 @@ package scalatikz.examples
 
 import math._
 import scala.util.Random
-import scalatikz.graphics.pgf.Figure
-import scalatikz.graphics.pgf.enums.AxisLinePos.{BOTTOM, LEFT}
-import scalatikz.graphics.pgf.enums.Color.{BLACK, BLUE, GREEN, RED, WHITE, YELLOW}
-import scalatikz.graphics.pgf.enums.FontSize.FOOTNOTE
-import scalatikz.graphics.pgf.enums.LegendPos.{NORTH_EAST, SOUTH_WEST}
-import scalatikz.graphics.pgf.enums.LineSize.VERY_THIN
-import scalatikz.graphics.pgf.enums.LineStyle.DASHED
-import scalatikz.graphics.pgf.enums.Mark.{CIRCLE, DOT}
+import scalatikz.pgf.plots.Figure
+import scalatikz.pgf.plots.enums.AxisLinePos.{BOTTOM, LEFT}
+import scalatikz.pgf.plots.enums.Color.{BLACK, BLUE, GREEN, RED, WHITE, YELLOW}
+import scalatikz.pgf.plots.enums.FontSize.FOOTNOTE
+import scalatikz.pgf.plots.enums.LegendPos.{NORTH_EAST, SOUTH_WEST}
+import scalatikz.pgf.plots.enums.LineSize.VERY_THIN
+import scalatikz.pgf.plots.enums.LineStyle.DASHED
+import scalatikz.pgf.plots.enums.Mark.{CIRCLE, DOT}
 
 object Examples extends App {
 

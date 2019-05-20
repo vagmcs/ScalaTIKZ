@@ -9,14 +9,14 @@
  *
  */
 
-package scalatikz.graphics.pgf
+package scalatikz.pgf.plots
 
 import com.github.dwickern.macros.NameOf._
-import scalatikz.graphics.pgf.enums.AxisLinePos.BOX
-import scalatikz.graphics.pgf.enums.AxisScale.LINEAR
-import scalatikz.graphics.pgf.enums.Color.WHITE
-import scalatikz.graphics.pgf.enums.LegendPos.OUTER_NORTH_EAST
-import scalatikz.graphics.pgf.enums._
+import scalatikz.pgf.plots.enums.AxisLinePos.BOX
+import scalatikz.pgf.plots.enums.AxisScale.LINEAR
+import scalatikz.pgf.plots.enums.Color.WHITE
+import scalatikz.pgf.plots.enums.LegendPos.OUTER_NORTH_EAST
+import scalatikz.pgf.plots.enums._
 
 /**
   * Axis configuration.

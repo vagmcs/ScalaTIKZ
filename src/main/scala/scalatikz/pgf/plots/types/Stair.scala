@@ -9,11 +9,11 @@
  *
  */
 
-package scalatikz.graphics.pgf.plots
+package scalatikz.pgf.plots.types
 
-import scalatikz.graphics.PGFPlot
-import scalatikz.graphics.pgf.DataTypes.Coordinates
-import scalatikz.graphics.pgf.enums.{ Color, LineSize, LineStyle, Mark }
+import scalatikz.pgf.PGFPlot
+import scalatikz.pgf.plots.DataTypes.Coordinates
+import scalatikz.pgf.plots.enums.{ Color, LineSize, LineStyle, Mark }
 
 /**
   * Creates a stair step of the data in Y versus the corresponding values in X.
@@ -46,7 +46,7 @@ final class Stair private (
   """.stripMargin
 }
 
-private[graphics] object Stair {
+private[pgf] object Stair {
 
   /**
     * Creates a stair step of the data in Y versus the corresponding values in X.

@@ -9,11 +9,11 @@
  *
  */
 
-package scalatikz.graphics.pgf.plots
+package scalatikz.pgf.plots.types
 
-import scalatikz.graphics.PGFPlot
-import scalatikz.graphics.pgf.DataTypes.Coordinates
-import scalatikz.graphics.pgf.enums.{ Color, Mark }
+import scalatikz.pgf.PGFPlot
+import scalatikz.pgf.plots.DataTypes.Coordinates
+import scalatikz.pgf.plots.enums.{ Color, Mark }
 
 /**
   * Creates a scatter at the locations specified by the data sequence. The type
@@ -42,7 +42,7 @@ final class Scatter private (
   """.stripMargin
 }
 
-private[graphics] object Scatter {
+private[pgf] object Scatter {
 
   /**
     * Creates a scatter at the locations specified by the data sequence. The type

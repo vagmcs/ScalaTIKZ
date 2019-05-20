@@ -9,7 +9,7 @@
  *
  */
 
-package scalatikz.graphics
+package scalatikz.pgf
 
 /**
   * Graphic is any construct that can be placed inside a
