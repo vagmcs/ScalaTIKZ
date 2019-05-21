@@ -28,7 +28,7 @@ object Examples extends App {
    * Bars for the function y = x^2
    */
   Figure("bar")
-    .bar(color = BLUE!80!WHITE)((-20 to 20).map(x => (x, x * x)))
+    .bar(barColor = BLUE!80!WHITE)((-20 to 20).map(x => (x, x * x)))
     .havingXLabel("$X$")
     .havingYLabel("$Y$")
     .saveAsPNG("images")
@@ -58,10 +58,10 @@ object Examples extends App {
   val x = BigDecimal(-5) to BigDecimal(5) by 0.1
 
   Figure("gaussian")
-    .plot(color = BLUE, smooth = true)(x -> gaussian(0, 0.2) _)
-    .plot(color = RED)(x -> gaussian(0, 1) _)
-    .plot(color = YELLOW!70!BLACK)(x -> gaussian(0, 5) _)
-    .plot(color = GREEN)(x -> gaussian(-2, 0.5) _)
+    .plot(lineColor = BLUE, smooth = true)(x -> gaussian(0, 0.2) _)
+    .plot(lineColor = RED)(x -> gaussian(0, 1) _)
+    .plot(lineColor = YELLOW!70!BLACK)(x -> gaussian(0, 5) _)
+    .plot(lineColor = GREEN)(x -> gaussian(-2, 0.5) _)
     .havingXLabel("$X$")
     .havingXLimits(-5, 5)
     .havingMajorGridOn
@@ -94,7 +94,7 @@ object Examples extends App {
   val xs = BigDecimal(0) to BigDecimal(2) * Pi by 0.1
 
   Figure("spline")
-    .plot(color = BLACK, lineStyle = DASHED)(xs -> sin _)
+    .plot(lineColor = BLACK, lineStyle = DASHED)(xs -> sin _)
     .scatter(markFillColor = RED, markSize = 1.5) {
       xs -> ((x: Double) => sin(x) + 0.1 * Random.nextGaussian)
     }.saveAsPNG("images")
@@ -119,8 +119,8 @@ object Examples extends App {
   val randomPoints = (1 to 20).map(_ => Random.nextDouble)
 
   Figure("stem")
-    .stem(color = BLUE!50!BLACK, marker = CIRCLE)(randomPoints)
-    .plot(color = GREEN!50!BLACK, lineStyle = DASHED, smooth = true)(randomPoints)
+    .stem(lineColor = BLUE!50!BLACK, marker = CIRCLE)(randomPoints)
+    .plot(lineColor = GREEN!50!BLACK, lineStyle = DASHED, smooth = true)(randomPoints)
     .saveAsPNG("images")
 
 
@@ -128,10 +128,10 @@ object Examples extends App {
    * Error bar
    */
   Figure("error_bar")
-    .errorBar(BLUE!50!BLACK) {
+    .errorPlot(BLUE!50!BLACK) {
       (BigDecimal(0) to BigDecimal(1) by 0.1) -> ((x: Double) => x / 2.0)
     } {
-      (1 to (BigDecimal(0) to BigDecimal(1) by 0.1).length).map(_ => 0 -> scala.util.Random.nextDouble)
+      (1 to (BigDecimal(0) to BigDecimal(1) by 0.1).length).map(_ => 0 -> scala.util.Random.nextDouble / 5)
     }
     .havingTitle("Error bar")
     .havingXAxisLinePos(BOTTOM)

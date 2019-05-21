@@ -38,6 +38,14 @@ final class Figure private (
     currentColor
   }
 
+  /*
+   * =====================================
+   *
+   * ========: TIKZ picture functions
+   *
+   * =====================================
+   */
+
   /**
     * Rename the figure.
     *
@@ -276,6 +284,535 @@ final class Figure private (
   /*
    * =====================================
    *
+   * ========: Custom plots
+   *
+   * =====================================
+   */
+
+  /**
+    * Plots the given custom pgf plot.
+    *
+    * @note You can extend [[scalatikz.pgf.plots.types.PGFPlot]] in order
+    *       to create custom pgf plots.
+    *
+    * @param pgf a pgf plot instance
+    */
+  def customPlot(pgf: PGFPlot): Figure =
+    new Figure(axis, colorIterator, name, graphics :+ pgf, axisType)
+
+  /*
+   * =====================================
+   *
+   * ========: Line plots
+   *
+   * =====================================
+   */
+
+  /**
+    * Plots a 2D line of the data in X against the corresponding values in Y.
+    *
+    * @param data sequence of X, Y points in the Euclidean space
+    */
+  def plot(data: Data): Figure = plot()(data)
+
+  /**
+    * Plots a 2D line of the data in X against the corresponding values in Y.
+    *
+    * @param lineColor line color (default random color)
+    * @param lineStyle line style (default is solid)
+    * @param lineSize line size (default is thin)
+    * @param marker mark style (default none)
+    * @param markStrokeColor mark stroke color (optional)
+    * @param markFillColor mark fill color (optional)
+    * @param markSize mark size (default is 1 pt)
+    * @param smooth plot a smooth line instead of a sharp (default is false)
+    * @param sparse plot only distinct points (default is false)
+    * @param data sequence of X, Y points in the Euclidean space
+    */
+  def plot(
+      lineColor: Color = nextColor,
+      lineStyle: LineStyle = SOLID,
+      lineSize: LineSize = THIN,
+      marker: Mark = NONE,
+      markStrokeColor: Color = currentColor,
+      markFillColor: Color = currentColor,
+      markSize: Double = 1,
+      smooth: Boolean = false,
+      sparse: Boolean = false)(data: Data): Figure =
+    new Figure(axis, colorIterator, name, graphics :+ Line(
+      if (sparse) data.sparse.coordinates else data.coordinates,
+      if (smooth) SMOOTH else SHARP,
+      lineColor,
+      lineStyle,
+      lineSize,
+      marker,
+      markStrokeColor,
+      markFillColor,
+      markSize,
+      PLAIN,
+      None,
+      0.0), axisType
+    )
+
+  /**
+    * Plots a 2D line of the data in Y versus the corresponding values in X
+    * along vertical and/or horizontal error bars at each data point.
+    *
+    * @param data sequence of X, Y points in the Euclidean space
+    * @param error sequence of X, Y error points
+    */
+  def errorPlot(data: Data)(error: Data): Figure = errorPlot()(data)(error)
+
+  /**
+    * Plots a 2D line of the data in Y versus the corresponding values in X
+    * along vertical and/or horizontal error bars at each data point.
+    *
+    * @param lineColor line color (default random color)
+    * @param lineStyle line style (default is solid)
+    * @param lineSize line size (default is thin)
+    * @param marker mark style (default none)
+    * @param markStrokeColor mark stroke color (optional)
+    * @param markFillColor mark fill color (optional)
+    * @param markSize mark size (default is 1 pt)
+    * @param smooth plot a smooth line instead of a sharp (default is false)
+    * @param data sequence of X, Y points in the Euclidean space
+    * @param error sequence of X, Y error points
+    */
+  def errorPlot(
+      lineColor: Color = nextColor,
+      lineStyle: LineStyle = SOLID,
+      lineSize: LineSize = THIN,
+      marker: Mark = NONE,
+      markStrokeColor: Color = currentColor,
+      markFillColor: Color = currentColor,
+      markSize: Double = 1,
+      smooth: Boolean = false)(data: Data)(error: Data): Figure =
+    new Figure(axis, colorIterator, name, graphics :+ ErrorLine(
+      data.coordinates,
+      error.coordinates,
+      if (smooth) SMOOTH else SHARP,
+      lineColor,
+      lineStyle,
+      lineSize,
+      marker,
+      markStrokeColor,
+      markFillColor,
+      markSize), axisType
+    )
+
+  /*
+   * =====================================
+   *
+   * ========: Area plots
+   *
+   * =====================================
+   */
+
+  /**
+    * Plots a 2D line of the data in X against the corresponding values in Y
+    * and fills the area under the curve.
+    *
+    * @param data sequence of X, Y points in the Euclidean space
+    */
+  def area(data: Data): Figure = area()(data)
+
+  /**
+    * Plots a 2D line of the data in X against the corresponding values in Y
+    * and fills the area under the curve.
+    *
+    * @param lineColor line color (default random color)
+    * @param lineStyle line style (default is solid)
+    * @param lineSize line size (default is thin)
+    * @param marker mark style (default none)
+    * @param markStrokeColor mark stroke color (optional)
+    * @param markFillColor mark fill color (optional)
+    * @param markSize mark size (default is 1 pt)
+    * @param pattern a fill pattern for the area under the curve (default is plain color)
+    * @param fillColor pattern color
+    * @param opacity opacity of the area under the curve
+    * @param smooth plot a smooth line instead of a sharp (default is false)
+    * @param sparse plot only distinct points (default is false)
+    * @param data sequence of X, Y points in the Euclidean space
+    */
+  def area(
+      lineColor: Color = nextColor,
+      lineStyle: LineStyle = SOLID,
+      lineSize: LineSize = THIN,
+      marker: Mark = NONE,
+      markStrokeColor: Color = currentColor,
+      markFillColor: Color = currentColor,
+      markSize: Double = 1,
+      pattern: Pattern = PLAIN,
+      fillColor: Color = currentColor,
+      opacity: Double = 0.5,
+      smooth: Boolean = false,
+      sparse: Boolean = false)(data: Data): Figure =
+    new Figure(axis, colorIterator, name, graphics :+ Line(
+      if (sparse) data.sparse.coordinates else data.coordinates,
+      if (smooth) SMOOTH else SHARP,
+      lineColor,
+      lineStyle,
+      lineSize,
+      marker,
+      markStrokeColor,
+      markFillColor,
+      markSize,
+      pattern,
+      Some(fillColor),
+      opacity), axisType
+    )
+
+  /**
+    * Plots a 2D line of the data in X against the corresponding values in Y
+    * along an error area around the 2D line.
+    *
+    * @param data sequence of X, Y points in the Euclidean space
+    * @param error sequence of X, Y error points
+    */
+  def errorArea(data: Data)(error: Data): Figure = errorArea()(data)(error)
+
+  /**
+    * Plots a 2D line of the data in X against the corresponding values in Y
+    * and fills the area under the curve.
+    *
+    * @param lineColor line color (default random color)
+    * @param lineStyle line style (default is solid)
+    * @param lineSize line size (default is thin)
+    * @param marker mark style (default none)
+    * @param markStrokeColor mark stroke color (optional)
+    * @param markFillColor mark fill color (optional)
+    * @param markSize mark size (default is 1 pt)
+    * @param fillColor color of the error area
+    * @param opacity opacity of the error area
+    * @param smooth plot a smooth line instead of a sharp (default is false)
+    * @param data sequence of X, Y points in the Euclidean space
+    * @param error sequence of X, Y error points
+    */
+  def errorArea(
+      lineColor: Color = nextColor,
+      lineStyle: LineStyle = SOLID,
+      lineSize: LineSize = THIN,
+      marker: Mark = NONE,
+      markStrokeColor: Color = currentColor,
+      markFillColor: Color = currentColor,
+      markSize: Double = 1,
+      fillColor: Color = currentColor,
+      opacity: Double = 0.5,
+      smooth: Boolean = false)(data: Data)(error: Data): Figure =
+    new Figure(axis, colorIterator, name, graphics :+ ErrorArea(
+      data.coordinates,
+      error.coordinates,
+      if (smooth) SMOOTH else SHARP,
+      lineColor,
+      lineStyle,
+      lineSize,
+      marker,
+      markStrokeColor,
+      markFillColor,
+      markSize,
+      fillColor,
+      opacity), axisType
+    )
+
+  /*
+   * =====================================
+   *
+   * ========: Stem plots
+   *
+   * =====================================
+   */
+
+  /**
+    * Plots stems of the given data extending from the X-axis to their corresponding
+    * y values. The data values along the Y-axis are indicated by marks terminating each stem.
+    *
+    * @note You can also create horizontal stems extending from Y-axis to X values.
+    *
+    * @param data sequence of X, Y points in the Euclidean space
+    */
+  def stem(data: Data): Figure = stem()(data)
+
+  /**
+    * Plots stems of the given data extending from the X-axis to their corresponding
+    * y values. The data values along the Y-axis are indicated by marks terminating each stem.
+    *
+    * @note You can also create horizontal stems extending from Y-axis to X values.
+    *
+    * @param lineColor line color (default random color)
+    * @param marker mark style (default none)
+    * @param markStrokeColor mark stroke color (optional)
+    * @param markFillColor mark fill color (optional)
+    * @param markSize mark size (default is 1 pt)
+    * @param nodesNearCoords depict nodes near coords (default is false)
+    * @param horizontal horizontal stems extending from Y-axis to X values (default is false)
+    * @param data sequence of X, Y points in the Euclidean space
+    */
+  def stem(
+      lineColor: Color = nextColor,
+      marker: Mark = NONE,
+      markStrokeColor: Color = currentColor,
+      markFillColor: Color = currentColor,
+      markSize: Double = 1,
+      nodesNearCoords: Boolean = false,
+      horizontal: Boolean = false)(data: Data): Figure =
+    new Figure(axis, colorIterator, name, graphics :+ Stem(
+      data.coordinates,
+      lineColor,
+      marker,
+      markStrokeColor,
+      markFillColor,
+      markSize,
+      nodesNearCoords,
+      horizontal), axisType
+    )
+
+  /*
+   * =====================================
+   *
+   * ========: Steps plots
+   *
+   * =====================================
+   */
+
+  /**
+    * Plots the data in X against the corresponding values in Y as constant steps.
+    *
+    * @param data sequence of X, Y points in the Euclidean space
+    */
+  def steps(data: Data): Figure = steps()(data)
+
+  /**
+    * Plots the data in X against the corresponding values in Y as constant steps.
+    *
+    * @param lineColor line color (default random color)
+    * @param lineStyle line style (default is solid)
+    * @param lineSize line size (default is thin)
+    * @param marker mark style (default none)
+    * @param markStrokeColor mark stroke color (optional)
+    * @param markFillColor mark fill color (optional)
+    * @param markSize mark size (default is 1 pt)
+    * @param sparse plot only distinct points (default is false)
+    * @param data sequence of X, Y points in the Euclidean space
+    */
+  def steps(
+      lineColor: Color = nextColor,
+      lineStyle: LineStyle = SOLID,
+      lineSize: LineSize = THIN,
+      marker: Mark = NONE,
+      markStrokeColor: Color = currentColor,
+      markFillColor: Color = currentColor,
+      markSize: Double = 1,
+      sparse: Boolean = false)(data: Data): Figure =
+    new Figure(axis, colorIterator, name, graphics :+ Line(
+      if (sparse) data.sparse.coordinates else data.coordinates,
+      CONST,
+      lineColor,
+      lineStyle,
+      lineSize,
+      marker,
+      markStrokeColor,
+      markFillColor,
+      markSize,
+      PLAIN,
+      None,
+      0.5), axisType
+    )
+
+  /*
+   * =====================================
+   *
+   * ========: Scatter functions
+   *
+   * =====================================
+   */
+
+  /**
+    * Plots a scatter of data points.
+    *
+    * @note Scatter plot is also called a bubble plot.
+    *
+    * @param data sequence of X, Y points in the Euclidean space
+    */
+  def scatter(data: Data): Figure = scatter()(data)
+
+  /**
+    * Plots a scatter of data points.
+    *
+    * @note Scatter plot is also called a bubble plot.
+    *
+    * @param marker mark style (default none)
+    * @param markStrokeColor mark stroke color (optional)
+    * @param markFillColor mark fill color (optional)
+    * @param markSize mark size (default is 1 pt)
+    * @param nodesNearCoords depict nodes near coords (default is false)
+    * @param data sequence of X, Y points in the Euclidean space
+    */
+  def scatter(
+      marker: Mark = NONE,
+      markStrokeColor: Color = nextColor,
+      markFillColor: Color = currentColor,
+      markSize: Double = 1,
+      nodesNearCoords: Boolean = false)(data: Data): Figure =
+    new Figure(axis, colorIterator, name, graphics :+ Scatter(
+      data.coordinates,
+      marker,
+      markStrokeColor,
+      markFillColor,
+      markSize,
+      nodesNearCoords), axisType
+    )
+
+  /**
+    * Creates a scatter of data points along vertical and/or horizontal
+    * error bars at each data point.
+    *
+    * @note Scatter plot is also called a bubble plot.
+    *
+    * @param data sequence of X, Y points in the Euclidean space
+    * @param error sequence of X, Y points in the Euclidean space
+    */
+  def errorScatter(data: Data)(error: Data): Figure = errorScatter()(data)(error)
+
+  /**
+    * Plots a data sequence as a scatter at the locations specified by the
+    * data sequence. The type of the graph is also called a bubble plot.
+    *
+    * @param marker mark style (default none)
+    * @param markStrokeColor mark stroke color (optional)
+    * @param markFillColor mark fill color (optional)
+    * @param markSize mark size (default is 1 pt)
+    * @param data sequence of X, Y points in the Euclidean space
+    * @param error sequence of X, Y points in the Euclidean space
+    */
+  def errorScatter(
+      marker: Mark = NONE,
+      markStrokeColor: Color = nextColor,
+      markFillColor: Color = currentColor,
+      markSize: Double = 1)(data: Data)(error: Data): Figure =
+    new Figure(axis, colorIterator, name, graphics :+ ErrorScatter(
+      data.coordinates,
+      error.coordinates,
+      marker,
+      markStrokeColor,
+      markFillColor,
+      markSize), axisType
+    )
+
+  /*
+   * =====================================
+   *
+   * ========: Bar plots
+   *
+   * =====================================
+   */
+
+  /**
+    * Plots 2D bars of the data in X against the corresponding values in Y.
+    *
+    * @param data sequence of X, Y points in the Euclidean space
+    */
+  def bar(data: Data): Figure = bar()(data)
+
+  /**
+    * Plots 2D bars of the data in X against the corresponding values in Y.
+    *
+    * @param barColor bar color (default random color)
+    * @param lineStyle line style (default is solid)
+    * @param lineSize line size (default is thin)
+    * @param marker mark style (default none)
+    * @param markStrokeColor mark stroke color (optional)
+    * @param markFillColor mark fill color (optional)
+    * @param markSize mark size (default is 1 pt)
+    * @param pattern a pattern to fill the bars (default is plain color)
+    * @param opacity opacity of the bars (default is 1)
+    * @param barWidth the bars width (default is 0.5 pt)
+    * @param nodesNearCoords depict nodes near coords
+    * @param horizontal horizontal stems extending from Y-axis to X values
+    * @param data sequence of X, Y points in the Euclidean space
+    */
+  def bar(
+      barColor: Color = nextColor,
+      lineStyle: LineStyle = SOLID,
+      lineSize: LineSize = THIN,
+      marker: Mark = NONE,
+      markStrokeColor: Color = currentColor,
+      markFillColor: Color = currentColor,
+      markSize: Double = 1,
+      pattern: Pattern = PLAIN,
+      opacity: Double = 1,
+      barWidth: Double = 0.5,
+      nodesNearCoords: Boolean = false,
+      horizontal: Boolean = false)(data: Data): Figure =
+    new Figure(axis, colorIterator, name, graphics :+ Bar(
+      data.coordinates,
+      barColor,
+      lineStyle,
+      lineSize,
+      marker,
+      markStrokeColor,
+      markFillColor,
+      markSize,
+      pattern,
+      opacity,
+      barWidth,
+      nodesNearCoords,
+      horizontal), axisType
+    )
+
+  /**
+    * Creates 2D bars of the data in X against the corresponding values in Y
+    * along vertical and/or horizontal error bars at each data point.
+    *
+    * @param data sequence of X, Y points in the Euclidean space
+    * @param error sequence of X, Y error points
+    */
+  def errorBar(data: Data)(error: Data): Figure = errorBar()(data)(error)
+
+  /**
+    * Plots a 2D line of the data in Y versus the corresponding values in X
+    * along vertical and/or horizontal error bars at each data point.
+    *
+    * @param barColor bar color
+    * @param marker mark style
+    * @param markStrokeColor mark stroke color
+    * @param markFillColor mark fill color
+    * @param markSize mark size
+    * @param lineStyle line style
+    * @param lineSize line size
+    * @param data sequence of X, Y points in the Euclidean space
+    * @param error sequence of X, Y error points
+    */
+  def errorBar(
+      barColor: Color = nextColor,
+      lineStyle: LineStyle = SOLID,
+      lineSize: LineSize = THIN,
+      marker: Mark = NONE,
+      markStrokeColor: Color = currentColor,
+      markFillColor: Color = currentColor,
+      markSize: Double = 1,
+      pattern: Pattern = PLAIN,
+      opacity: Double = 1,
+      barWidth: Double = 0.5,
+      horizontal: Boolean = false)(data: Data)(error: Data): Figure =
+    new Figure(axis, colorIterator, name, graphics :+ ErrorBar(
+      data.coordinates,
+      error.coordinates,
+      barColor,
+      lineStyle,
+      lineSize,
+      marker,
+      markStrokeColor,
+      markFillColor,
+      markSize,
+      PLAIN,
+      opacity,
+      barWidth,
+      horizontal), axisType
+    )
+
+  /*
+   * =====================================
+   *
    * ========: Polar functions
    *
    * =====================================
@@ -319,425 +856,8 @@ final class Figure private (
       marker,
       markStrokeColor,
       markFillColor,
-      markSize), POLAR
-    )
-
-  /*
-   * =====================================
-   *
-   * ========: Bar functions
-   *
-   * =====================================
-   */
-
-  /**
-    * Plots a data sequence as a bar graph of the data in Y coordinate
-    * versus the corresponding X coordinate.
-    *
-    * @param data sequence of x, y points in the Euclidean space
-    * @return a figure containing the bar graph
-    */
-  def bar(data: Data): Figure = bar()(data)
-
-  /**
-    * Plots a data sequence as a bar graph of the data in Y coordinate
-    * versus the corresponding X coordinate.
-    *
-    * @param color line color (default random color)
-    * @param pattern a pattern to fill the bars (default is plain color)
-    * @param lineStyle line style (default is solid)
-    * @param lineSize line size (default is thin)
-    * @param opacity opacity of the bars (default is 1)
-    * @param barWidth the bars width (default is 0.5 pt)
-    * @param data sequence of x, y points in the Euclidean space
-    */
-  def bar(
-      color: Color = nextColor,
-      pattern: Pattern = PLAIN,
-      lineStyle: LineStyle = SOLID,
-      lineSize: LineSize = THIN,
-      marker: Mark = NONE,
-      markStrokeColor: Color = currentColor,
-      markFillColor: Color = currentColor,
-      markSize: Double = 1,
-      opacity: Double = 1,
-      barWidth: Double = 0.5)(data: Data): Figure =
-    new Figure(axis, colorIterator, name, graphics :+ Bar(
-      data.coordinates,
-      color,
-      lineStyle,
-      lineSize,
-      marker,
-      markStrokeColor,
-      markFillColor,
       markSize,
-      pattern,
-      opacity,
-      barWidth,
-      false,
-      false), axisType
-    )
-
-  /*
-   * =====================================
-   *
-   * ========: Plot functions
-   *
-   * =====================================
-   */
-
-  /**
-    * Plots a data sequence as a 2D line of the data in Y coordinate
-    * versus the corresponding X coordinate.
-    *
-    * @param data sequence of x, y points in the Euclidean space
-    */
-  def plot(data: Data): Figure = plot()(data)
-
-  /**
-    * Plots a data sequence as a 2D line of the data in Y coordinate
-    * versus the corresponding X coordinate.
-    *
-    * @param color line color (default random color)
-    * @param marker mark style (default none)
-    * @param markStrokeColor mark stroke color (optional)
-    * @param markFillColor mark fill color (optional)
-    * @param markSize mark size (default is 1 pt)
-    * @param lineStyle line style (default is solid)
-    * @param lineSize line size (default is thin)
-    * @param smooth true for a smooth line (default is false)
-    * @param data sequence of x, y points in the Euclidean space
-    */
-  def plot(
-      color: Color = nextColor,
-      marker: Mark = NONE,
-      markStrokeColor: Color = currentColor,
-      markFillColor: Color = currentColor,
-      markSize: Double = 1,
-      lineStyle: LineStyle = SOLID,
-      lineSize: LineSize = THIN,
-      smooth: Boolean = false,
-      sparse: Boolean = false)(data: Data): Figure =
-    new Figure(axis, colorIterator, name, graphics :+ Line(
-      if (sparse) data.sparse.coordinates else data.coordinates,
-      if (smooth) SMOOTH else SHARP,
-      color,
-      lineStyle,
-      lineSize,
-      marker,
-      markStrokeColor,
-      markFillColor,
-      markSize,
-      PLAIN,
-      None,
-      0.5), axisType
-    )
-
-  /*
-   * =====================================
-   *
-   * ========: Area functions
-   *
-   * =====================================
-   */
-
-  /**
-    * Plots a data sequence as a 2D line of the data in Y coordinate
-    * versus the corresponding X coordinate and fills the area beneath the curve.
-    *
-    * @param data sequence of x, y points in the Euclidean space
-    */
-  def area(data: Data): Figure = area()(data)
-
-  /**
-    * Plots a data sequence as a 2D line of the data in Y coordinate
-    * versus the corresponding X coordinate and fills the area beneath the curve.
-    *
-    * @param color line color (default is a random color)
-    * @param marker mark style (default none)
-    * @param markStrokeColor mark stroke color (optional)
-    * @param markFillColor mark fill color (optional)
-    * @param markSize mark size (default is 1 pt)
-    * @param lineStyle line style (default is solid)
-    * @param lineSize line size (default is thin)
-    * @param pattern the pattern to fill the area (default is plain color)
-    * @param opacity opacity of the area under curve (default is 0.5)
-    * @param smooth true for a smooth line (default is false)
-    * @param constant true for a constant area (default is false)
-    * @param data sequence of x, y points in the Euclidean space
-    */
-  def area(
-      color: Color = nextColor,
-      marker: Mark = NONE,
-      markStrokeColor: Color = currentColor,
-      markFillColor: Color = currentColor,
-      markSize: Double = 1,
-      lineStyle: LineStyle = SOLID,
-      lineSize: LineSize = THIN,
-      pattern: Pattern = PLAIN,
-      opacity: Double = 0.5,
-      smooth: Boolean = false,
-      constant: Boolean = false)(data: Data): Figure =
-    new Figure(axis, colorIterator, name, graphics :+ Line(
-      data.coordinates,
-      if (smooth) SMOOTH else if (constant) CONST else SHARP,
-      color,
-      lineStyle,
-      lineSize,
-      marker,
-      markStrokeColor,
-      markFillColor,
-      markSize,
-      pattern,
-      Some(color),
-      opacity), axisType
-    )
-
-  /*
-   * =====================================
-   *
-   * ========: Stem functions
-   *
-   * =====================================
-   */
-
-  /**
-    * Plots a data sequence as stems that extend from a baseline along the
-    * x-axis. The data values are indicated by marks terminating each stem.
-    *
-    * @param data sequence of x, y points in the Euclidean space
-    */
-  def stem(data: Data): Figure = stem()(data)
-
-  /**
-    * Plots a data sequence as stems that extend from a baseline along the
-    * x-axis. The data values are indicated by marks terminating each stem.
-    *
-    * @param color line color (default random color)
-    * @param marker mark style (default none)
-    * @param markStrokeColor mark stroke color (optional)
-    * @param markFillColor mark fill color (optional)
-    * @param markSize mark size (default is 1 pt)
-    * @param data sequence of x, y points in the Euclidean space
-    */
-  def stem(
-      color: Color = nextColor,
-      marker: Mark = NONE,
-      markStrokeColor: Color = currentColor,
-      markFillColor: Color = currentColor,
-      markSize: Double = 1)(data: Data): Figure =
-    new Figure(axis, colorIterator, name, graphics :+ Stem(
-      data.coordinates,
-      color,
-      marker,
-      markStrokeColor,
-      markFillColor,
-      markSize,
-      false,
-      false), axisType
-    )
-
-  /*
-   * =====================================
-   *
-   * ========: Stair functions
-   *
-   * =====================================
-   */
-
-  /**
-    * Plots a data sequence as a stair step of the data in Y versus
-    * the corresponding values in X.
-    *
-    * @param data sequence of x, y points in the Euclidean space
-    */
-  def stair(data: Data): Figure = stair()(data)
-
-  /**
-    * Plots a data sequence as a stair step of the data in Y versus
-    * the corresponding values in X.
-    *
-    * @param color line color (default random color)
-    * @param marker mark style (default none)
-    * @param markStrokeColor mark stroke color (optional)
-    * @param markFillColor mark fill color (optional)
-    * @param markSize mark size (default is 1 pt)
-    * @param lineStyle line style (default is solid)
-    * @param lineSize line size (default is thin)
-    * @param data sequence of x, y points in the Euclidean space
-    */
-  def stair(
-      color: Color = nextColor,
-      marker: Mark = NONE,
-      markStrokeColor: Color = currentColor,
-      markFillColor: Color = currentColor,
-      markSize: Double = 1,
-      lineStyle: LineStyle = SOLID,
-      lineSize: LineSize = THIN)(data: Data): Figure =
-    new Figure(axis, colorIterator, name, graphics :+ Line(
-      data.coordinates,
-      CONST,
-      color,
-      lineStyle,
-      lineSize,
-      marker,
-      markStrokeColor,
-      markFillColor,
-      markSize,
-      PLAIN,
-      None,
-      0.5), axisType
-    )
-
-  /*
-   * =====================================
-   *
-   * ========: Scatter functions
-   *
-   * =====================================
-   */
-
-  /**
-    * Plots a data sequence as a scatter at the locations specified by the
-    * data sequence. The type of the graph is also called a bubble plot.
-    *
-    * @param data sequence of x, y points in the Euclidean space
-    */
-  def scatter(data: Data): Figure = scatter()(data)
-
-  /**
-    * Plots a data sequence as a scatter at the locations specified by the
-    * data sequence. The type of the graph is also called a bubble plot.
-    *
-    * @param marker mark style (default none)
-    * @param markStrokeColor mark stroke color (optional)
-    * @param markFillColor mark fill color (optional)
-    * @param markSize mark size (default is 1 pt)
-    * @param data sequence of x, y points in the Euclidean space
-    */
-  def scatter(
-      marker: Mark = NONE,
-      markStrokeColor: Color = nextColor,
-      markFillColor: Color = currentColor,
-      markSize: Double = 1)(data: Data): Figure =
-    new Figure(axis, colorIterator, name, graphics :+ Scatter(
-      data.coordinates,
-      marker,
-      markStrokeColor,
-      markFillColor,
-      markSize), axisType
-    )
-
-  /*
-   * =====================================
-   *
-   * ========: ErrorBar functions
-   *
-   * =====================================
-   */
-
-  /**
-    * Plots a 2D line of the data in Y versus the corresponding values in X
-    * along vertical and/or horizontal error bars at each data point.
-    *
-    * @param data sequence of x, y points in the Euclidean space along
-    *             a sequence of x-error, y-error points.
-    */
-  def errorBar(data: Data)(error: Data): Figure = errorBar()(data)(error)
-
-  /**
-    * Plots a 2D line of the data in Y versus the corresponding values in X
-    * along vertical and/or horizontal error bars at each data point.
-    *
-    * @param color line color
-    * @param marker mark style
-    * @param markStrokeColor mark stroke color
-    * @param markFillColor mark fill color
-    * @param markSize mark size
-    * @param lineStyle line style
-    * @param lineSize line size
-    * @param smooth true in case the line is smooth
-    * @param data sequence of x, y points in the Euclidean space along
-    *             a sequence of x-error, y-error points.
-    */
-  def errorBar(
-      color: Color = nextColor,
-      marker: Mark = NONE,
-      markStrokeColor: Color = currentColor,
-      markFillColor: Color = currentColor,
-      markSize: Double = 1,
-      lineStyle: LineStyle = SOLID,
-      lineSize: LineSize = THIN,
-      smooth: Boolean = false)(data: Data)(error: Data): Figure =
-    new Figure(axis, colorIterator, name, graphics :+ ErrorLine(
-      data.coordinates,
-      error.coordinates,
-      if (smooth) SMOOTH else SHARP,
-      color,
-      lineStyle,
-      lineSize,
-      marker,
-      markStrokeColor,
-      markFillColor,
-      markSize), axisType
-    )
-
-  /*
-   * =====================================
-   *
-   * ========: ErrorArea functions
-   *
-   * =====================================
-   */
-
-  /**
-    * Plots a 2D line of the data in Y versus the corresponding values in X
-    * along an error area around the data points.
-    *
-    * @param data sequence of x, y points in the Euclidean space along
-    *             a sequence of x-error, y-error points.
-    */
-  def errorArea(data: Data)(error: Data): Figure = errorArea()(data)(error)
-
-  /**
-    * Plots a 2D line of the data in Y versus the corresponding values in X
-    * along an error area around the data points.
-    *
-    * @param color line color
-    * @param marker mark style
-    * @param markStrokeColor mark stroke color
-    * @param markFillColor mark fill color
-    * @param markSize mark size
-    * @param lineStyle line style
-    * @param lineSize line size
-    * @param opacity opacity of the error area
-    * @param smooth true in case the line is smooth
-    * @param data sequence of x, y points in the Euclidean space along
-    *             a sequence of x-error, y-error points.
-    */
-  def errorArea(
-      color: Color = nextColor,
-      marker: Mark = NONE,
-      markStrokeColor: Color = currentColor,
-      markFillColor: Color = currentColor,
-      markSize: Double = 1,
-      lineStyle: LineStyle = SOLID,
-      lineSize: LineSize = THIN,
-      opacity: Double = 0.2,
-      smooth: Boolean = false)(data: Data)(error: Data): Figure =
-    new Figure(axis, colorIterator, name, graphics :+ ErrorArea(
-      data.coordinates,
-      error.coordinates,
-      if (smooth) SMOOTH else SHARP,
-      color,
-      lineStyle,
-      lineSize,
-      marker,
-      markStrokeColor,
-      markFillColor,
-      markSize,
-      color,
-      opacity), axisType
+      nodesNearCoords = false), POLAR
     )
 
   override def toString: String =

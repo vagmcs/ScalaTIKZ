@@ -12,6 +12,7 @@
 package scalatikz.app
 
 import java.io.File
+
 import scala.util.{ Failure, Success }
 import scalatikz.app.GraphType._
 import scalatikz.common.CSV
@@ -24,6 +25,7 @@ import scalatikz.pgf.plots.enums.LineStyle.SOLID
 import scalatikz.pgf.plots.enums.Mark.{ CIRCLE, NONE }
 import scalatikz.pgf.plots.enums.Pattern.PLAIN
 import scalatikz.pgf.Compiler
+import scalatikz.pgf.plots.enums.LineType.{ SHARP, SMOOTH }
 
 object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
 
@@ -385,7 +387,7 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
 
               resultedFigure =
                 resultedFigure.plot(
-                  color           = graphic.lineColor.getOrElse(nextColor),
+                  lineColor       = graphic.lineColor.getOrElse(nextColor),
                   marker          = graphic.marker.getOrElse(NONE),
                   markStrokeColor = graphic.markStrokeColor.getOrElse(graphic.lineColor.getOrElse(currentColor)),
                   markFillColor   = graphic.markFillColor.getOrElse(graphic.lineColor.getOrElse(currentColor)),
@@ -399,7 +401,7 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
 
               resultedFigure =
                 resultedFigure.stem(
-                  color           = graphic.lineColor.getOrElse(nextColor),
+                  lineColor       = graphic.lineColor.getOrElse(nextColor),
                   marker          = graphic.marker.getOrElse(NONE),
                   markStrokeColor = graphic.markStrokeColor.getOrElse(graphic.lineColor.getOrElse(currentColor)),
                   markFillColor   = graphic.markFillColor.getOrElse(graphic.lineColor.getOrElse(currentColor)),
@@ -420,7 +422,7 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
 
               resultedFigure =
                 resultedFigure.area(
-                  color           = graphic.lineColor.getOrElse(nextColor),
+                  lineColor       = graphic.lineColor.getOrElse(nextColor),
                   marker          = graphic.marker.getOrElse(NONE),
                   markStrokeColor = graphic.markStrokeColor.getOrElse(graphic.lineColor.getOrElse(currentColor)),
                   markFillColor   = graphic.markFillColor.getOrElse(graphic.lineColor.getOrElse(currentColor)),
@@ -429,15 +431,14 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
                   lineSize        = graphic.lineSize.getOrElse(THIN),
                   pattern         = graphic.pattern.getOrElse(PLAIN),
                   opacity         = graphic.opacity,
-                  smooth          = graphic.smooth,
-                  constant        = graphic.constant
+                  smooth          = graphic.smooth // TODO I should support const areas too
                 )(coordinates)
 
             case STAIR =>
 
               resultedFigure =
-                resultedFigure.stair(
-                  color           = graphic.lineColor.getOrElse(nextColor),
+                resultedFigure.steps(
+                  lineColor       = graphic.lineColor.getOrElse(nextColor),
                   marker          = graphic.marker.getOrElse(NONE),
                   markStrokeColor = graphic.markStrokeColor.getOrElse(graphic.lineColor.getOrElse(currentColor)),
                   markFillColor   = graphic.markFillColor.getOrElse(graphic.lineColor.getOrElse(currentColor)),
@@ -470,7 +471,7 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
 
               resultedFigure =
                 resultedFigure.errorArea(
-                  color           = graphic.lineColor.getOrElse(nextColor),
+                  lineColor       = graphic.lineColor.getOrElse(nextColor),
                   marker          = graphic.marker.getOrElse(NONE),
                   markStrokeColor = graphic.markStrokeColor.getOrElse(graphic.lineColor.getOrElse(currentColor)),
                   markFillColor   = graphic.markFillColor.getOrElse(graphic.lineColor.getOrElse(currentColor)),
@@ -504,8 +505,8 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
                 }
 
               resultedFigure =
-                resultedFigure.errorBar(
-                  color           = graphic.lineColor.getOrElse(nextColor),
+                resultedFigure.errorPlot(
+                  lineColor       = graphic.lineColor.getOrElse(nextColor),
                   marker          = graphic.marker.getOrElse(NONE),
                   markStrokeColor = graphic.markStrokeColor.getOrElse(graphic.lineColor.getOrElse(currentColor)),
                   markFillColor   = graphic.markFillColor.getOrElse(graphic.lineColor.getOrElse(currentColor)),
@@ -519,7 +520,7 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
 
               resultedFigure =
                 resultedFigure.bar(
-                  color     = graphic.lineColor.getOrElse(nextColor),
+                  barColor  = graphic.lineColor.getOrElse(nextColor),
                   pattern   = graphic.pattern.getOrElse(PLAIN),
                   lineStyle = graphic.lineStyle.getOrElse(SOLID),
                   lineSize  = graphic.lineSize.getOrElse(THIN),

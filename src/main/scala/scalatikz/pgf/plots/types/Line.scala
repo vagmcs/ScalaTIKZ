@@ -20,7 +20,7 @@ import scalatikz.pgf.plots.enums._
   * Optionally it fills the area under the curve.
   *
   * @param coordinates sequence of X, Y points in the Euclidean space.
-  * @param lineType type of line (sharp, const, smooth)
+  * @param lineType type of line (sharp, const or smooth)
   * @param lineColor line color
   * @param lineStyle line style
   * @param lineSize line size

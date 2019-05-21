@@ -32,7 +32,7 @@ case class Scatter(
     markStrokeColor: Color,
     markFillColor: Color,
     markSize: Double,
-    nodesNearCoords: Boolean = false) extends PGFPlot {
+    nodesNearCoords: Boolean) extends PGFPlot {
 
   override def toString: String = {
     if (!nodesNearCoords)

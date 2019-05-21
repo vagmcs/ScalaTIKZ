@@ -19,7 +19,7 @@ import scalatikz.pgf.plots.enums.{ Color, LineSize, LineStyle, Mark, Pattern }
   * Creates 2D bars of the data in X against the corresponding values in Y.
   *
   * @param coordinates sequence of x, y points in the Euclidean space
-  * @param color line color
+  * @param barColor bar color
   * @param lineStyle line style
   * @param lineSize line size
   * @param marker mark style
@@ -34,7 +34,7 @@ import scalatikz.pgf.plots.enums.{ Color, LineSize, LineStyle, Mark, Pattern }
   */
 case class Bar(
     coordinates: Coordinates2D,
-    color: Color,
+    barColor: Color,
     lineStyle: LineStyle,
     lineSize: LineSize,
     marker: Mark,
@@ -50,9 +50,9 @@ case class Bar(
   override def toString: String = {
     if (!nodesNearCoords)
       raw"""
-           |\addplot
+           |\addplot[
            |  ${if (horizontal) "xBar".toLowerCase else "yBar".toLowerCase},
-           |  color=$color,
+           |  color=$barColor,
            |  $lineStyle,
            |  $lineSize,
            |  mark=$marker,
@@ -60,7 +60,7 @@ case class Bar(
            |  mark options={draw=$markStrokeColor, fill=$markFillColor},
            |  bar width=$barWidth,
            |  fill opacity=$opacity,
-           |  ${if (pattern != PLAIN) s"pattern=$pattern, pattern color=$color" else s"fill=$color"}
+           |  ${if (pattern != PLAIN) s"pattern=$pattern, pattern color=$barColor" else s"fill=$barColor"}
            |] coordinates {
            |${coordinates.mkString("\n")}
            |};
@@ -69,7 +69,7 @@ case class Bar(
       raw"""
            |\addplot[
            |  ${if (horizontal) 'xBar.name.toLowerCase else 'yBar.name.toLowerCase},
-           |  color=$color,
+           |  color=$barColor,
            |  $lineStyle,
            |  $lineSize,
            |  mark=$marker,
@@ -77,7 +77,7 @@ case class Bar(
            |  mark options={draw=$markStrokeColor, fill=$markFillColor},
            |  bar width=$barWidth,
            |  fill opacity=$opacity,
-           |  ${if (pattern != PLAIN) s"pattern=$pattern, pattern color=$color" else s"fill=$color"},
+           |  ${if (pattern != PLAIN) s"pattern=$pattern, pattern color=$barColor" else s"fill=$barColor"},
            |  nodes near coords,
            |  nodes near coords align={${if (horizontal) "horizontal" else "vertical"}},
            |  nodes near coords style={font=\tiny}
@@ -92,8 +92,9 @@ case class Bar(
   * Creates 2D bars of the data in X against the corresponding values in Y
   * along vertical and/or horizontal error bars at each data point.
   *
-  * @param coordinates sequence of x, y points in the Euclidean space
-  * @param color line color
+  * @param coordinates sequence of X, Y points in the Euclidean space
+  * @param error sequence of X, Y error points
+  * @param barColor bar color
   * @param lineStyle line style
   * @param lineSize line size
   * @param marker mark style
@@ -108,7 +109,7 @@ case class Bar(
 case class ErrorBar(
     coordinates: Coordinates2D,
     error: Coordinates2D,
-    color: Color,
+    barColor: Color,
     lineStyle: LineStyle,
     lineSize: LineSize,
     marker: Mark,
@@ -124,7 +125,7 @@ case class ErrorBar(
     raw"""
          |\addplot[
          |  ${if (horizontal) "xBar".toLowerCase else "yBar".toLowerCase},
-         |  color=$color,
+         |  color=$barColor,
          |  $lineStyle,
          |  $lineSize,
          |  mark=$marker,
@@ -132,12 +133,12 @@ case class ErrorBar(
          |  mark options={draw=$markStrokeColor, fill=$markFillColor},
          |  bar width=$barWidth,
          |  fill opacity=$opacity,
-         |  ${if (pattern != PLAIN) s"pattern=$pattern, pattern color=$color" else s"fill=$color"},
+         |  ${if (pattern != PLAIN) s"pattern=$pattern, pattern color=$barColor" else s"fill=$barColor"},
          |  error bars/.cd,
-         |  y dir=both,
-         |  x dir=both,
+         |  x explicit,
+         |  x dir=${if (horizontal) "both" else "none"},
          |  y explicit,
-         |  x explicit
+         |  y dir=${if (horizontal) "none" else "both"}
          |] coordinates {
          |${coordinates.zip(error).map { case (xy, e) => s"$xy +- $e" }.mkString("\n")}
          |};
