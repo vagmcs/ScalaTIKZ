@@ -15,31 +15,90 @@ import scalatikz.pgf.plots.DataTypes.Coordinates2D
 import scalatikz.pgf.plots.enums.{ Color, Mark }
 
 /**
-  * Creates a scatter at the locations specified by the data sequence. The type
-  * of the graph is also called a bubble plot.
+  * Creates a scatter of data points.
   *
-  * @param coordinates sequence of x, y points in the Euclidean space
+  * @note Scatter plot is also called a bubble plot.
+  *
+  * @param coordinates sequence of X, Y points in the Euclidean space
   * @param marker mark style
   * @param markStrokeColor mark stroke color
   * @param markFillColor mark fill color
   * @param markSize mark size
+  * @param nodesNearCoords depict nodes near coords
   */
 case class Scatter(
     coordinates: Coordinates2D,
     marker: Mark,
     markStrokeColor: Color,
     markFillColor: Color,
+    markSize: Double,
+    nodesNearCoords: Boolean = false) extends PGFPlot {
+
+  override def toString: String = {
+    if (!nodesNearCoords)
+      raw"""
+           |\addplot[
+           |  only marks,
+           |  mark=$marker,
+           |  mark size=${markSize}pt,
+           |  mark options={draw=$markStrokeColor, fill=$markFillColor}
+           |] coordinates {
+           |${coordinates.mkString("\n")}
+           |};
+      """.stripMargin
+    else
+      raw"""
+           |\addplot[
+           |  only marks,
+           |  mark=$marker,
+           |  mark size=${markSize}pt,
+           |  mark options={draw=$markStrokeColor, fill=$markFillColor},
+           |  nodes near coords,
+           |  nodes near coords align={vertical},
+           |  nodes near coords style={font=\tiny}
+           |] coordinates {
+           |${coordinates.mkString("\n")}
+           |};
+      """.stripMargin
+  }
+}
+
+/**
+  * Creates a scatter of data points along vertical and/or horizontal
+  * error bars at each data point
+  *
+  * @note Scatter plot is also called a bubble plot.
+  *
+  * @param coordinates sequence of X, Y points in the Euclidean space
+  * @param error sequence of X, Y error points
+  * @param marker mark style
+  * @param markStrokeColor mark stroke color
+  * @param markFillColor mark fill color
+  * @param markSize mark size
+  */
+case class ErrorScatter(
+    coordinates: Coordinates2D,
+    error: Coordinates2D,
+    marker: Mark,
+    markStrokeColor: Color,
+    markFillColor: Color,
     markSize: Double) extends PGFPlot {
 
-  override def toString: String =
+  override def toString: String = {
     raw"""
          |\addplot[
          |  only marks,
          |  mark=$marker,
          |  mark size=${markSize}pt,
-         |  mark options={draw=$markStrokeColor, fill=$markFillColor}
+         |  mark options={draw=$markStrokeColor, fill=$markFillColor},
+         |  error bars/.cd,
+         |  x explicit,
+         |  x dir=both,
+         |  y explicit
+         |  y dir=both
          |] coordinates {
-         |${coordinates.mkString("\n")}
+         |${coordinates.zip(error).map { case (xy, e) => s"$xy +- $e" }.mkString("\n")}
          |};
     """.stripMargin
+  }
 }

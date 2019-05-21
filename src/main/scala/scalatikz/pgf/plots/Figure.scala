@@ -301,7 +301,10 @@ final class Figure private (
       marker,
       markStrokeColor,
       markFillColor,
-      markSize), POLAR
+      markSize,
+      PLAIN,
+      None,
+      0.5), POLAR
     )
 
   def polarScatter(data: Data): Figure = polarScatter()(data)
@@ -353,16 +356,26 @@ final class Figure private (
       pattern: Pattern = PLAIN,
       lineStyle: LineStyle = SOLID,
       lineSize: LineSize = THIN,
+      marker: Mark = NONE,
+      markStrokeColor: Color = currentColor,
+      markFillColor: Color = currentColor,
+      markSize: Double = 1,
       opacity: Double = 1,
       barWidth: Double = 0.5)(data: Data): Figure =
-    new Figure(axis, colorIterator, name, graphics :+ yBar(
+    new Figure(axis, colorIterator, name, graphics :+ Bar(
       data.coordinates,
       color,
-      pattern,
       lineStyle,
       lineSize,
+      marker,
+      markStrokeColor,
+      markFillColor,
+      markSize,
+      pattern,
       opacity,
-      barWidth), axisType
+      barWidth,
+      false,
+      false), axisType
     )
 
   /*
@@ -414,7 +427,10 @@ final class Figure private (
       marker,
       markStrokeColor,
       markFillColor,
-      markSize), axisType
+      markSize,
+      PLAIN,
+      None,
+      0.5), axisType
     )
 
   /*
@@ -516,7 +532,9 @@ final class Figure private (
       marker,
       markStrokeColor,
       markFillColor,
-      markSize), axisType
+      markSize,
+      false,
+      false), axisType
     )
 
   /*
@@ -565,7 +583,10 @@ final class Figure private (
       marker,
       markStrokeColor,
       markFillColor,
-      markSize), axisType
+      markSize,
+      PLAIN,
+      None,
+      0.5), axisType
     )
 
   /*
@@ -648,17 +669,17 @@ final class Figure private (
       lineStyle: LineStyle = SOLID,
       lineSize: LineSize = THIN,
       smooth: Boolean = false)(data: Data)(error: Data): Figure =
-    new Figure(axis, colorIterator, name, graphics :+ ErrorBar(
+    new Figure(axis, colorIterator, name, graphics :+ ErrorLine(
       data.coordinates,
       error.coordinates,
+      if (smooth) SMOOTH else SHARP,
       color,
+      lineStyle,
+      lineSize,
       marker,
       markStrokeColor,
       markFillColor,
-      markSize,
-      lineStyle,
-      lineSize,
-      smooth), axisType
+      markSize), axisType
     )
 
   /*
@@ -707,15 +728,16 @@ final class Figure private (
     new Figure(axis, colorIterator, name, graphics :+ ErrorArea(
       data.coordinates,
       error.coordinates,
+      if (smooth) SMOOTH else SHARP,
       color,
+      lineStyle,
+      lineSize,
       marker,
       markStrokeColor,
       markFillColor,
       markSize,
-      lineStyle,
-      lineSize,
-      opacity,
-      smooth), axisType
+      color,
+      opacity), axisType
     )
 
   override def toString: String =
