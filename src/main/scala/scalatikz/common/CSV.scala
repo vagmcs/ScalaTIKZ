@@ -104,7 +104,8 @@ object CSV {
     */
   def parseColumns(
       inputFile: File,
-      separator: Char, columns: String*): Try[List[DataSeq]] = {
+      separator: Char,
+      columns: String*): Try[List[DataSeq]] = {
 
     val inputStream: InputStream = toInputStream(inputFile) match {
       case Success(stream) => stream

@@ -50,7 +50,7 @@ import scalatikz.pgf.plots.enums._
   * @param rotateXTicks rotate X axis ticks by the given degrees
   * @param rotateYTicks rotate Y axis ticks by the given degrees
   */
-case class Axis private (
+case class Axis(
     height: Option[Double] = None,
     width: Option[Double] = None,
     xMode: AxisScale = LINEAR,

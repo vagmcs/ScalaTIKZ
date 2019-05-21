@@ -25,11 +25,11 @@ import scalatikz.pgf.plots.enums.Pattern.PLAIN
 import scalatikz.pgf.plots.enums._
 
 final class Figure private (
-    val axis: Axis,
     colorIterator: Iterator[Color],
     override val name: String,
-    val graphics: Seq[PGFPlot],
-    axisType: AxisSystem) extends TIKZPicture {
+    private[plots] val axis: Axis,
+    private[plots] val axisType: AxisSystem,
+    private[plots] val graphics: List[PGFPlot]) extends TIKZPicture {
 
   // An iterator over available colors in case user does not specify one.
   private[this] var currentColor: Color = Color.values.head
@@ -52,7 +52,7 @@ final class Figure private (
     * @param name a name for the figure
     * @return a Figure having the given name
     */
-  def havingName(name: String): Figure = new Figure(axis, colorIterator, name, graphics, axisType)
+  def havingName(name: String): Figure = new Figure(colorIterator, name, axis, axisType, graphics)
 
   /*
    * =====================================
@@ -67,50 +67,50 @@ final class Figure private (
     * @return a Figure having the given height
     */
   def havingHeight(centimeters: Double): Figure =
-    new Figure(axis.copy(height = Some(centimeters)), colorIterator, name, graphics, axisType)
+    new Figure(colorIterator, name, axis.copy(height = Some(centimeters)), axisType, graphics)
 
   /**
     * @param centimeters the width in centimeters
     * @return a Figure having the given width
     */
   def havingWidth(centimeters: Double): Figure =
-    new Figure(axis.copy(width = Some(centimeters)), colorIterator, name, graphics, axisType)
+    new Figure(colorIterator, name, axis.copy(width = Some(centimeters)), axisType, graphics)
 
   /**
     * @return a Figure having both X and Y log scale axis
     */
   def havingLogLogAxis: Figure =
-    new Figure(axis.copy(xMode = LOG, yMode = LOG), colorIterator, name, graphics, axisType)
+    new Figure(colorIterator, name, axis.copy(xMode = LOG, yMode = LOG), axisType, graphics)
 
   /**
     * @return a Figure having X log scale axis
     */
   def havingLogXAxis: Figure =
-    new Figure(axis.copy(xMode = LOG, yMode = LINEAR), colorIterator, name, graphics, axisType)
+    new Figure(colorIterator, name, axis.copy(xMode = LOG, yMode = LINEAR), axisType, graphics)
 
   /**
     * @return a Figure having Y log scale axis
     */
   def havingLogYAxis: Figure =
-    new Figure(axis.copy(xMode = LINEAR, yMode = LOG), colorIterator, name, graphics, axisType)
+    new Figure(colorIterator, name, axis.copy(xMode = LINEAR, yMode = LOG), axisType, graphics)
 
   /**
     * @return a Figure having minor grid enabled
     */
   def havingMinorGridOn: Figure =
-    new Figure(axis.copy(grid = Some(MINOR)), colorIterator, name, graphics, axisType)
+    new Figure(colorIterator, name, axis.copy(grid = Some(MINOR)), axisType, graphics)
 
   /**
     * @return a Figure having major grid enabled
     */
   def havingMajorGridOn: Figure =
-    new Figure(axis.copy(grid = Some(MAJOR)), colorIterator, name, graphics, axisType)
+    new Figure(colorIterator, name, axis.copy(grid = Some(MAJOR)), axisType, graphics)
 
   /**
     * @return a Figure having both major and minor grids enabled
     */
   def havingGridsOn: Figure =
-    new Figure(axis.copy(grid = Some(BOTH)), colorIterator, name, graphics, axisType)
+    new Figure(colorIterator, name, axis.copy(grid = Some(BOTH)), axisType, graphics)
 
   /**
     * Sets a label on the X axis.
@@ -119,7 +119,7 @@ final class Figure private (
     * @return a Figure having the given label on the X axis
     */
   def havingXLabel(label: String): Figure =
-    new Figure(axis.copy(xLabel = Some(label)), colorIterator, name, graphics, axisType)
+    new Figure(colorIterator, name, axis.copy(xLabel = Some(label)), axisType, graphics)
 
   /**
     * Sets a label on the Y axis.
@@ -128,7 +128,7 @@ final class Figure private (
     * @return a Figure having the given label on the Y axis
     */
   def havingYLabel(label: String): Figure =
-    new Figure(axis.copy(yLabel = Some(label)), colorIterator, name, graphics, axisType)
+    new Figure(colorIterator, name, axis.copy(yLabel = Some(label)), axisType, graphics)
 
   /**
     * Sets the bounds of the X axis.
@@ -138,7 +138,7 @@ final class Figure private (
     * @return a Figure having the given bounds on the X axis
     */
   def havingXLimits(min: Double, max: Double): Figure =
-    new Figure(axis.copy(xMin = Some(min), xMax = Some(max)), colorIterator, name, graphics, axisType)
+    new Figure(colorIterator, name, axis.copy(xMin = Some(min), xMax = Some(max)), axisType, graphics)
 
   /**
     * Sets the bounds of the Y axis.
@@ -148,7 +148,7 @@ final class Figure private (
     * @return a Figure having the given bounds on the Y axis
     */
   def havingYLimits(min: Double, max: Double): Figure =
-    new Figure(axis.copy(yMin = Some(min), yMax = Some(max)), colorIterator, name, graphics, axisType)
+    new Figure(colorIterator, name, axis.copy(yMin = Some(min), yMax = Some(max)), axisType, graphics)
 
   /**
     * Sets the bounds for both X and Y axis.
@@ -160,7 +160,7 @@ final class Figure private (
     * @return a Figure having the given bounds on X and Y axis
     */
   def havingLimits(xMin: Double, xMax: Double, yMin: Double, yMax: Double): Figure =
-    new Figure(axis.copy(xMin = Some(xMin), xMax = Some(xMax), yMin = Some(yMin), yMax = Some(yMax)), colorIterator, name, graphics, axisType)
+    new Figure(colorIterator, name, axis.copy(xMin = Some(xMin), xMax = Some(xMax), yMin = Some(yMin), yMax = Some(yMax)), axisType, graphics)
 
   /**
     * Sets the figure title.
@@ -169,7 +169,7 @@ final class Figure private (
     * @return a Figure having the given title
     */
   def havingTitle(title: String): Figure =
-    new Figure(axis.copy(header = Some(title)), colorIterator, name, graphics, axisType)
+    new Figure(colorIterator, name, axis.copy(header = Some(title)), axisType, graphics)
 
   /**
     * Sets the font size.
@@ -178,7 +178,7 @@ final class Figure private (
     * @return a Figure having the given font size
     */
   def havingFontSize(size: FontSize): Figure =
-    new Figure(axis.copy(fontSize = Some(size)), colorIterator, name, graphics, axisType)
+    new Figure(colorIterator, name, axis.copy(fontSize = Some(size)), axisType, graphics)
 
   /**
     * Sets the axis background color
@@ -188,7 +188,7 @@ final class Figure private (
     * @return a Figure having the given background color
     */
   def havingBackgroundColor(color: Color): Figure =
-    new Figure(axis.copy(backgroundColor = color), colorIterator, name, graphics, axisType)
+    new Figure(colorIterator, name, axis.copy(backgroundColor = color), axisType, graphics)
 
   /**
     * Sets the legends of the data sequences.
@@ -197,7 +197,7 @@ final class Figure private (
     * @return a Figure having the given legends
     */
   def havingLegends(legends: String*): Figure =
-    new Figure(axis.copy(legends = legends), colorIterator, name, graphics, axisType)
+    new Figure(colorIterator, name, axis.copy(legends = legends), axisType, graphics)
 
   /**
     * Sets the legends position.
@@ -207,7 +207,7 @@ final class Figure private (
     * @return a Figure having the given legend position
     */
   def havingLegendPos(pos: LegendPos): Figure =
-    new Figure(axis.copy(legendPos = pos), colorIterator, name, graphics, axisType)
+    new Figure(colorIterator, name, axis.copy(legendPos = pos), axisType, graphics)
 
   /**
     * Sets the position of the X axis.
@@ -217,7 +217,7 @@ final class Figure private (
     * @return a Figure having the given position on the X axis
     */
   def havingXAxisLinePos(pos: AxisLinePos): Figure =
-    new Figure(axis.copy(xAxisLinePos = pos), colorIterator, name, graphics, axisType)
+    new Figure(colorIterator, name, axis.copy(xAxisLinePos = pos), axisType, graphics)
 
   /**
     * Sets the position of the Y axis.
@@ -227,7 +227,7 @@ final class Figure private (
     * @return a Figure having the given position on the Y axis
     */
   def havingYAxisLinePos(pos: AxisLinePos): Figure =
-    new Figure(axis.copy(yAxisLinePos = pos), colorIterator, name, graphics, axisType)
+    new Figure(colorIterator, name, axis.copy(yAxisLinePos = pos), axisType, graphics)
 
   /**
     * Hides the ticks appearing in the X axis.
@@ -235,7 +235,7 @@ final class Figure private (
     * @return a Figure having hidden ticks in the X axis
     */
   def hideXAxisTicks: Figure =
-    new Figure(axis.copy(xAxisHideTicks = true), colorIterator, name, graphics, axisType)
+    new Figure(colorIterator, name, axis.copy(xAxisHideTicks = true), axisType, graphics)
 
   /**
     * Hides the ticks appearing in the Y axis.
@@ -243,7 +243,7 @@ final class Figure private (
     * @return a Figure having hidden ticks in the Y axis
     */
   def hideYAxisTicks: Figure =
-    new Figure(axis.copy(yAxisHideTicks = true), colorIterator, name, graphics, axisType)
+    new Figure(colorIterator, name, axis.copy(yAxisHideTicks = true), axisType, graphics)
 
   /**
     * Changes the X axis tick labels.
@@ -252,7 +252,7 @@ final class Figure private (
     * @return a Figure having the given X axis tick labels
     */
   def havingAxisXLabels(labels: Seq[String]): Figure =
-    new Figure(axis.copy(xTickLabels = labels), colorIterator, name, graphics, axisType)
+    new Figure(colorIterator, name, axis.copy(xTickLabels = labels), axisType, graphics)
 
   /**
     * Changes the Y axis tick labels.
@@ -261,7 +261,7 @@ final class Figure private (
     * @return a Figure having the given Y axis tick labels
     */
   def havingAxisYLabels(labels: Seq[String]): Figure =
-    new Figure(axis.copy(yTickLabels = labels), colorIterator, name, graphics, axisType)
+    new Figure(colorIterator, name, axis.copy(yTickLabels = labels), axisType, graphics)
 
   /**
     * Rotates the X axis ticks by the given degrees.
@@ -270,7 +270,7 @@ final class Figure private (
     * @return a Figure having the X ticks rotated
     */
   def rotateXTicks(degrees: Int): Figure =
-    new Figure(axis.copy(rotateXTicks = degrees), colorIterator, name, graphics, axisType)
+    new Figure(colorIterator, name, axis.copy(rotateXTicks = degrees), axisType, graphics)
 
   /**
     * Rotates the Y axis ticks by the given degrees.
@@ -279,7 +279,7 @@ final class Figure private (
     * @return a Figure having the Y ticks rotated
     */
   def rotateYTicks(degrees: Int): Figure =
-    new Figure(axis.copy(rotateYTicks = degrees), colorIterator, name, graphics, axisType)
+    new Figure(colorIterator, name, axis.copy(rotateYTicks = degrees), axisType, graphics)
 
   /*
    * =====================================
@@ -298,7 +298,7 @@ final class Figure private (
     * @param pgf a pgf plot instance
     */
   def customPlot(pgf: PGFPlot): Figure =
-    new Figure(axis, colorIterator, name, graphics :+ pgf, axisType)
+    new Figure(colorIterator, name, axis, axisType, pgf :: graphics)
 
   /*
    * =====================================
@@ -339,19 +339,21 @@ final class Figure private (
       markSize: Double = 1,
       smooth: Boolean = false,
       sparse: Boolean = false)(data: Data): Figure =
-    new Figure(axis, colorIterator, name, graphics :+ Line(
-      if (sparse) data.sparse.coordinates else data.coordinates,
-      if (smooth) SMOOTH else SHARP,
-      lineColor,
-      lineStyle,
-      lineSize,
-      marker,
-      markStrokeColor,
-      markFillColor,
-      markSize,
-      PLAIN,
-      None,
-      0.0), axisType
+    new Figure(colorIterator, name, axis, axisType,
+      Line(
+        if (sparse) data.sparse.coordinates else data.coordinates,
+        if (smooth) SMOOTH else SHARP,
+        lineColor,
+        lineStyle,
+        lineSize,
+        marker,
+        markStrokeColor,
+        markFillColor,
+        markSize,
+        PLAIN,
+        None,
+        0.0
+      ) :: graphics
     )
 
   /**
@@ -387,17 +389,19 @@ final class Figure private (
       markFillColor: Color = currentColor,
       markSize: Double = 1,
       smooth: Boolean = false)(data: Data)(error: Data): Figure =
-    new Figure(axis, colorIterator, name, graphics :+ ErrorLine(
-      data.coordinates,
-      error.coordinates,
-      if (smooth) SMOOTH else SHARP,
-      lineColor,
-      lineStyle,
-      lineSize,
-      marker,
-      markStrokeColor,
-      markFillColor,
-      markSize), axisType
+    new Figure(colorIterator, name, axis, axisType,
+      ErrorLine(
+        data.coordinates,
+        error.coordinates,
+        if (smooth) SMOOTH else SHARP,
+        lineColor,
+        lineStyle,
+        lineSize,
+        marker,
+        markStrokeColor,
+        markFillColor,
+        markSize
+      ) :: graphics
     )
 
   /*
@@ -447,19 +451,21 @@ final class Figure private (
       opacity: Double = 0.5,
       smooth: Boolean = false,
       sparse: Boolean = false)(data: Data): Figure =
-    new Figure(axis, colorIterator, name, graphics :+ Line(
-      if (sparse) data.sparse.coordinates else data.coordinates,
-      if (smooth) SMOOTH else SHARP,
-      lineColor,
-      lineStyle,
-      lineSize,
-      marker,
-      markStrokeColor,
-      markFillColor,
-      markSize,
-      pattern,
-      Some(fillColor),
-      opacity), axisType
+    new Figure(colorIterator, name, axis, axisType,
+      Line(
+        if (sparse) data.sparse.coordinates else data.coordinates,
+        if (smooth) SMOOTH else SHARP,
+        lineColor,
+        lineStyle,
+        lineSize,
+        marker,
+        markStrokeColor,
+        markFillColor,
+        markSize,
+        pattern,
+        Some(fillColor),
+        opacity
+      ) :: graphics
     )
 
   /**
@@ -499,19 +505,21 @@ final class Figure private (
       fillColor: Color = currentColor,
       opacity: Double = 0.5,
       smooth: Boolean = false)(data: Data)(error: Data): Figure =
-    new Figure(axis, colorIterator, name, graphics :+ ErrorArea(
-      data.coordinates,
-      error.coordinates,
-      if (smooth) SMOOTH else SHARP,
-      lineColor,
-      lineStyle,
-      lineSize,
-      marker,
-      markStrokeColor,
-      markFillColor,
-      markSize,
-      fillColor,
-      opacity), axisType
+    new Figure(colorIterator, name, axis, axisType,
+      ErrorArea(
+        data.coordinates,
+        error.coordinates,
+        if (smooth) SMOOTH else SHARP,
+        lineColor,
+        lineStyle,
+        lineSize,
+        marker,
+        markStrokeColor,
+        markFillColor,
+        markSize,
+        fillColor,
+        opacity
+      ) :: graphics
     )
 
   /*
@@ -555,15 +563,17 @@ final class Figure private (
       markSize: Double = 1,
       nodesNearCoords: Boolean = false,
       horizontal: Boolean = false)(data: Data): Figure =
-    new Figure(axis, colorIterator, name, graphics :+ Stem(
-      data.coordinates,
-      lineColor,
-      marker,
-      markStrokeColor,
-      markFillColor,
-      markSize,
-      nodesNearCoords,
-      horizontal), axisType
+    new Figure(colorIterator, name, axis, axisType,
+      Stem(
+        data.coordinates,
+        lineColor,
+        marker,
+        markStrokeColor,
+        markFillColor,
+        markSize,
+        nodesNearCoords,
+        horizontal
+      ) :: graphics
     )
 
   /*
@@ -603,19 +613,21 @@ final class Figure private (
       markFillColor: Color = currentColor,
       markSize: Double = 1,
       sparse: Boolean = false)(data: Data): Figure =
-    new Figure(axis, colorIterator, name, graphics :+ Line(
-      if (sparse) data.sparse.coordinates else data.coordinates,
-      CONST,
-      lineColor,
-      lineStyle,
-      lineSize,
-      marker,
-      markStrokeColor,
-      markFillColor,
-      markSize,
-      PLAIN,
-      None,
-      0.5), axisType
+    new Figure(colorIterator, name, axis, axisType,
+      Line(
+        if (sparse) data.sparse.coordinates else data.coordinates,
+        CONST,
+        lineColor,
+        lineStyle,
+        lineSize,
+        marker,
+        markStrokeColor,
+        markFillColor,
+        markSize,
+        PLAIN,
+        None,
+        0.5
+      ) :: graphics
     )
 
   /*
@@ -653,13 +665,15 @@ final class Figure private (
       markFillColor: Color = currentColor,
       markSize: Double = 1,
       nodesNearCoords: Boolean = false)(data: Data): Figure =
-    new Figure(axis, colorIterator, name, graphics :+ Scatter(
-      data.coordinates,
-      marker,
-      markStrokeColor,
-      markFillColor,
-      markSize,
-      nodesNearCoords), axisType
+    new Figure(colorIterator, name, axis, axisType,
+      Scatter(
+        data.coordinates,
+        marker,
+        markStrokeColor,
+        markFillColor,
+        markSize,
+        nodesNearCoords
+      ) :: graphics
     )
 
   /**
@@ -689,13 +703,15 @@ final class Figure private (
       markStrokeColor: Color = nextColor,
       markFillColor: Color = currentColor,
       markSize: Double = 1)(data: Data)(error: Data): Figure =
-    new Figure(axis, colorIterator, name, graphics :+ ErrorScatter(
-      data.coordinates,
-      error.coordinates,
-      marker,
-      markStrokeColor,
-      markFillColor,
-      markSize), axisType
+    new Figure(colorIterator, name, axis, axisType,
+      ErrorScatter(
+        data.coordinates,
+        error.coordinates,
+        marker,
+        markStrokeColor,
+        markFillColor,
+        markSize
+      ) :: graphics
     )
 
   /*
@@ -743,20 +759,22 @@ final class Figure private (
       barWidth: Double = 0.5,
       nodesNearCoords: Boolean = false,
       horizontal: Boolean = false)(data: Data): Figure =
-    new Figure(axis, colorIterator, name, graphics :+ Bar(
-      data.coordinates,
-      barColor,
-      lineStyle,
-      lineSize,
-      marker,
-      markStrokeColor,
-      markFillColor,
-      markSize,
-      pattern,
-      opacity,
-      barWidth,
-      nodesNearCoords,
-      horizontal), axisType
+    new Figure(colorIterator, name, axis, axisType,
+      Bar(
+        data.coordinates,
+        barColor,
+        lineStyle,
+        lineSize,
+        marker,
+        markStrokeColor,
+        markFillColor,
+        markSize,
+        pattern,
+        opacity,
+        barWidth,
+        nodesNearCoords,
+        horizontal
+      ) :: graphics
     )
 
   /**
@@ -794,20 +812,22 @@ final class Figure private (
       opacity: Double = 1,
       barWidth: Double = 0.5,
       horizontal: Boolean = false)(data: Data)(error: Data): Figure =
-    new Figure(axis, colorIterator, name, graphics :+ ErrorBar(
-      data.coordinates,
-      error.coordinates,
-      barColor,
-      lineStyle,
-      lineSize,
-      marker,
-      markStrokeColor,
-      markFillColor,
-      markSize,
-      PLAIN,
-      opacity,
-      barWidth,
-      horizontal), axisType
+    new Figure(colorIterator, name, axis, axisType,
+      ErrorBar(
+        data.coordinates,
+        error.coordinates,
+        barColor,
+        lineStyle,
+        lineSize,
+        marker,
+        markStrokeColor,
+        markFillColor,
+        markSize,
+        PLAIN,
+        opacity,
+        barWidth,
+        horizontal
+      ) :: graphics
     )
 
   /*
@@ -829,19 +849,21 @@ final class Figure private (
       lineStyle: LineStyle = SOLID,
       lineSize: LineSize = THIN,
       smooth: Boolean = false)(data: Data): Figure =
-    new Figure(axis, colorIterator, name, graphics :+ Line(
-      data.coordinates,
-      if (smooth) SMOOTH else SHARP,
-      color,
-      lineStyle,
-      lineSize,
-      marker,
-      markStrokeColor,
-      markFillColor,
-      markSize,
-      PLAIN,
-      None,
-      0.5), POLAR
+    new Figure(colorIterator, name, axis, POLAR,
+      Line(
+        data.coordinates,
+        if (smooth) SMOOTH else SHARP,
+        color,
+        lineStyle,
+        lineSize,
+        marker,
+        markStrokeColor,
+        markFillColor,
+        markSize,
+        PLAIN,
+        None,
+        0.5
+      ) :: graphics
     )
 
   def polarScatter(data: Data): Figure = polarScatter()(data)
@@ -851,13 +873,15 @@ final class Figure private (
       markStrokeColor: Color = nextColor,
       markFillColor: Color = currentColor,
       markSize: Double = 2)(data: Data): Figure =
-    new Figure(axis, colorIterator, name, graphics :+ Scatter(
-      data.coordinates,
-      marker,
-      markStrokeColor,
-      markFillColor,
-      markSize,
-      nodesNearCoords = false), POLAR
+    new Figure(colorIterator, name, axis, POLAR,
+      Scatter(
+        data.coordinates,
+        marker,
+        markStrokeColor,
+        markFillColor,
+        markSize,
+        nodesNearCoords = false
+      ) :: graphics
     )
 
   override def toString: String =
@@ -935,7 +959,7 @@ final class FigureArray private[pgf] (
 object Figure {
 
   def apply(name: String): Figure =
-    new Figure(Axis(), Iterator.continually(Color.values).flatten, name, Seq.empty[PGFPlot], CARTESIAN)
+    new Figure(Iterator.continually(Color.values).flatten, name, Axis(), CARTESIAN, List.empty[PGFPlot])
 
   def doubleAxis(name: String): BipolarFigure =
     new BipolarFigure(name, Seq(
