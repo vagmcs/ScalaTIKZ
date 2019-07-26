@@ -82,14 +82,14 @@ case class Axis(
     rotateYTicks: Int = 0) {
 
   override def toString: String = {
-    val builder = StringBuilder.newBuilder
+    val builder = new StringBuilder
 
     if (height.isDefined) builder ++= s"\theight=${height.get}cm,\n"
     if (width.isDefined) builder ++= s"\twidth=${width.get}cm,\n"
 
-    builder ++= s"\t${'xMode.name.toLowerCase}=$xMode,\n"
-    builder ++= s"\t${'yMode.name.toLowerCase}=$yMode,\n"
-    builder ++= s"\t${'zMode.name.toLowerCase}=$zMode,\n"
+    builder ++= s"\t${Symbol("xMode").name.toLowerCase}=$xMode,\n"
+    builder ++= s"\t${Symbol("yMode").name.toLowerCase}=$yMode,\n"
+    builder ++= s"\t${Symbol("zMode").name.toLowerCase}=$zMode,\n"
     builder ++= s"\taxis background/.style={fill=$backgroundColor},\n"
     builder ++= s"\taxis x line=$xAxisLinePos,\n"
     builder ++= s"\taxis y line=$yAxisLinePos,\n"
@@ -97,25 +97,25 @@ case class Axis(
     builder ++= s"\ty tick label style={rotate=$rotateYTicks}"
 
     if (xAxisHideTicks)
-      builder ++= s",\n\t${'xTickLabels.name.toLowerCase}={,,}"
+      builder ++= s",\n\t${Symbol("xTickLabels").name.toLowerCase}={,,}"
     else if (xTickLabels.nonEmpty)
-      builder ++= s",\n\tx" + s"tick=data,\n${'xTickLabels.name.toLowerCase}={${xTickLabels.mkString(",")}}"
+      builder ++= s",\n\tx" + s"tick=data,\n${Symbol("xTickLabels").name.toLowerCase}={${xTickLabels.mkString(",")}}"
 
     if (yAxisHideTicks)
-      builder ++= s",\n\t${'yTickLabels.name.toLowerCase}={,,}"
+      builder ++= s",\n\t${Symbol("yTickLabels").name.toLowerCase}={,,}"
     else if (yTickLabels.nonEmpty)
-      builder ++= s",\n\ty" + s"tick=data,\n${'yTickLabels.name.toLowerCase}={${yTickLabels.mkString(",")}}"
+      builder ++= s",\n\ty" + s"tick=data,\n${Symbol("yTickLabels").name.toLowerCase}={${yTickLabels.mkString(",")}}"
 
-    if (xLabel.isDefined) builder ++= s",\n\t${'xLabel.name.toLowerCase}=${xLabel.get.toTex}"
-    if (yLabel.isDefined) builder ++= s",\n\t${'yLabel.name.toLowerCase}=${yLabel.get.toTex}"
-    if (zLabel.isDefined) builder ++= s",\n\t${'zLabel.name.toLowerCase}=${zLabel.get.toTex}"
+    if (xLabel.isDefined) builder ++= s",\n\t${Symbol("xLabel").name.toLowerCase}=${xLabel.get.toTex}"
+    if (yLabel.isDefined) builder ++= s",\n\t${Symbol("yLabel").name.toLowerCase}=${yLabel.get.toTex}"
+    if (zLabel.isDefined) builder ++= s",\n\t${Symbol("zLabel").name.toLowerCase}=${zLabel.get.toTex}"
 
-    if (xMin.isDefined) builder ++= s",\n\t${'xMin.name.toLowerCase}=${xMin.get}"
-    if (xMax.isDefined) builder ++= s",\n\t${'xMax.name.toLowerCase}=${xMax.get}"
-    if (yMin.isDefined) builder ++= s",\n\t${'yMin.name.toLowerCase}=${yMin.get}"
-    if (yMax.isDefined) builder ++= s",\n\t${'yMax.name.toLowerCase}=${yMax.get}"
-    if (zMin.isDefined) builder ++= s",\n\t${'zMin.name.toLowerCase}=${zMin.get}"
-    if (zMax.isDefined) builder ++= s",\n\t${'zMax.name.toLowerCase}=${zMax.get}"
+    if (xMin.isDefined) builder ++= s",\n\t${Symbol("xMin").name.toLowerCase}=${xMin.get}"
+    if (xMax.isDefined) builder ++= s",\n\t${Symbol("xMax").name.toLowerCase}=${xMax.get}"
+    if (yMin.isDefined) builder ++= s",\n\t${Symbol("yMin").name.toLowerCase}=${yMin.get}"
+    if (yMax.isDefined) builder ++= s",\n\t${Symbol("yMax").name.toLowerCase}=${yMax.get}"
+    if (zMin.isDefined) builder ++= s",\n\t${Symbol("zMin").name.toLowerCase}=${zMin.get}"
+    if (zMax.isDefined) builder ++= s",\n\t${Symbol("zMax").name.toLowerCase}=${zMax.get}"
 
     if (grid.isDefined) builder ++= s",\n\tgrid=${grid.get}"
     if (colorMap.isDefined) builder ++= s",\n\tcolormap/${colorMap.get},\n\tcolor" + "bar"

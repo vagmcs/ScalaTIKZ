@@ -886,7 +886,7 @@ final class Figure private (
 
   override def toString: String =
     raw"""
-         |\${'begin.name}{$axisType}[
+         |\${Symbol("begin").name}{$axisType}[
          |$axis
          |]
          |${graphics.mkString("\n")}

@@ -12,7 +12,6 @@
 package scalatikz.app
 
 import java.io.File
-
 import scala.util.{ Failure, Success }
 import scalatikz.app.GraphType._
 import scalatikz.common.CSV
@@ -25,7 +24,6 @@ import scalatikz.pgf.plots.enums.LineStyle.SOLID
 import scalatikz.pgf.plots.enums.Mark.{ CIRCLE, NONE }
 import scalatikz.pgf.plots.enums.Pattern.PLAIN
 import scalatikz.pgf.Compiler
-import scalatikz.pgf.plots.enums.LineType.{ SHARP, SMOOTH }
 
 object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
 

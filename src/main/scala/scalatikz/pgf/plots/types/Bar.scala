@@ -68,7 +68,7 @@ case class Bar(
     else
       raw"""
            |\addplot[
-           |  ${if (horizontal) 'xBar.name.toLowerCase else 'yBar.name.toLowerCase},
+           |  ${if (horizontal) Symbol("xBar").name.toLowerCase else Symbol("yBar").name.toLowerCase},
            |  color=$barColor,
            |  $lineStyle,
            |  $lineSize,
