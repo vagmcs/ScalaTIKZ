@@ -60,9 +60,9 @@ object ScalaTIKZBuild extends AutoPlugin {
 
     headerMappings := headerMappings.value + (HeaderFileType.scala -> HeaderCommentStyle.cStyleBlockComment),
 
-    scalaVersion := "2.12.8",
+    scalaVersion := "2.13.0",
 
-    crossScalaVersions := Seq("2.12.8", "2.11.12"),
+    crossScalaVersions := Seq("2.13.0", "2.12.8", "2.11.12"),
 
     autoScalaLibrary := true,
     managedScalaInstance := true,
@@ -161,8 +161,8 @@ object ScalaTIKZBuild extends AutoPlugin {
             "-language:implicitConversions"
           )
 
-        case "2.12" =>
-          // Scala compiler settings for Scala 2.12.x
+        case "2.12" | "2.13" =>
+          // Scala compiler settings for Scala 2.12.x or 2.13.x
           Seq(
             "-Xno-uescape",       // Disable handling of \\u unicode escapes.
             "-deprecation",       // Emit warning and location for usages of deprecated APIs.
