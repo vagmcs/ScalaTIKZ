@@ -45,7 +45,7 @@ object ScalaTIKZBuild extends AutoPlugin {
   private lazy val settings: Seq[Setting[_]] = {
     logger.info(s"[info] Loading settings for Java $javaVersion or higher.")
     if (javaVersion < 1.8) sys.error("Java 8 or higher is required for building ScalaTIKZ.")
-    else commonSettings ++ ScalaSettings ++ JavaSettings ++ PackagingOptions ++ Reform.formatSettings
+    else commonSettings ++ ScalaSettings ++ JavaSettings ++ PackagingOptions ++ CodeStyle.formatSettings
   }
 
   private val commonSettings: Seq[Setting[_]] = Seq(
