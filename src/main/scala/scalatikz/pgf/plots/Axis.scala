@@ -79,10 +79,13 @@ case class Axis(
     xTickLabels: Seq[String] = List.empty,
     yTickLabels: Seq[String] = List.empty,
     rotateXTicks: Int = 0,
-    rotateYTicks: Int = 0) {
+    rotateYTicks: Int = 0,
+    stackedBars: Boolean = true) {
 
   override def toString: String = {
     val builder = new StringBuilder
+
+    if (!stackedBars) builder ++= s"\t${Symbol("yBar").name.toLowerCase},\n"
 
     if (height.isDefined) builder ++= s"\theight=${height.get}cm,\n"
     if (width.isDefined) builder ++= s"\twidth=${width.get}cm,\n"

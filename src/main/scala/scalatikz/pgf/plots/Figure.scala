@@ -108,6 +108,12 @@ class Figure private (
     new Figure(colorIterator, name, axis.copy(grid = Some(MAJOR)), axisType, graphics, secondary)
 
   /**
+    * @return a Figure having adjacent bars instead of stacked
+    */
+  def havingAdjacentBars: Figure =
+    new Figure(colorIterator, name, axis.copy(stackedBars = false), axisType, graphics, secondary)
+
+  /**
     * @return a Figure having both major and minor grids enabled
     */
   def havingGridsOn: Figure =
@@ -820,7 +826,7 @@ class Figure private (
       markSize: Double = 1,
       pattern: Pattern = PLAIN,
       opacity: Double = 1,
-      barWidth: Double = 0.5,
+      barWidth: Double = 0.25,
       nodesNearCoords: Boolean = false,
       horizontal: Boolean = false)(data: Data): Figure =
     new Figure(colorIterator, name, axis, axisType,
@@ -874,7 +880,7 @@ class Figure private (
       markSize: Double = 1,
       pattern: Pattern = PLAIN,
       opacity: Double = 1,
-      barWidth: Double = 0.5,
+      barWidth: Double = 0.25,
       horizontal: Boolean = false)(data: Data)(error: Data): Figure =
     new Figure(colorIterator, name, axis, axisType,
       ErrorBar(
