@@ -41,7 +41,7 @@ final case class GraphicConf(
     lineStyle: Option[LineStyle] = None,
     lineSize: Option[LineSize] = None,
     pattern: Option[Pattern] = None,
-    barWidth: Double = .5,
+    barWidth: Double = .25,
     opacity: Double = .5,
     smooth: Boolean = false,
     constant: Boolean = false)
