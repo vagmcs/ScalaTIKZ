@@ -165,4 +165,17 @@ object Examples extends App {
         .havingYLabel("$x^3$")
     }
     .saveAsPNG("images")
+
+  /*
+   * Secondary axis plot
+   */
+  Figure("secondary_axis")
+    .plot(lineColor = RED)((-5 to 5) -> ((x: Double) => 3 * x))
+    .havingXLabel("$x$")
+    .havingYLabel("$3x$")
+    .secondaryAxis { x => x
+      .scatter(markStrokeColor = BLUE, markFillColor = BLUE)((-5 to 5) -> ((x: Double) => x * x))
+      .havingYLabel("$x^2$")
+    }
+    .saveAsPNG("images")
 }
