@@ -31,6 +31,7 @@ import sys.process._
 trait TIKZPicture extends Logging {
 
   val name: String
+  protected val libraries: String
 
   private val path = new File(System.getProperty("java.io.tmpdir"))
   private val texFile: File = new File(s"$path/source.tex")
@@ -43,11 +44,8 @@ trait TIKZPicture extends Logging {
     raw"""
        |\documentclass{standalone}
        |
-       |\usepackage{tikz,pgfplots,luatex85}
-       |\usetikzlibrary{plotmarks}
-       |\usetikzlibrary{patterns}
-       |\usetikzlibrary{pgfplots.polar}
-       |\usepgfplotslibrary{fillbetween}
+       |\usepackage{luatex85}
+       |$libraries
        |\pgfplotsset{compat=newest}
        |
        |\begin{document}

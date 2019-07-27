@@ -32,6 +32,15 @@ class Figure private (
     private[plots] val graphics: List[PGFPlot],
     private[plots] val secondary: Option[Figure]) extends TIKZPicture {
 
+  override protected val libraries: String =
+    """
+      |\usepackage{tikz,pgfplots}
+      |\usetikzlibrary{plotmarks}
+      |\usetikzlibrary{patterns}
+      |\usetikzlibrary{pgfplots.polar}
+      |\usepgfplotslibrary{fillbetween}
+      |""".stripMargin
+
   // An iterator over available colors in case user does not specify one.
   private[this] var currentColor: Color = Color.values.head
   private[this] def nextColor: Color = {
@@ -990,6 +999,15 @@ class FigureArray private[pgf] (
     override val name: String,
     val graphics: IndexedSeq[Figure],
     N: Int, M: Int) extends TIKZPicture {
+
+  override protected val libraries: String =
+    """
+      |\usepackage{tikz,pgfplots}
+      |\usetikzlibrary{plotmarks}
+      |\usetikzlibrary{patterns}
+      |\usetikzlibrary{pgfplots.polar}
+      |\usepgfplotslibrary{fillbetween}
+      |""".stripMargin
 
   /**
     * Creates a sub-figure in the given position and transforms the figure
