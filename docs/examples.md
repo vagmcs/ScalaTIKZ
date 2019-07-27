@@ -4,11 +4,11 @@ Lets create a sine vs cosine plot:
 
 ```scala
 import math._
-import scalatikz.graphics.pgf.Figure
-import scalatikz.graphics.pgf.enums.LegendPos.SOUTH_WEST
-import scalatikz.graphics.pgf.enums.LineStyle.DASHED
+import scalatikz.pgf.plots.Figure
+import scalatikz.pgf.plots.enums.LegendPos.SOUTH_WEST
+import scalatikz.pgf.plots.enums.LineStyle.DASHED
 
-val domain = -2 * Pi to 2 * Pi by 0.1
+val domain = BigDecimal(-2 * Pi) to BigDecimal(2 * Pi) by 0.1
 
 Figure("sin_vs_cosine")
   .plot(domain -> sin _)
@@ -27,21 +27,21 @@ Lets create a plot of Gaussian distributions:
 
 ```scala
 import math._
-import scalatikz.graphics.pgf.Figure
-import scalatikz.graphics.pgf.enums.Color.{BLACK, BLUE, GREEN, RED, YELLOW}
-import scalatikz.graphics.pgf.enums.FontSize.FOOTNOTE
-import scalatikz.graphics.pgf.enums.LegendPos.NORTH_EAST
+import scalatikz.pgf.plots.Figure
+import scalatikz.pgf.plots.enums.Color.{ BLACK, BLUE, GREEN, RED, YELLOW }
+import scalatikz.pgf.plots.enums.FontSize.FOOTNOTE
+import scalatikz.pgf.plots.enums.LegendPos.NORTH_EAST
 
 def gaussian(mean: Double, variance: Double)(x: Double): Double =
     1 / sqrt(2 * Pi * variance) * exp( -pow(x - mean, 2) / (2 * variance))
 
-val x = -5.0 to 5.0 by 0.1
+val x = BigDecimal(-5) to BigDecimal(5) by 0.1
 
 Figure("gaussian")
-  .plot(color = BLUE, smooth = true)(x -> gaussian(0, 0.2) _)
-  .plot(color = RED)(x -> gaussian(0, 1) _)
-  .plot(color = YELLOW!70!BLACK)(x -> gaussian(0, 5) _)
-  .plot(color = GREEN)(x -> gaussian(-2, 0.5) _)
+  .plot(lineColor = BLUE, smooth = true)(x -> gaussian(0, 0.2) _)
+  .plot(lineColor = RED)(x -> gaussian(0, 1) _)
+  .plot(lineColor = YELLOW!70!BLACK)(x -> gaussian(0, 5) _)
+  .plot(lineColor = GREEN)(x -> gaussian(-2, 0.5) _)
   .havingXLabel("$X$")
   .havingXLimits(-5, 5)
   .havingMajorGridOn
@@ -63,10 +63,10 @@ Lets plot an area:
 
 ```scala
 import math._
-import scalatikz.graphics.pgf.Figure
-import scalatikz.graphics.pgf.enums.LineSize.VERY_THIN
+import scalatikz.pgf.plots.Figure
+import scalatikz.pgf.plots.enums.LineSize.VERY_THIN
 
-val xx = 0.0 to 1.0 by 0.01
+val xx = BigDecimal(0) to BigDecimal(1) by 0.01
 
 Figure("area")
   .area(lineSize = VERY_THIN, opacity = 0.2) {
@@ -81,17 +81,17 @@ Lets plot a line and then plot a scatter of points along the line:
 ```scala
 import math._
 import scala.util.Random
-import scalatikz.graphics.pgf.Figure
-import scalatikz.graphics.pgf.enums.Color.{BLACK, RED}
-import scalatikz.graphics.pgf.enums.LineStyle.DASHED
+import scalatikz.pgf.plots.Figure
+import scalatikz.pgf.plots.enums.Color.{ BLACK, RED }
+import scalatikz.pgf.plots.enums.LineStyle.DASHED
 
-val xs = 0.0 to 2 * Pi by 0.1
+val xs = BigDecimal(0) to BigDecimal(2) * Pi by 0.1
 
 Figure("spline")
-  .plot(color = BLACK, lineStyle = DASHED)(xs -> sin _)
+  .plot(lineColor = BLACK, lineStyle = DASHED)(xs -> sin _)
   .scatter(markFillColor = RED, markSize = 1.5) {
     xs -> ((x: Double) => sin(x) + 0.1 * Random.nextGaussian)
-  }.saveAsPNG("images")
+  }.show()
 ```
 
 ![spline](../images/spline.png)
@@ -100,16 +100,16 @@ Lets plot a set of sinus functions and add some dark background to make the plot
 
 ```scala
 import math._
-import scalatikz.graphics.pgf.Figure
-import scalatikz.graphics.pgf.enums.Color.BLACK
-import scalatikz.graphics.pgf.enums.Mark.DOT
+import scalatikz.pgf.plots.Figure
+import scalatikz.pgf.plots.enums.Color.BLACK
+import scalatikz.pgf.plots.enums.Mark.DOT
 
-val xxs = 0.0 to 6.0 by 0.1
+val xxs = BigDecimal(0) to BigDecimal(6) by 0.1
 
 val figure = Figure("dark").havingBackgroundColor(BLACK!50)
 
 (1 to 6).foldLeft(figure) { case (fig, s) =>
-fig.plot(marker = DOT, markSize = 1.5)(xxs -> ((x: Double) => sin(x + s)))
+  fig.plot(marker = DOT, markSize = 1.5)(xxs -> ((x: Double) => sin(x + s)))
 }.show()
 ```
 
@@ -120,16 +120,16 @@ Lets plot a stem function and a line passing through the stems:
 ```scala
 import math._
 import scala.util.Random
-import scalatikz.graphics.pgf.Figure
-import scalatikz.graphics.pgf.enums.Color.{BLACK, BLUE, GREEN}
-import scalatikz.graphics.pgf.enums.LineStyle.DASHED
-import scalatikz.graphics.pgf.enums.Mark.CIRCLE
+import scalatikz.pgf.plots.Figure
+import scalatikz.pgf.plots.enums.Color.{ BLACK, BLUE, GREEN }
+import scalatikz.pgf.plots.enums.LineStyle.DASHED
+import scalatikz.pgf.plots.enums.Mark.CIRCLE
 
 val randomPoints = (1 to 20).map(_ => Random.nextDouble)
 
 Figure("stem")
-  .stem(color = BLUE!50!BLACK, marker = CIRCLE)(randomPoints)
-  .plot(color = GREEN!50!BLACK, lineStyle = DASHED, smooth = true)(randomPoints)
+  .stem(lineColor = BLUE!50!BLACK, marker = CIRCLE)(randomPoints)
+  .plot(lineColor = GREEN!50!BLACK, lineStyle = DASHED, smooth = true)(randomPoints)
   .show()
 ```
 
@@ -140,15 +140,15 @@ Lets plot a line having random error bars:
 ```scala
 import math._
 import scala.util.Random
-import scalatikz.graphics.pgf.Figure
-import scalatikz.graphics.pgf.enums.AxisLinePos.{BOTTOM, LEFT}
-import scalatikz.graphics.pgf.enums.Color.{BLACK, BLUE}
+import scalatikz.pgf.plots.Figure
+import scalatikz.pgf.plots.enums.AxisLinePos.{ BOTTOM, LEFT }
+import scalatikz.pgf.plots.enums.Color.{ BLACK, BLUE }
 
 Figure("error_bar")
   .errorBar(BLUE!50!BLACK) {
-    (0.0 to 1.0 by 0.1) -> ((x: Double) => x / 2)
+    (BigDecimal(0) to BigDecimal(1) by 0.1) -> ((x: Double) => x / 2)
   } {
-    (1 to (0.0 to 1.0 by 0.1).length).map(_ => 0.0 -> scala.util.Random.nextDouble)
+    (1 to (BigDecimal(0) to BigDecimal(1) by 0.1).length).map(_ => 0.0 -> scala.util.Random.nextDouble)
   }
   .havingTitle("Error bar")
   .havingXAxisLinePos(BOTTOM)
@@ -165,43 +165,75 @@ Lets create a bar plot for the function `y = x^2`:
 ```scala
 import math._
 import scala.util.Random
-import scalatikz.graphics.pgf.Figure
-import scalatikz.graphics.pgf.enums.Color.{WHITE, BLUE}
+import scalatikz.pgf.plots.Figure
+import scalatikz.pgf.plots.enums.Color.{ WHITE, BLUE }
 
 Figure("bar")
-  .bar(color = BLUE!80!WHITE)((-20 to 20).map(x => (x, x * x)))
+  .bar(barColor = BLUE!80!WHITE)((-20 to 20).map(x => (x, x * x)))
   .havingXLabel("$X$")
   .havingYLabel("$Y$")
-  .saveAsPNG("images")
+  .show()
 ```
 
 ![bar](../images/bar.png)
+
+Lets create a mesh plot for the function `y = x + sin(x)`:
+
+```scala
+import math._
+import scalatikz.pgf.plots.Figure
+import scalatikz.pgf.plots.enums.ColorMap
+
+val xc = BigDecimal(0) to BigDecimal(2) * Pi by 0.1
+
+Figure("mesh")
+  .mesh(xc -> ((x: Double) => x + math.sin(x)))
+  .havingColorMap(ColorMap.COOL)
+  .show()
+```
+
+![mesh](../images/mesh.png)
+
+Lets create a random scatter mesh:
+
+```scala
+import scala.util.Random
+import scalatikz.pgf.plots.Figure
+import scalatikz.pgf.plots.enums.ColorMap
+
+Figure("scatter_mesh")
+  .scatterMesh((0 to 100) -> ((x: Double) => x + Random.nextInt(10)))
+  .havingColorMap(ColorMap.ViRiDiS)
+  .show()
+```
+
+![scatter-mesh](../images/scatter_mesh.png)
 
 Next, lets plot an array of plots:
 
 ```scala
 import math._
-import scalatikz.graphics.pgf.Figure
-import scalatikz.graphics.pgf.enums.Color.{BLACK, BLUE, GREEN, YELLOW}
+import scalatikz.pgf.plots.Figure
+import scalatikz.pgf.plots.enums.Color.{ BLACK, BLUE, GREEN, YELLOW }
 
 Figure("array", 2, 2)
   .subFigure(0, 0) { x =>
-    x.plot((0.01 to 10.0 by 0.1) -> log _)
+    x.plot((BigDecimal(0.01) to BigDecimal(10) by 0.1) -> log _)
       .havingXLabel("$x$")
       .havingYLabel("$\\log(x)$")
   }
   .subFigure(0, 1) { x =>
-    x.plot(GREEN!40!BLACK)((-5.0 to 5.0 by 0.1) -> ((x: Double) => pow(x, 2)))
+    x.plot(GREEN!40!BLACK)((BigDecimal(-5) to BigDecimal(5) by 0.1) -> ((x: Double) => pow(x, 2)))
       .havingXLabel("$x$")
       .havingYLabel("$x^2$")
   }
   .subFigure(1, 0) { x =>
-    x.plot(YELLOW!BLACK)((0.0 to 1.0 by 0.1) -> ((x: Double) => x))
+    x.plot(YELLOW!BLACK)((BigDecimal(0) to BigDecimal(1) by 0.1) -> ((x: Double) => x))
       .havingXLabel("$x$")
       .havingYLabel("$y$")
   }
   .subFigure(1, 1) { x =>
-    x.plot(BLUE)((-5.0 to 5.0 by 0.1) -> ((x: Double) => pow(x, 3)))
+    x.plot(BLUE)((BigDecimal(-5) to BigDecimal(5) by 0.1) -> ((x: Double) => pow(x, 3)))
       .havingXLabel("$x$")
       .havingYLabel("$x^3$")
   }
@@ -213,8 +245,8 @@ Figure("array", 2, 2)
 Finally, lets plot a figure having two ordinates:
 
 ```scala
-import scalatikz.graphics.pgf.Figure
-import scalatikz.graphics.pgf.enums.Color.{RED, BLUE}
+import scalatikz.pgf.plots.Figure
+import scalatikz.pgf.plots.enums.Color.{ RED, BLUE }
 
 Figure("secondary_axis")
   .plot(lineColor = RED)((-5 to 5) -> ((x: Double) => 3 * x))
@@ -224,7 +256,7 @@ Figure("secondary_axis")
     .scatter(markStrokeColor = BLUE, markFillColor = BLUE)((-5 to 5) -> ((x: Double) => x * x))
     .havingYLabel("$x^2$")
   }
-  .saveAsPNG("images")
+  .show()
 ```
 
 ![plot-two-ordinates](../images/secondary_axis.png)

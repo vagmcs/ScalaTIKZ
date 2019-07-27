@@ -367,6 +367,31 @@ class Figure private (
     )
 
   /**
+    * Plots a 2D mesh line of the data in X against the corresponding values in Y.
+    *
+    * @param data sequence of X, Y points in the Euclidean space
+    */
+  def mesh(data: Data): Figure = mesh()(data)
+
+  /**
+    * Plots a 2D mesh line of the data in X against the corresponding values in Y.
+    *
+    * @param lineStyle line style (default is solid)
+    * @param lineSize line size (default is thin)
+    * @param data sequence of X, Y points in the Euclidean space
+    */
+  def mesh(
+      lineStyle: LineStyle = SOLID,
+      lineSize: LineSize = THIN)(data: Data): Figure =
+    new Figure(colorIterator, name, axis, axisType,
+      Mesh(
+        data.coordinates,
+        lineStyle,
+        lineSize
+      ) :: graphics, secondary
+    )
+
+  /**
     * Plots a 2D line of the data in Y versus the corresponding values in X
     * along vertical and/or horizontal error bars at each data point.
     *
@@ -683,6 +708,35 @@ class Figure private (
         markFillColor,
         markSize,
         nodesNearCoords
+      ) :: graphics, secondary
+    )
+
+  /**
+    * Plots a scatter mesh of data points.
+    *
+    * @note Scatter plot is also called a bubble plot.
+    *
+    * @param data sequence of X, Y points in the Euclidean space
+    */
+  def scatterMesh(data: Data): Figure = scatterMesh()(data)
+
+  /**
+    * Plots a scatter mesh of data points.
+    *
+    * @note Scatter plot is also called a bubble plot.
+    *
+    * @param marker mark style (default is DOT)
+    * @param markSize mark size (default is 1 pt)
+    * @param data sequence of X, Y points in the Euclidean space
+    */
+  def scatterMesh(
+      marker: Mark = Mark.DOT,
+      markSize: Double = 1)(data: Data): Figure =
+    new Figure(colorIterator, name, axis, axisType,
+      MeshScatter(
+        data.coordinates,
+        marker,
+        markSize
       ) :: graphics, secondary
     )
 

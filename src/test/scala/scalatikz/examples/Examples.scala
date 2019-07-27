@@ -14,13 +14,14 @@ package scalatikz.examples
 import math._
 import scala.util.Random
 import scalatikz.pgf.plots.Figure
-import scalatikz.pgf.plots.enums.AxisLinePos.{BOTTOM, LEFT}
-import scalatikz.pgf.plots.enums.Color.{BLACK, BLUE, GREEN, RED, WHITE, YELLOW}
+import scalatikz.pgf.plots.enums.AxisLinePos.{ BOTTOM, LEFT }
+import scalatikz.pgf.plots.enums.Color.{ BLACK, BLUE, GREEN, RED, WHITE, YELLOW }
+import scalatikz.pgf.plots.enums.ColorMap
 import scalatikz.pgf.plots.enums.FontSize.FOOTNOTE
-import scalatikz.pgf.plots.enums.LegendPos.{NORTH_EAST, SOUTH_WEST}
+import scalatikz.pgf.plots.enums.LegendPos.{ NORTH_EAST, SOUTH_WEST }
 import scalatikz.pgf.plots.enums.LineSize.VERY_THIN
 import scalatikz.pgf.plots.enums.LineStyle.DASHED
-import scalatikz.pgf.plots.enums.Mark.{CIRCLE, DOT}
+import scalatikz.pgf.plots.enums.Mark.{ CIRCLE, DOT }
 
 object Examples extends App {
 
@@ -138,6 +139,24 @@ object Examples extends App {
     .havingYAxisLinePos(LEFT)
     .havingMajorGridOn
     .havingXLimits(-0.1, 1.1)
+    .saveAsPNG("images")
+
+  /*
+   * Mesh plot
+   */
+  val xc = BigDecimal(0) to BigDecimal(2) * Pi by 0.1
+
+  Figure("mesh")
+    .mesh(xc -> ((x: Double) => x + math.sin(x)))
+    .havingColorMap(ColorMap.COOL)
+    .saveAsPNG("images")
+
+  /*
+   * Scatter mesh
+   */
+  Figure("scatter_mesh")
+    .scatterMesh((0 to 100) -> ((x: Double) => x + Random.nextInt(10)))
+    .havingColorMap(ColorMap.ViRiDiS)
     .saveAsPNG("images")
 
   /*
