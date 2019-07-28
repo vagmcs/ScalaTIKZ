@@ -46,7 +46,7 @@ case class Edge(
          |  text=$textColor,
          |  $lineStyle,
          |  $lineSize
-         |] ($from) [$edgeType] edge node {$condition} (${if (to < 1) "" else to});
+         |] ($from) [$edgeType] edge node {$condition} (${if (to < 0) "" else to});
     """.stripMargin
 }
 

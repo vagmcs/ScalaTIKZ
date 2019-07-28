@@ -17,9 +17,10 @@ under certain conditions; See the [GNU Lesser General Public License v3 for more
 2. Configure each plot using a large pool of parameters.
 3. Plot any number of data sequences in one figure.
 4. Support for figure arrays and figures having a secondary y-axis.
-2. High level API for declaring plot types and subplots.
-3. Save generated graphics as TeX, PDF, JPEG or PNG formats.
-4. Command line interface that can be used as a Unix/Linux shell script.
+5. Automata plots.
+6. High level API for declaring plot types and subplots.
+7. Save generated graphics as TeX, PDF, JPEG or PNG formats.
+8. Command line interface that can be used as a Unix/Linux shell script.
 
 ## Requirements
 

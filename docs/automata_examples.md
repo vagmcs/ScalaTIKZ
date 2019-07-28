@@ -41,7 +41,7 @@ Automaton("light_blue_automaton")
 
 ![light-blue-automaton](../images/automaton/light_blue_automaton.png)
 
-Finally, lets create a colorful automaton:
+Next lets create a colorful automaton:
 
 ```scala
 import scalatikz.pgf.automata.Automaton
@@ -65,3 +65,29 @@ Automaton("colorful_automaton")
 ```
 
 ![colorful-automaton](../images/automaton/colorful_automaton.png)
+
+Finally, lets create a more complex automaton:
+
+```scala
+import scalatikz.pgf.automata.Automaton
+import scalatikz.pgf.enums.Color._
+
+Automaton("complex_automaton")
+  .initialState(id = 0, name = "$q_a$")
+  .state(id = 1, name = "$q_b$").aboveRightOf(0)
+  .state(id = 2, name = "$q_c$").belowRightOf(1)
+  .state(id = 3, name = "$q_d$").belowRightOf(0)
+  .state(id = 4, name = "$q_e$").belowOf(3)
+  .edge(0, 1, "0,1,L").straight
+  .edge(0, 2, "1,1,R").straight
+  .edge(1, 1, "1,1,L").loopAbove
+  .edge(1, 2, "0,1,L").straight
+  .edge(2, 3, "0,1,L").straight
+  .edge(2, 4, "1,0,R").bendLeft
+  .edge(3, 3, "1,1,R").loopBelow
+  .edge(3, 0, "0,1,R").straight
+  .edge(4, 0, "1,0,R").bendLeft
+  .show()
+```
+
+![complex-automaton](../images/automaton/complex_automaton.png)
