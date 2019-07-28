@@ -35,9 +35,9 @@ project/plugins/project/
 .project
 .target
 
-### TeX compile directory
+### TeX
 .temp
-
+*.tex
 
 ### Files
 *.csv
