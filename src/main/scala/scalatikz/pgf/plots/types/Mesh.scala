@@ -11,8 +11,9 @@
 
 package scalatikz.pgf.plots.types
 
+import scalatikz.pgf.enums.{ LineSize, LineStyle }
 import scalatikz.pgf.plots.DataTypes.Coordinates2D
-import scalatikz.pgf.plots.enums.{ LineSize, LineStyle, Mark }
+import scalatikz.pgf.plots.enums.Mark
 
 /**
   * Creates a 2D mesh line of the data in Y versus the corresponding values in X.

@@ -6,7 +6,7 @@ Lets create a sine vs cosine plot:
 import math._
 import scalatikz.pgf.plots.Figure
 import scalatikz.pgf.plots.enums.LegendPos.SOUTH_WEST
-import scalatikz.pgf.plots.enums.LineStyle.DASHED
+import scalatikz.pgf.enums.LineStyle.DASHED
 
 val domain = BigDecimal(-2 * Pi) to BigDecimal(2 * Pi) by 0.1
 
@@ -28,7 +28,7 @@ Lets create a plot of Gaussian distributions:
 ```scala
 import math._
 import scalatikz.pgf.plots.Figure
-import scalatikz.pgf.plots.enums.Color.{ BLACK, BLUE, GREEN, RED, YELLOW }
+import scalatikz.pgf.enums.Color.{ BLACK, BLUE, GREEN, RED, YELLOW }
 import scalatikz.pgf.plots.enums.FontSize.FOOTNOTE
 import scalatikz.pgf.plots.enums.LegendPos.NORTH_EAST
 
@@ -64,7 +64,7 @@ Lets plot an area:
 ```scala
 import math._
 import scalatikz.pgf.plots.Figure
-import scalatikz.pgf.plots.enums.LineSize.VERY_THIN
+import scalatikz.pgf.enums.LineSize.VERY_THIN
 
 val xx = BigDecimal(0) to BigDecimal(1) by 0.01
 
@@ -82,8 +82,8 @@ Lets plot a line and then plot a scatter of points along the line:
 import math._
 import scala.util.Random
 import scalatikz.pgf.plots.Figure
-import scalatikz.pgf.plots.enums.Color.{ BLACK, RED }
-import scalatikz.pgf.plots.enums.LineStyle.DASHED
+import scalatikz.pgf.enums.Color.{ BLACK, RED }
+import scalatikz.pgf.enums.LineStyle.DASHED
 
 val xs = BigDecimal(0) to BigDecimal(2) * Pi by 0.1
 
@@ -101,7 +101,7 @@ Lets plot a set of sinus functions and add some dark background to make the plot
 ```scala
 import math._
 import scalatikz.pgf.plots.Figure
-import scalatikz.pgf.plots.enums.Color.BLACK
+import scalatikz.pgf.enums.Color.BLACK
 import scalatikz.pgf.plots.enums.Mark.DOT
 
 val xxs = BigDecimal(0) to BigDecimal(6) by 0.1
@@ -121,8 +121,8 @@ Lets plot a stem function and a line passing through the stems:
 import math._
 import scala.util.Random
 import scalatikz.pgf.plots.Figure
-import scalatikz.pgf.plots.enums.Color.{ BLACK, BLUE, GREEN }
-import scalatikz.pgf.plots.enums.LineStyle.DASHED
+import scalatikz.pgf.enums.Color.{ BLACK, BLUE, GREEN }
+import scalatikz.pgf.enums.LineStyle.DASHED
 import scalatikz.pgf.plots.enums.Mark.CIRCLE
 
 val randomPoints = (1 to 20).map(_ => Random.nextDouble)
@@ -142,7 +142,7 @@ import math._
 import scala.util.Random
 import scalatikz.pgf.plots.Figure
 import scalatikz.pgf.plots.enums.AxisLinePos.{ BOTTOM, LEFT }
-import scalatikz.pgf.plots.enums.Color.{ BLACK, BLUE }
+import scalatikz.pgf.enums.Color.{ BLACK, BLUE }
 
 Figure("error_bar")
   .errorBar(BLUE!50!BLACK) {
@@ -166,7 +166,7 @@ Lets create a bar plot for the function `y = x^2`:
 import math._
 import scala.util.Random
 import scalatikz.pgf.plots.Figure
-import scalatikz.pgf.plots.enums.Color.{ WHITE, BLUE }
+import scalatikz.pgf.enums.Color.{ WHITE, BLUE }
 
 Figure("bar")
   .bar(barColor = BLUE!80!WHITE)((-20 to 20).map(x => (x, x * x)))
@@ -214,7 +214,7 @@ Next, lets plot an array of plots:
 ```scala
 import math._
 import scalatikz.pgf.plots.Figure
-import scalatikz.pgf.plots.enums.Color.{ BLACK, BLUE, GREEN, YELLOW }
+import scalatikz.pgf.enums.Color.{ BLACK, BLUE, GREEN, YELLOW }
 
 Figure("array", 2, 2)
   .subFigure(0, 0) { x =>
@@ -246,7 +246,7 @@ Finally, lets plot a figure having two ordinates:
 
 ```scala
 import scalatikz.pgf.plots.Figure
-import scalatikz.pgf.plots.enums.Color.{ RED, BLUE }
+import scalatikz.pgf.enums.Color.{ RED, BLUE }
 
 Figure("secondary_axis")
   .plot(lineColor = RED)((-5 to 5) -> ((x: Double) => 3 * x))

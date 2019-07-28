@@ -9,7 +9,7 @@
  *
  */
 
-package scalatikz.pgf.plots.enums
+package scalatikz.pgf.enums
 
 import enumeratum._
 import scala.collection.immutable._

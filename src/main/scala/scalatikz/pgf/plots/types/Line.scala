@@ -11,9 +11,10 @@
 
 package scalatikz.pgf.plots.types
 
+import scalatikz.pgf.enums.{ Color, LineSize, LineStyle }
 import scalatikz.pgf.plots.DataTypes.Coordinates2D
+import scalatikz.pgf.plots.enums.{ LineType, Mark, Pattern }
 import scalatikz.pgf.plots.enums.Pattern.PLAIN
-import scalatikz.pgf.plots.enums._
 
 /**
   * Creates a 2D line of the data in X against the corresponding values in Y.

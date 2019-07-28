@@ -15,15 +15,15 @@ import math._
 import scala.util.Random
 import scalatikz.pgf.plots.Figure
 import scalatikz.pgf.plots.enums.AxisLinePos.{ BOTTOM, LEFT }
-import scalatikz.pgf.plots.enums.Color.{ BLACK, BLUE, GREEN, RED, WHITE, YELLOW }
+import scalatikz.pgf.enums.Color.{ BLACK, BLUE, GREEN, RED, WHITE, YELLOW }
 import scalatikz.pgf.plots.enums.ColorMap
 import scalatikz.pgf.plots.enums.FontSize.FOOTNOTE
 import scalatikz.pgf.plots.enums.LegendPos.{ NORTH_EAST, SOUTH_WEST }
-import scalatikz.pgf.plots.enums.LineSize.VERY_THIN
-import scalatikz.pgf.plots.enums.LineStyle.DASHED
+import scalatikz.pgf.enums.LineSize.VERY_THIN
+import scalatikz.pgf.enums.LineStyle.DASHED
 import scalatikz.pgf.plots.enums.Mark.{ CIRCLE, DOT }
 
-object Examples extends App {
+object PGFPlotExamples extends App {
 
   /*
    * Bars for the function y = x^2

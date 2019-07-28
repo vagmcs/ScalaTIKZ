@@ -19,11 +19,12 @@ import scalatikz.pgf.plots.DataTypes._
 import scalatikz.pgf.plots.enums._
 import scalatikz.pgf.plots.enums.AxisLinePos.BOX
 import scalatikz.pgf.plots.enums.FontSize.NORMAL
-import scalatikz.pgf.plots.enums.LineSize.THIN
-import scalatikz.pgf.plots.enums.LineStyle.SOLID
+import scalatikz.pgf.enums.LineSize.THIN
+import scalatikz.pgf.enums.LineStyle.SOLID
 import scalatikz.pgf.plots.enums.Mark.{ CIRCLE, NONE }
 import scalatikz.pgf.plots.enums.Pattern.PLAIN
 import scalatikz.pgf.Compiler
+import scalatikz.pgf.enums.{ Color, LineSize, LineStyle }
 
 object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
 

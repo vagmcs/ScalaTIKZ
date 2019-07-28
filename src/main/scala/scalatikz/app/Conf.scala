@@ -13,6 +13,7 @@ package scalatikz.app
 
 import scalatikz.app.GraphType.GraphType
 import scalatikz.pgf.Compiler
+import scalatikz.pgf.enums.{ Color, LineSize, LineStyle }
 import scalatikz.pgf.plots.Figure
 import scalatikz.pgf.plots.enums._
 

@@ -11,8 +11,9 @@
 
 package scalatikz.pgf.plots.types
 
+import scalatikz.pgf.enums.Color
 import scalatikz.pgf.plots.DataTypes.Coordinates2D
-import scalatikz.pgf.plots.enums.{ Color, Mark }
+import scalatikz.pgf.plots.enums.Mark
 
 /**
   * Creates a scatter of data points.

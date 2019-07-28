@@ -32,6 +32,8 @@ trait TIKZPicture extends Logging {
 
   val name: String
   protected val libraries: String
+  protected val scale: Int = 2
+  protected val nodeDistance: Double = 2
 
   private val path = new File(System.getProperty("java.io.tmpdir"))
   private val texFile: File = new File(s"$path/source.tex")
@@ -45,12 +47,13 @@ trait TIKZPicture extends Logging {
        |\documentclass{standalone}
        |
        |\usepackage{luatex85}
+       |\usepackage{tikz,pgfplots}
        |$libraries
        |\pgfplotsset{compat=newest}
        |
        |\begin{document}
        |\pagestyle{empty}
-       |\begin{tikzpicture}[scale=2]
+       |\begin{tikzpicture}[auto, scale=$scale, node distance=${nodeDistance}cm]
        |${this.toString}
        |\end{tikzpicture}
        |\end{document}

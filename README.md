@@ -41,7 +41,8 @@ libraryDependencies ++= "com.github.vagmcs" %% "scalatikz" % "0.3.5",
 ## Documentation
 
 - [Building and Linking](docs/building_and_linking.md)
-- [PGFPlot Gallery](docs/examples.md)
+- [PGFPlot Gallery](docs/pgfplots_examples.md)
+- [Automata Gallery](docs/automata_examples.md)
 - [Documentation](docs/index.md)
 
 ## Contributions

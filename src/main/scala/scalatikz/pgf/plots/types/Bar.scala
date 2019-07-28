@@ -11,9 +11,10 @@
 
 package scalatikz.pgf.plots.types
 
+import scalatikz.pgf.enums.{ Color, LineSize, LineStyle }
 import scalatikz.pgf.plots.DataTypes.Coordinates2D
 import scalatikz.pgf.plots.enums.Pattern.PLAIN
-import scalatikz.pgf.plots.enums.{ Color, LineSize, LineStyle, Mark, Pattern }
+import scalatikz.pgf.plots.enums.{ Mark, Pattern }
 
 /**
   * Creates 2D bars of the data in X against the corresponding values in Y.

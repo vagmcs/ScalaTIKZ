@@ -12,13 +12,14 @@
 package scalatikz.pgf.plots
 
 import scalatikz.pgf.TIKZPicture
+import scalatikz.pgf.enums.{ Color, LineSize, LineStyle }
+import scalatikz.pgf.enums.LineSize.THIN
+import scalatikz.pgf.enums.LineStyle.SOLID
 import scalatikz.pgf.plots.types._
 import scalatikz.pgf.plots.DataTypes._
 import scalatikz.pgf.plots.enums.AxisScale.{ LINEAR, LOG }
 import scalatikz.pgf.plots.enums.AxisSystem.{ CARTESIAN, POLAR }
 import scalatikz.pgf.plots.enums.GridStyle.{ BOTH, MAJOR, MINOR }
-import scalatikz.pgf.plots.enums.LineSize.THIN
-import scalatikz.pgf.plots.enums.LineStyle.SOLID
 import scalatikz.pgf.plots.enums.LineType._
 import scalatikz.pgf.plots.enums.Mark.NONE
 import scalatikz.pgf.plots.enums.Pattern.PLAIN
@@ -34,7 +35,6 @@ class Figure private (
 
   override protected val libraries: String =
     """
-      |\usepackage{tikz,pgfplots}
       |\usetikzlibrary{plotmarks}
       |\usetikzlibrary{patterns}
       |\usetikzlibrary{pgfplots.polar}
@@ -199,7 +199,6 @@ class Figure private (
   /**
     * Sets the axis background color
     *
-    * @see [[scalatikz.pgf.plots.enums.Color]]
     * @param color a color
     * @return a Figure having the given background color
     */

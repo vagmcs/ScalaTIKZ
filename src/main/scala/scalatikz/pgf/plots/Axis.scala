@@ -11,9 +11,10 @@
 
 package scalatikz.pgf.plots
 
+import scalatikz.pgf.enums.Color
 import scalatikz.pgf.plots.enums.AxisLinePos.BOX
 import scalatikz.pgf.plots.enums.AxisScale.LINEAR
-import scalatikz.pgf.plots.enums.Color.WHITE
+import scalatikz.pgf.enums.Color.WHITE
 import scalatikz.pgf.plots.enums.LegendPos.OUTER_NORTH_EAST
 import scalatikz.pgf.plots.enums._
 
