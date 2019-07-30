@@ -337,7 +337,7 @@ class Figure private (
     *
     * @param data sequence of X, Y points in the Euclidean space
     */
-  def plot(data: Data): Figure = plot()(data)
+  def plot(data: Data2D): Figure = plot()(data)
 
   /**
     * Plots a 2D line of the data in X against the corresponding values in Y.
@@ -362,10 +362,10 @@ class Figure private (
       markFillColor: Color = currentColor,
       markSize: Double = 1,
       smooth: Boolean = false,
-      sparse: Boolean = false)(data: Data): Figure =
+      sparse: Boolean = false)(data: Data2D): Figure =
     new Figure(colorIterator, name, axis, axisType,
       Line(
-        if (sparse) data.sparse.coordinates else data.coordinates,
+        if (sparse) data.compress.coordinates else data.coordinates,
         if (smooth) SMOOTH else SHARP,
         lineColor,
         lineStyle,
@@ -385,7 +385,7 @@ class Figure private (
     *
     * @param data sequence of X, Y points in the Euclidean space
     */
-  def mesh(data: Data): Figure = mesh()(data)
+  def mesh(data: Data2D): Figure = mesh()(data)
 
   /**
     * Plots a 2D mesh line of the data in X against the corresponding values in Y.
@@ -396,7 +396,7 @@ class Figure private (
     */
   def mesh(
       lineStyle: LineStyle = SOLID,
-      lineSize: LineSize = THIN)(data: Data): Figure =
+      lineSize: LineSize = THIN)(data: Data2D): Figure =
     new Figure(colorIterator, name, axis, axisType,
       Mesh(
         data.coordinates,
@@ -412,7 +412,7 @@ class Figure private (
     * @param data sequence of X, Y points in the Euclidean space
     * @param error sequence of X, Y error points
     */
-  def errorPlot(data: Data)(error: Data): Figure = errorPlot()(data)(error)
+  def errorPlot(data: Data2D)(error: Data2D): Figure = errorPlot()(data)(error)
 
   /**
     * Plots a 2D line of the data in Y versus the corresponding values in X
@@ -437,7 +437,7 @@ class Figure private (
       markStrokeColor: Color = currentColor,
       markFillColor: Color = currentColor,
       markSize: Double = 1,
-      smooth: Boolean = false)(data: Data)(error: Data): Figure =
+      smooth: Boolean = false)(data: Data2D)(error: Data2D): Figure =
     new Figure(colorIterator, name, axis, axisType,
       ErrorLine(
         data.coordinates,
@@ -467,7 +467,7 @@ class Figure private (
     *
     * @param data sequence of X, Y points in the Euclidean space
     */
-  def area(data: Data): Figure = area()(data)
+  def area(data: Data2D): Figure = area()(data)
 
   /**
     * Plots a 2D line of the data in X against the corresponding values in Y
@@ -499,10 +499,10 @@ class Figure private (
       fillColor: Color = currentColor,
       opacity: Double = 0.5,
       smooth: Boolean = false,
-      sparse: Boolean = false)(data: Data): Figure =
+      sparse: Boolean = false)(data: Data2D): Figure =
     new Figure(colorIterator, name, axis, axisType,
       Line(
-        if (sparse) data.sparse.coordinates else data.coordinates,
+        if (sparse) data.compress.coordinates else data.coordinates,
         if (smooth) SMOOTH else SHARP,
         lineColor,
         lineStyle,
@@ -524,7 +524,7 @@ class Figure private (
     * @param data sequence of X, Y points in the Euclidean space
     * @param error sequence of X, Y error points
     */
-  def errorArea(data: Data)(error: Data): Figure = errorArea()(data)(error)
+  def errorArea(data: Data2D)(error: Data2D): Figure = errorArea()(data)(error)
 
   /**
     * Plots a 2D line of the data in X against the corresponding values in Y
@@ -553,7 +553,7 @@ class Figure private (
       markSize: Double = 1,
       fillColor: Color = currentColor,
       opacity: Double = 0.5,
-      smooth: Boolean = false)(data: Data)(error: Data): Figure =
+      smooth: Boolean = false)(data: Data2D)(error: Data2D): Figure =
     new Figure(colorIterator, name, axis, axisType,
       ErrorArea(
         data.coordinates,
@@ -587,7 +587,7 @@ class Figure private (
     *
     * @param data sequence of X, Y points in the Euclidean space
     */
-  def stem(data: Data): Figure = stem()(data)
+  def stem(data: Data2D): Figure = stem()(data)
 
   /**
     * Plots stems of the given data extending from the X-axis to their corresponding
@@ -611,7 +611,7 @@ class Figure private (
       markFillColor: Color = currentColor,
       markSize: Double = 1,
       nodesNearCoords: Boolean = false,
-      horizontal: Boolean = false)(data: Data): Figure =
+      horizontal: Boolean = false)(data: Data2D): Figure =
     new Figure(colorIterator, name, axis, axisType,
       Stem(
         data.coordinates,
@@ -638,7 +638,7 @@ class Figure private (
     *
     * @param data sequence of X, Y points in the Euclidean space
     */
-  def steps(data: Data): Figure = steps()(data)
+  def steps(data: Data2D): Figure = steps()(data)
 
   /**
     * Plots the data in X against the corresponding values in Y as constant steps.
@@ -661,10 +661,10 @@ class Figure private (
       markStrokeColor: Color = currentColor,
       markFillColor: Color = currentColor,
       markSize: Double = 1,
-      sparse: Boolean = false)(data: Data): Figure =
+      sparse: Boolean = false)(data: Data2D): Figure =
     new Figure(colorIterator, name, axis, axisType,
       Line(
-        if (sparse) data.sparse.coordinates else data.coordinates,
+        if (sparse) data.compress.coordinates else data.coordinates,
         CONST,
         lineColor,
         lineStyle,
@@ -694,7 +694,7 @@ class Figure private (
     *
     * @param data sequence of X, Y points in the Euclidean space
     */
-  def scatter(data: Data): Figure = scatter()(data)
+  def scatter(data: Data2D): Figure = scatter()(data)
 
   /**
     * Plots a scatter of data points.
@@ -713,7 +713,7 @@ class Figure private (
       markStrokeColor: Color = nextColor,
       markFillColor: Color = currentColor,
       markSize: Double = 1,
-      nodesNearCoords: Boolean = false)(data: Data): Figure =
+      nodesNearCoords: Boolean = false)(data: Data2D): Figure =
     new Figure(colorIterator, name, axis, axisType,
       Scatter(
         data.coordinates,
@@ -732,7 +732,7 @@ class Figure private (
     *
     * @param data sequence of X, Y points in the Euclidean space
     */
-  def scatterMesh(data: Data): Figure = scatterMesh()(data)
+  def scatterMesh(data: Data2D): Figure = scatterMesh()(data)
 
   /**
     * Plots a scatter mesh of data points.
@@ -745,7 +745,7 @@ class Figure private (
     */
   def scatterMesh(
       marker: Mark = Mark.DOT,
-      markSize: Double = 1)(data: Data): Figure =
+      markSize: Double = 1)(data: Data2D): Figure =
     new Figure(colorIterator, name, axis, axisType,
       MeshScatter(
         data.coordinates,
@@ -763,7 +763,7 @@ class Figure private (
     * @param data sequence of X, Y points in the Euclidean space
     * @param error sequence of X, Y points in the Euclidean space
     */
-  def errorScatter(data: Data)(error: Data): Figure = errorScatter()(data)(error)
+  def errorScatter(data: Data2D)(error: Data2D): Figure = errorScatter()(data)(error)
 
   /**
     * Plots a data sequence as a scatter at the locations specified by the
@@ -780,7 +780,7 @@ class Figure private (
       marker: Mark = NONE,
       markStrokeColor: Color = nextColor,
       markFillColor: Color = currentColor,
-      markSize: Double = 1)(data: Data)(error: Data): Figure =
+      markSize: Double = 1)(data: Data2D)(error: Data2D): Figure =
     new Figure(colorIterator, name, axis, axisType,
       ErrorScatter(
         data.coordinates,
@@ -805,7 +805,7 @@ class Figure private (
     *
     * @param data sequence of X, Y points in the Euclidean space
     */
-  def bar(data: Data): Figure = bar()(data)
+  def bar(data: Data2D): Figure = bar()(data)
 
   /**
     * Plots 2D bars of the data in X against the corresponding values in Y.
@@ -836,7 +836,7 @@ class Figure private (
       opacity: Double = 1,
       barWidth: Double = 0.25,
       nodesNearCoords: Boolean = false,
-      horizontal: Boolean = false)(data: Data): Figure =
+      horizontal: Boolean = false)(data: Data2D): Figure =
     new Figure(colorIterator, name, axis, axisType,
       Bar(
         data.coordinates,
@@ -862,7 +862,7 @@ class Figure private (
     * @param data sequence of X, Y points in the Euclidean space
     * @param error sequence of X, Y error points
     */
-  def errorBar(data: Data)(error: Data): Figure = errorBar()(data)(error)
+  def errorBar(data: Data2D)(error: Data2D): Figure = errorBar()(data)(error)
 
   /**
     * Plots a 2D line of the data in Y versus the corresponding values in X
@@ -889,7 +889,7 @@ class Figure private (
       pattern: Pattern = PLAIN,
       opacity: Double = 1,
       barWidth: Double = 0.25,
-      horizontal: Boolean = false)(data: Data)(error: Data): Figure =
+      horizontal: Boolean = false)(data: Data2D)(error: Data2D): Figure =
     new Figure(colorIterator, name, axis, axisType,
       ErrorBar(
         data.coordinates,
@@ -916,7 +916,7 @@ class Figure private (
    * =====================================
    */
 
-  def polar(data: Data): Figure = polar()(data)
+  def polar(data: Data2D): Figure = polar()(data)
 
   def polar(
       color: Color = nextColor,
@@ -926,7 +926,7 @@ class Figure private (
       markSize: Double = 2,
       lineStyle: LineStyle = SOLID,
       lineSize: LineSize = THIN,
-      smooth: Boolean = false)(data: Data): Figure =
+      smooth: Boolean = false)(data: Data2D): Figure =
     new Figure(colorIterator, name, axis, POLAR,
       Line(
         data.coordinates,
@@ -944,13 +944,13 @@ class Figure private (
       ) :: graphics, secondary
     )
 
-  def polarScatter(data: Data): Figure = polarScatter()(data)
+  def polarScatter(data: Data2D): Figure = polarScatter()(data)
 
   def polarScatter(
       marker: Mark = NONE,
       markStrokeColor: Color = nextColor,
       markFillColor: Color = currentColor,
-      markSize: Double = 2)(data: Data): Figure =
+      markSize: Double = 2)(data: Data2D): Figure =
     new Figure(colorIterator, name, axis, POLAR,
       Scatter(
         data.coordinates,
