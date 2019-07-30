@@ -44,12 +44,12 @@ object Color extends Enum[Color] {
   implicit class ColorMix(val color: Color) extends AnyVal {
 
     def !(that: Color): Color =
-      if (color.toString matches ".*\\d+") new Color(color + "!" + that)
-      else new Color(color + "!50!" + that)
+      if (color.toString matches ".*\\d+") new Color(s"$color!$that")
+      else new Color(s"$color!50!$that")
 
     def !(percentage: Int): Color =
-      if (percentage < 0) new Color(color + "!0")
-      else if (percentage > 100) new Color(color + "!100")
-      else new Color(color + "!" + percentage)
+      if (percentage < 0) new Color(s"$color!0")
+      else if (percentage > 100) new Color(s"$color!100")
+      else new Color(s"$color!$percentage")
   }
 }
