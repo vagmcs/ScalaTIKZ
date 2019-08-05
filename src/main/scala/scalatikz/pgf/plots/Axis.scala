@@ -54,6 +54,8 @@ import scalatikz.pgf.plots.enums._
 case class Axis(
     height: Option[Double] = None,
     width: Option[Double] = None,
+    azimuth: Option[Double] = None,
+    elevation: Option[Double] = None,
     xMode: AxisScale = LINEAR,
     yMode: AxisScale = LINEAR,
     zMode: AxisScale = LINEAR,
@@ -75,12 +77,16 @@ case class Axis(
     legendPos: LegendPos = OUTER_NORTH_EAST,
     xAxisLinePos: AxisLinePos = BOX,
     yAxisLinePos: AxisLinePos = BOX,
+    zAxisLinePos: AxisLinePos = BOX,
     xAxisHideTicks: Boolean = false,
     yAxisHideTicks: Boolean = false,
+    zAxisHideTicks: Boolean = false,
     xTickLabels: Seq[String] = List.empty,
     yTickLabels: Seq[String] = List.empty,
+    zTickLabels: Seq[String] = List.empty,
     rotateXTicks: Int = 0,
     rotateYTicks: Int = 0,
+    rotateZTicks: Int = 0,
     stackedBars: Boolean = true) {
 
   override def toString: String = {
@@ -91,14 +97,19 @@ case class Axis(
     if (height.isDefined) builder ++= s"\theight=${height.get}cm,\n"
     if (width.isDefined) builder ++= s"\twidth=${width.get}cm,\n"
 
+    if (azimuth.isDefined || elevation.isDefined)
+      builder ++= s"\tview={${azimuth.getOrElse(25)}{${elevation.getOrElse(30)}}"
+
     builder ++= s"\t${Symbol("xMode").name.toLowerCase}=$xMode,\n"
     builder ++= s"\t${Symbol("yMode").name.toLowerCase}=$yMode,\n"
     builder ++= s"\t${Symbol("zMode").name.toLowerCase}=$zMode,\n"
     builder ++= s"\taxis background/.style={fill=$backgroundColor},\n"
     builder ++= s"\taxis x line=$xAxisLinePos,\n"
     builder ++= s"\taxis y line=$yAxisLinePos,\n"
+    builder ++= s"\taxis z line=$zAxisLinePos,\n"
     builder ++= s"\tx tick label style={rotate=$rotateXTicks},\n"
-    builder ++= s"\ty tick label style={rotate=$rotateYTicks}"
+    builder ++= s"\ty tick label style={rotate=$rotateYTicks},\n"
+    builder ++= s"\tz tick label style={rotate=$rotateZTicks}"
 
     if (xAxisHideTicks)
       builder ++= s",\n\t${Symbol("xTickLabels").name.toLowerCase}={,,}"
@@ -109,6 +120,11 @@ case class Axis(
       builder ++= s",\n\t${Symbol("yTickLabels").name.toLowerCase}={,,}"
     else if (yTickLabels.nonEmpty)
       builder ++= s",\n\ty" + s"tick=data,\n${Symbol("yTickLabels").name.toLowerCase}={${yTickLabels.mkString(",")}}"
+
+    if (zAxisHideTicks)
+      builder ++= s",\n\t${"zTickLabels".toLowerCase}={,,}"
+    else if (yTickLabels.nonEmpty)
+      builder ++= s",\n\tz" + s"tick=data,\n${"zTickLabels".toLowerCase}={${yTickLabels.mkString(",")}}"
 
     if (xLabel.isDefined) builder ++= s",\n\t${Symbol("xLabel").name.toLowerCase}=${xLabel.get.toTex}"
     if (yLabel.isDefined) builder ++= s",\n\t${Symbol("yLabel").name.toLowerCase}=${yLabel.get.toTex}"
