@@ -75,6 +75,7 @@ case class Axis(
     fontSize: Option[FontSize] = None,
     legends: Seq[String] = List.empty,
     legendPos: LegendPos = OUTER_NORTH_EAST,
+    legendColumns: Int = 1,
     xAxisLinePos: AxisLinePos = BOX,
     yAxisLinePos: AxisLinePos = BOX,
     zAxisLinePos: AxisLinePos = BOX,
@@ -141,8 +142,11 @@ case class Axis(
     if (colorMap.isDefined) builder ++= s",\n\tcolormap/${colorMap.get},\n\tcolor" + "bar"
     if (header.isDefined) builder ++ s",\n\ttitle=${header.get.toTex}"
     if (fontSize.isDefined) builder ++= s",\n\tfont=\\${fontSize.get}"
-    if (legends.nonEmpty)
-      builder ++= s",\n\tlegend entries={${legends.map(_.toTex).mkString(",")}},\n\tlegend pos=$legendPos"
+    if (legends.nonEmpty) {
+      builder ++= s",\n\tlegend entries={${legends.map(_.toTex).mkString(",")}}"
+      builder ++= s",\n\tlegend pos=$legendPos"
+      builder ++= s",\n\tlegend columns=$legendColumns"
+    }
 
     builder.result
   }

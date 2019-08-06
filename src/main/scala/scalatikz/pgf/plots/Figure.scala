@@ -234,6 +234,15 @@ class Figure private (
     new Figure(colorIterator, name, axis.copy(legendPos = pos), axisType, graphics, secondary)
 
   /**
+    * Sets the legend columns.
+    *
+    * @param cols the number of adjacent legend entries
+    * @return a Figure having the given legend columns
+    */
+  def havingLegendColumns(cols: Int): Figure =
+    new Figure(colorIterator, name, axis.copy(legendColumns = cols), axisType, graphics, secondary)
+
+  /**
     * Sets the position of the X axis.
     *
     * @see [[scalatikz.pgf.plots.enums.AxisLinePos]]
