@@ -109,7 +109,7 @@ object Chart {
   private def apply[T](name: String, variation: Option[String], data: Seq[T]): Chart = {
     val len = data.length.toDouble
     val map = data.map(_ -> 1).groupBy(_._1).toSeq.map {
-      case (key, seq) => key.toString -> seq.foldLeft(0.0)(_ + _._2) / len
+      case (key, seq) => key.toString -> seq.foldLeft(0.0)(_ + _._2) * 100 / len
     }.toMap
 
     Chart(name, variation, map)
@@ -117,13 +117,15 @@ object Chart {
 
   def pie[V: Numeric](name: String, data: Map[String, V]): Chart = Chart(name, None, data)
 
-  def pie[T](name: String)(data: T*): Chart = Chart(name, None, data.toSeq)
+  def pie[V: Numeric](name: String, data: (String, V)*): Chart = Chart(name, None, data.toMap)
+
+  def pie[T](name: String)(data: Seq[T]): Chart = Chart(name, None, data)
 
   def square[V: Numeric](name: String, data: Map[String, V]): Chart = Chart(name, Some("square"), data)
 
-  def square[T](name: String, data: T*): Chart = Chart(name, Some("square"), data.toSeq)
+  def square[T](name: String, data: Seq[T]): Chart = Chart(name, Some("square"), data)
 
   def cloud[V: Numeric](name: String, data: Map[String, V]): Chart = Chart(name, Some("cloud"), data)
 
-  def cloud[T](name: String)(data: T*): Chart = Chart(name, Some("cloud"), data.toSeq)
+  def cloud[T](name: String)(data: Seq[T]): Chart = Chart(name, Some("cloud"), data)
 }

@@ -14,13 +14,14 @@ under certain conditions; See the [GNU Lesser General Public License v3 for more
 ## Features
 
 1. 2D PGF plots including lines, scatters, bars, stems and many other options.
-2. Configure each plot using a large pool of parameters.
-3. Plot any number of data sequences in one figure.
-4. Support for figure arrays and figures having a secondary y-axis.
-5. Automata plots.
-6. High level API for declaring plot types and subplots.
-7. Save generated graphics as TeX, PDF, JPEG or PNG formats.
-8. Command line interface that can be used as a Unix/Linux shell script.
+2. Chart plots (pie, clouds, squares).
+3. Configure each plot/chart using a large pool of parameters.
+4. Plot any number of data sequences in one figure.
+5. Support for figure arrays and figures having a secondary y-axis.
+6. Support for Automata plots.
+7. High level API for declaring plot types and subplots.
+8. Save generated graphics as TeX, PDF, JPEG or PNG formats.
+9. Command line interface that can be used as a Unix/Linux shell script.
 
 ## Requirements
 
@@ -43,6 +44,7 @@ libraryDependencies ++= "com.github.vagmcs" %% "scalatikz" % "0.3.5",
 
 - [Building and Linking](docs/building_and_linking.md)
 - [PGFPlot Gallery](docs/pgfplots_examples.md)
+- [Chart Gallery](docs/charts_examples.md)
 - [Automata Gallery](docs/automata_examples.md)
 - [Documentation](docs/index.md)
 
