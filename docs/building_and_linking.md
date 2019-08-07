@@ -13,7 +13,9 @@ $ sbt dist
 
 After a successful compilation, the distribution is located inside the `./target/universal/ScalaTIKZ-*.zip` archive.
 You can extract this file and add the path/to/ScalaTIKZ-<version>/bin in your PATH, in order to execute the CLI script
-from terminal (see Section [Add ScalaTIKZ executables in your default PATH](#Add-ScalaTIKZ-executables-in-your-default-PATH)). The distribution contains all library dependencies and requires only Java 8 (or higher). Sources, documentation and the compiled library are archived as jar files into the `./target/scala-2.11/` or `./target/scala-2.12/` directory. 
+from terminal (see Section [Add ScalaTIKZ executables in your default PATH](#Add-ScalaTIKZ-executables-in-your-default-PATH)).
+The distribution contains all library dependencies and requires only Java 8 (or higher). Sources, documentation and the compiled
+library are archived as jar files into the `./target/scala-<version>/` directory. 
 
 ## Add ScalaTIKZ executables in your default PATH
 
@@ -21,11 +23,11 @@ You can add the CLI tools to your default PATH, in order to directly call ScalaT
 line interface. Depending on your OS configuration you have to add and export the path `/path/to/ScalaTIKZ-<version>/bin`
 to the `PATH` variable.
 
-For example, lets say that the ScalaTIKZ distribution version 0.3.5-SNAPSHOT is being installed in your home directory in
-`$HOME/ScalaTIKZ-0.3.5`, the directory structure inside the ScalaTIKZ directory is the following:
+For example, lets say that the ScalaTIKZ distribution version 0.4.0 is being installed in your home directory in
+`$HOME/ScalaTIKZ-0.4.0`, the directory structure inside the ScalaTIKZ directory is the following:
 
 ```bash
-ScalaTIKZ-0.3.5/
+ScalaTIKZ-0.4.0/
 |-- bin
 |-- etc
 |-- lib
@@ -38,7 +40,7 @@ add the following line in you profile file.
 
 **BASH** e.g., inside `.profile`, `.bashrc` or `.bash_profile` file in your home directory:
 ```bash
-export PATH=$PATH:$HOME/ScalaTIKZ-0.3.5/bin
+export PATH=$PATH:$HOME/ScalaTIKZ-0.4.0/bin
 ```
 
 ## Local publish ScalaTIKZ
@@ -49,11 +51,11 @@ Follow the instructions in Section [Instructions to build ScalaTIKZ from source]
 $ sbt +publishLocal
 ```
 
-ScalaTIKZ cross builds for Scala versions 2.11 and 2.12. Thereafter, in order to link ScalaTIKZ (e.g., version 0.3.5-SNAPSHOT) to
+ScalaTIKZ cross builds for Scala versions 2.11, 2.12 and 2.13. Thereafter, in order to link ScalaTIKZ (e.g., version 0.4.0) to
 your [SBT](http://www.scala-sbt.org/) project, add the following dependency:
 
-```
-libraryDependencies += "com.github.vagmcs" %% "scalatikz" % "0.3.5"
+```sbt
+libraryDependencies += "com.github.vagmcs" %% "scalatikz" % "0.4.0"
 ```
 
 Similarly, in an [Apache Maven](https://maven.apache.org/) pom file:
@@ -62,7 +64,7 @@ Similarly, in an [Apache Maven](https://maven.apache.org/) pom file:
 <dependency>
     <groupId>com.github.vagmcs</groupId>
     <artifactId>scalatikz_2.11</artifactId>
-    <version>0.3.5</version>
+    <version>0.4.0</version>
 </dependency>
 ```
 or
@@ -71,16 +73,26 @@ or
 <dependency>
     <groupId>com.github.vagmcs</groupId>
     <artifactId>scalatikz_2.12</artifactId>
-    <version>0.3.5</version>
+    <version>0.4.0</version>
+</dependency>
+```
+
+or
+
+```xml
+<dependency>
+    <groupId>com.github.vagmcs</groupId>
+    <artifactId>scalatikz_2.13</artifactId>
+    <version>0.4.0</version>
 </dependency>
 ```
 
 ## Usage of ScalaTIKZ through Maven Central
 
 ScalaTIKZ is published into the Maven Central. In order to link ScalaTIKZ to your [SBT](http://www.scala-sbt.org/) project, add the following dependency:
-
-```sbt
-libraryDependencies += "com.github.vagmcs" %% "scalatikz" % "0.3.5"
+      
+      ```sbt
+libraryDependencies += "com.github.vagmcs" %% "scalatikz" % "0.4.0"
 ```
 
 Likewise in an [Apache Maven](https://maven.apache.org/) pom xml file add:
@@ -89,7 +101,7 @@ Likewise in an [Apache Maven](https://maven.apache.org/) pom xml file add:
 <dependency>
   <groupId>com.github.vagmcs</groupId>
   <artifactId>scalatikz_2.11</artifactId>
-  <version>0.3.5</version>
+  <version>0.4.0</version>
 </dependency>
 ```
 
@@ -99,6 +111,16 @@ or
 <dependency>
   <groupId>com.github.vagmcs</groupId>
   <artifactId>scalatikz_2.12</artifactId>
-  <version>0.3.5</version>
+  <version>0.4.0</version>
+</dependency>
+```
+
+or
+
+```xml
+<dependency>
+  <groupId>com.github.vagmcs</groupId>
+  <artifactId>scalatikz_2.13</artifactId>
+  <version>0.4.0</version>
 </dependency>
 ```
