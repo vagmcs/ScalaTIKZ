@@ -112,7 +112,7 @@ object DataTypes {
       * @return the data having compressed coordinates
       */
     override def compress: Data2D = tail.sliding(2).foldLeft(Seq(head)) {
-      case (data,  seq) =>
+      case (data, seq) =>
         val (pointA @ (_, yA), pointB @ (_, yB)) = (seq.head, seq.last)
         if (pointB == last) data :+ pointB
         else if (yA != yB) data :+ pointA :+ pointB
@@ -215,9 +215,10 @@ object DataTypes {
     }
 
     implicit def fromDoubleFunction[X: Numeric, Y: Numeric, Z: Numeric](xyf: (Seq[(X, Y)], (Double, Double) => Z)): Data3D =
-      xyf match { case (seq, f) => new Data3D {
-        val coordinates: Coordinates3D = seq.map { case (x, y) => (x.toDouble, y.toDouble, f(x.toDouble, y.toDouble).toDouble) }
+      xyf match {
+        case (seq, f) => new Data3D {
+          val coordinates: Coordinates3D = seq.map { case (x, y) => (x.toDouble, y.toDouble, f(x.toDouble, y.toDouble).toDouble) }
+        }
       }
-    }
   }
 }

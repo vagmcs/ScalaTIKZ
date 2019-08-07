@@ -6,7 +6,7 @@
  * /___/\__/\_,_/_/\_,_//_/ /___/_/|_| /___/
  *
  * A PGF/TIKZ plot library for Scala.
- *
+ *     
  */
 
 package scalatikz.pgf.plots
@@ -33,13 +33,14 @@ class Figure private (
     private[plots] val graphics: List[PGFPlot],
     private[plots] val secondary: Option[Figure]) extends TIKZPicture {
 
-  override protected val libraries: String =
+  override protected val libraries: String = {
     """
       |\usetikzlibrary{plotmarks}
       |\usetikzlibrary{patterns}
       |\usetikzlibrary{pgfplots.polar}
       |\usepgfplotslibrary{fillbetween}
-      |""".stripMargin
+    |""".stripMargin
+  }
 
   // An iterator over available colors in case user does not specify one.
   private[this] var currentColor: Color = Color.values.head

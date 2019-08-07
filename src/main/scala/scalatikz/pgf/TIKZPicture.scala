@@ -71,6 +71,7 @@ trait TIKZPicture extends Logging {
     stream println asTex
     stream.close()
 
+    s"cp ./scripts/pgf-pie.sty $path" ! devNullLogger
     s"$compiler --shell-escape -output-directory $path ${texFile.getAbsolutePath}" ! devNullLogger
 
     if (!Files.exists(Paths.get(s"$path/source.pdf"))) fatal {
@@ -81,6 +82,7 @@ trait TIKZPicture extends Logging {
       }
     }
 
+    s"rm $path/pgf-pie.sty" ! devNullLogger
     s"rm $path/source.aux $path/source.log $path/source.tex" ! devNullLogger
     s"mv $path/source.pdf $path/$name.pdf" ! devNullLogger
 
