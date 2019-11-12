@@ -32,7 +32,7 @@ trait TIKZPicture extends Logging {
 
   val name: String
   protected val libraries: String
-  protected val scale: Int = 2
+  protected val scale: Int = 1
   protected val nodeDistance: Double = 2
 
   private val path = new File(System.getProperty("java.io.tmpdir"))
