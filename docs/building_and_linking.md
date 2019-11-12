@@ -23,11 +23,11 @@ You can add the CLI tools to your default PATH, in order to directly call ScalaT
 line interface. Depending on your OS configuration you have to add and export the path `/path/to/ScalaTIKZ-<version>/bin`
 to the `PATH` variable.
 
-For example, lets say that the ScalaTIKZ distribution version 0.4.0 is being installed in your home directory in
-`$HOME/ScalaTIKZ-0.4.0`, the directory structure inside the ScalaTIKZ directory is the following:
+For example, lets say that the ScalaTIKZ distribution version 0.4.1 is being installed in your home directory in
+`$HOME/ScalaTIKZ-0.4.1`, the directory structure inside the ScalaTIKZ directory is the following:
 
 ```bash
-ScalaTIKZ-0.4.0/
+ScalaTIKZ-0.4.1/
 |-- bin
 |-- etc
 |-- lib
@@ -40,7 +40,7 @@ add the following line in you profile file.
 
 **BASH** e.g., inside `.profile`, `.bashrc` or `.bash_profile` file in your home directory:
 ```bash
-export PATH=$PATH:$HOME/ScalaTIKZ-0.4.0/bin
+export PATH=$PATH:$HOME/ScalaTIKZ-0.4.1/bin
 ```
 
 ## Local publish ScalaTIKZ
@@ -51,11 +51,11 @@ Follow the instructions in Section [Instructions to build ScalaTIKZ from source]
 $ sbt +publishLocal
 ```
 
-ScalaTIKZ cross builds for Scala versions 2.11, 2.12 and 2.13. Thereafter, in order to link ScalaTIKZ (e.g., version 0.4.0) to
+ScalaTIKZ cross builds for Scala versions 2.11, 2.12 and 2.13. Thereafter, in order to link ScalaTIKZ (e.g., version 0.4.1) to
 your [SBT](http://www.scala-sbt.org/) project, add the following dependency:
 
 ```sbt
-libraryDependencies += "com.github.vagmcs" %% "scalatikz" % "0.4.0"
+libraryDependencies += "com.github.vagmcs" %% "scalatikz" % "0.4.1"
 ```
 
 Similarly, in an [Apache Maven](https://maven.apache.org/) pom file:
@@ -64,16 +64,17 @@ Similarly, in an [Apache Maven](https://maven.apache.org/) pom file:
 <dependency>
     <groupId>com.github.vagmcs</groupId>
     <artifactId>scalatikz_2.11</artifactId>
-    <version>0.4.0</version>
+    <version>0.4.1</version>
 </dependency>
 ```
+
 or
 
 ```xml
 <dependency>
     <groupId>com.github.vagmcs</groupId>
     <artifactId>scalatikz_2.12</artifactId>
-    <version>0.4.0</version>
+    <version>0.4.1</version>
 </dependency>
 ```
 
@@ -83,7 +84,7 @@ or
 <dependency>
     <groupId>com.github.vagmcs</groupId>
     <artifactId>scalatikz_2.13</artifactId>
-    <version>0.4.0</version>
+    <version>0.4.1</version>
 </dependency>
 ```
 
@@ -91,8 +92,8 @@ or
 
 ScalaTIKZ is published into the Maven Central. In order to link ScalaTIKZ to your [SBT](http://www.scala-sbt.org/) project, add the following dependency:
       
-      ```sbt
-libraryDependencies += "com.github.vagmcs" %% "scalatikz" % "0.4.0"
+```sbt
+libraryDependencies += "com.github.vagmcs" %% "scalatikz" % "0.4.1"
 ```
 
 Likewise in an [Apache Maven](https://maven.apache.org/) pom xml file add:
@@ -101,7 +102,7 @@ Likewise in an [Apache Maven](https://maven.apache.org/) pom xml file add:
 <dependency>
   <groupId>com.github.vagmcs</groupId>
   <artifactId>scalatikz_2.11</artifactId>
-  <version>0.4.0</version>
+  <version>0.4.1</version>
 </dependency>
 ```
 
@@ -111,7 +112,7 @@ or
 <dependency>
   <groupId>com.github.vagmcs</groupId>
   <artifactId>scalatikz_2.12</artifactId>
-  <version>0.4.0</version>
+  <version>0.4.1</version>
 </dependency>
 ```
 
@@ -121,6 +122,6 @@ or
 <dependency>
   <groupId>com.github.vagmcs</groupId>
   <artifactId>scalatikz_2.13</artifactId>
-  <version>0.4.0</version>
+  <version>0.4.1</version>
 </dependency>
 ```
