@@ -71,7 +71,13 @@ trait TIKZPicture extends Logging {
     stream println asTex
     stream.close()
 
-    s"cp ./scripts/pgf-pie.sty $path" ! devNullLogger
+    using(new PrintStream(s"$path/pgf-pie.sty")) { outputStream =>
+      val styStream = getClass.getClassLoader.getResourceAsStream("pgf-pie.sty")
+      using(Source.fromInputStream(styStream)) {
+        _.getLines.foreach(outputStream.println)
+      }
+    }
+
     s"$compiler --shell-escape -output-directory $path ${texFile.getAbsolutePath}" ! devNullLogger
 
     if (!Files.exists(Paths.get(s"$path/source.pdf"))) fatal {
