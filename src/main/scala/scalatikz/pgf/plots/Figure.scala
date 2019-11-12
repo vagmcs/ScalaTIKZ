@@ -222,7 +222,7 @@ class Figure private (
     * @return a Figure having the given legends
     */
   def havingLegends(legends: String*): Figure =
-    new Figure(colorIterator, name, axis.copy(legends = legends), axisType, graphics, secondary)
+    new Figure(colorIterator, name, axis.copy(legends = legends.toList), axisType, graphics, secondary)
 
   /**
     * Sets the legends position.
