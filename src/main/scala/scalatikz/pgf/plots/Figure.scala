@@ -998,7 +998,7 @@ class Figure private (
       |\${Symbol("begin").name}{$axisType}[
       |$axis
       |]
-      |${graphics.mkString("\n")}
+      |${graphics.reverse.mkString("\n")}
       |\end{$axisType}
       |${if (secondary.nonEmpty) secondary.get.toString else ""}
     """.stripMargin
