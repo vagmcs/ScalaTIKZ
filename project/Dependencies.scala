@@ -22,7 +22,7 @@ object Dependencies {
 
     final val ScalaOpt = "3.7.1"
     final val Ghost4J = "1.0.1"
-    final val CSVParser = "2.8.2"
+    final val CSVParser = "2.8.3"
     final val Enums = "1.5.13"
   }
 
