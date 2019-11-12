@@ -39,7 +39,7 @@ trait TIKZPicture extends Logging {
   private val texFile: File = new File(s"$path/source.tex")
 
   private val devNullLogger =
-    ProcessLogger(msg => logger.debug(msg), msg => logger.error(msg))
+    ProcessLogger(msg => logger.debug(msg), msg => if (!msg.contains("$TERM")) logger.error(msg))
 
   // Keep scale to 2. It seems much cleaner.
   private def asTex: String =
@@ -73,7 +73,9 @@ trait TIKZPicture extends Logging {
 
     using(new PrintStream(s"$path/pgf-pie.sty")) { outputStream =>
       val styStream = getClass.getClassLoader.getResourceAsStream("pgf-pie.sty")
-      using(Source.fromInputStream(styStream)) {
+      if (styStream == null)
+        s"cp ./src/main/resources/pgf-pie.sty $path" ! devNullLogger
+      else using(Source.fromInputStream(styStream)) {
         _.getLines.foreach(outputStream.println)
       }
     }
