@@ -994,13 +994,13 @@ class Figure private (
 
   override def toString: String =
     raw"""
-      |${if (secondary.nonEmpty) """\pgfplotsset{set layers}""".stripMargin}
+      |${if (secondary.nonEmpty) """\pgfplotsset{set layers}""".stripMargin else ""}
       |\${Symbol("begin").name}{$axisType}[
       |$axis
       |]
       |${graphics.mkString("\n")}
       |\end{$axisType}
-      |${if (secondary.nonEmpty) secondary.get.toString}
+      |${if (secondary.nonEmpty) secondary.get.toString else ""}
     """.stripMargin
 }
 

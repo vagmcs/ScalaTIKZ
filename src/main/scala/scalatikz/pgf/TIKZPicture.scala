@@ -53,7 +53,7 @@ trait TIKZPicture extends Logging {
        |
        |\begin{document}
        |\pagestyle{empty}
-       |\begin{tikzpicture}[auto, scale=$scale, node distance=${nodeDistance}cm]
+       |\begin{tikzpicture}[scale=$scale, node distance=${nodeDistance}cm]
        |${this.toString}
        |\end{tikzpicture}
        |\end{document}
