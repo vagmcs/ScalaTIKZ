@@ -140,7 +140,7 @@ case class Axis(
 
     if (grid.isDefined) builder ++= s",\n\tgrid=${grid.get}"
     if (colorMap.isDefined) builder ++= s",\n\tcolormap/${colorMap.get},\n\tcolor" + "bar"
-    if (header.isDefined) builder ++ s",\n\ttitle=${header.get.toTex}"
+    if (header.isDefined) builder ++= s",\n\ttitle=${header.get.toTex}"
     if (fontSize.isDefined) builder ++= s",\n\tfont=\\${fontSize.get}"
     if (legends.nonEmpty) {
       builder ++= s",\n\tlegend entries={${legends.map(_.toTex).mkString(",")}}"
