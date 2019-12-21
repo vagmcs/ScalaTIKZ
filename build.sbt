@@ -1,8 +1,6 @@
 addCommandAlias("build", ";headerCreate;compile;test;package")
 addCommandAlias("rebuild", ";clean;build")
 
-useGpg := true
-
 sonatypeProfileName := "com.github.vagmcs"
 
 lazy val scalaTIKZ = Project("ScalaTIKZ", file("."))

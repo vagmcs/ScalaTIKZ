@@ -15,7 +15,7 @@ function get_script_path {
     local dir="$(cd -P $(dirname "$source") && cd -P $(dirname "$linked") && pwd)"
     source="$dir/$(basename "$linked")"
   done
-  echo ${source}
+  echo "${source}"
 }
 
 # script details
@@ -27,7 +27,7 @@ declare -r script_dir="$(cd -P "$(dirname "$script_path")" && pwd)"
 declare -r base_dir="$(cd "$script_dir/.." && pwd)"
 declare -r lib_dir="$base_dir/lib"
 
-for curr_lib in `find ${lib_dir} -name "*.jar"`; do
+for curr_lib in $(find "${lib_dir}" -name "*.jar"); do
   PRJ_COMMONS_CLASSPATH=${PRJ_COMMONS_CLASSPATH}:${curr_lib}
 done
 
@@ -42,11 +42,11 @@ SCALA_TIKZ_JVM_ARGS="-XX:+DoEscapeAnalysis -XX:+UseFastAccessorMethods -XX:+Opti
 #
 # Logging configuration
 #
-if [ ! -f ${ETC_DIR}/logback.xml ]; then
-    echo -e "${cyan}"`date`" ${red}[ ERROR ] Cannot find logging configuration file '$ETC_DIR/logback.xml' ${noColour}"
-    exit ${2:-1}
+if [ ! -f "${ETC_DIR}"/logback.xml ]; then
+    echo -e "${cyan}"$(date)" ${red}[ ERROR ] Cannot find logging configuration file '$ETC_DIR/logback.xml' ${noColour}"
+    exit "${2:-1}"
 else
     SCALA_TIKZ_JVM_ARGS=" $SCALA_TIKZ_JVM_ARGS -Dlogback.configurationFile=$ETC_DIR/logback.xml "
 fi
 
-nice java ${SCALA_TIKZ_JVM_ARGS} -cp ${PRJ_COMMONS_CLASSPATH} scalatikz.app.ScalaTIKZ "$@"
+nice java "${SCALA_TIKZ_JVM_ARGS}" -cp "${PRJ_COMMONS_CLASSPATH}" scalatikz.app.ScalaTIKZ "$@"
