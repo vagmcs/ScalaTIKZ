@@ -30,6 +30,8 @@ case class Automaton private (
       |\usetikzlibrary{automata}
       |""".stripMargin
 
+  override protected val tiKZArgs: List[String] = List("auto")
+
   /**
     * @param centimeters the node distance in centimeters
     * @return an Automaton having the given node distance

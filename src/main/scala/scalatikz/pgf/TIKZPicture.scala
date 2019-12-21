@@ -34,6 +34,7 @@ trait TIKZPicture extends Logging {
   protected val libraries: String
   protected val scale: Int = 1
   protected val nodeDistance: Double = 2
+  protected val tiKZArgs: List[String] = Nil
 
   private val path = new File(System.getProperty("java.io.tmpdir"))
   private val texFile: File = new File(s"$path/source.tex")
@@ -53,7 +54,7 @@ trait TIKZPicture extends Logging {
        |
        |\begin{document}
        |\pagestyle{empty}
-       |\begin{tikzpicture}[scale=$scale, node distance=${nodeDistance}cm]
+       |\begin{tikzpicture}[scale=$scale, node distance=${nodeDistance}cm,${tiKZArgs.mkString(",")}]
        |${this.toString}
        |\end{tikzpicture}
        |\end{document}
