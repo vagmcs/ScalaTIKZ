@@ -35,6 +35,7 @@ final case class GraphicConf(
     xErrorColumn: Option[String] = None,
     yErrorColumn: Option[String] = None,
     lineColor: Option[Color] = None,
+    fillColor: Option[Color] = None,
     marker: Option[Mark] = None,
     markStrokeColor: Option[Color] = None,
     markFillColor: Option[Color] = None,

@@ -158,6 +158,14 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
       "\n\tNote: ".green.bold + "Colors can also be mixed by using the symbol #. " +
       s"For instance ${"red#20#green".underlined} defines a color that has 20% red and 80% green.\n")
 
+  opt[Color]('D', "fill-color".underlined).valueName("<color>".bold).unbounded.optional
+    .action { (color, conf) =>
+      if (conf.graphics.isEmpty) fatal("You must define a plot type before a color option.")
+      else conf.copy(graphics = conf.graphics.init :+ conf.graphics.last.copy(fillColor = Some(color)))
+    }.text(s"Line color. Available fill colors: ${Color.values.mkString(", ")}" +
+    "\n\tNote: ".green.bold + "Colors can also be mixed by using the symbol #. " +
+    s"For instance ${"red#20#green".underlined} defines a color that has 20% red and 80% green.\n")
+
   opt[Mark]('m', "marker".underlined).valueName("<mark>".bold).unbounded.optional
     .action { (mark, conf) =>
       if (conf.graphics.isEmpty) fatal("You must define a plot type before a marker option.")
@@ -478,6 +486,7 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
                   lineStyle       = graphic.lineStyle.getOrElse(SOLID),
                   lineSize        = graphic.lineSize.getOrElse(THIN),
                   opacity         = graphic.opacity,
+                  fillColor       = graphic.fillColor.getOrElse(graphic.lineColor.getOrElse(currentColor)),
                   smooth          = graphic.smooth
                 )(coordinates)(error)
 
