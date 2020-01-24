@@ -1,3 +1,14 @@
+/*
+ *
+ *    ____         __    ____________ ______
+ *   / __/______ _/ /__ /_  __/  _/ //_/_  /
+ *  _\ \/ __/ _ `/ / _ `// / _/ // ,<   / /_
+ * /___/\__/\_,_/_/\_,_//_/ /___/_/|_| /___/
+ *
+ * A PGF/TIKZ plot library for Scala.
+ *
+ */
+
 package scalatikz.examples
 
 import scalatikz.pgf.charts.Chart
@@ -18,7 +29,7 @@ object ChartExamples extends App {
     .saveAsPNG("images/charts")
 
   Chart.pie("grayscale_pie", "A" -> 10, "B" -> 20, "C" -> 30, "D" -> 40)
-    .havingColors(BLACK!10, BLACK!20, BLACK!30, BLACK!40)
+    .havingColors(BLACK ! 10, BLACK ! 20, BLACK ! 30, BLACK ! 40)
     .havingExplodeFactor(0.1)
     .saveAsPNG("images/charts")
 

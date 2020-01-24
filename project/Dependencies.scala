@@ -18,12 +18,12 @@ object Dependencies {
     final val ScalaLogging = "3.9.2"
 
     final val ScalaTest = "3.0.8"
-    final val ScalaCheck = "1.14.0"
+    final val ScalaCheck = "1.14.1"
 
     final val ScalaOpt = "3.7.1"
     final val Ghost4J = "1.0.1"
-    final val CSVParser = "2.8.3"
-    final val Enums = "1.5.13"
+    final val CSVParser = "2.8.4"
+    final val Enums = "1.5.14"
   }
 
   // Logging using slf4j and logback

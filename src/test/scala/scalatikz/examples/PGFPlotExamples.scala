@@ -5,7 +5,7 @@
  *  _\ \/ __/ _ `/ / _ `// / _/ // ,<   / /_
  * /___/\__/\_,_/_/\_,_//_/ /___/_/|_| /___/
  *
- * A plot library for Scala.
+ * A PGF/TIKZ plot library for Scala.
  *
  */
 
@@ -29,7 +29,7 @@ object PGFPlotExamples extends App {
    * Bars for the function y = x^2
    */
   Figure("bar")
-    .bar(barColor = BLUE!80!WHITE)((-20 to 20).map(x => (x, x * x)))
+    .bar(barColor = BLUE ! 80 ! WHITE)((-20 to 20).map(x => (x, x * x)))
     .havingXLabel("$X$")
     .havingYLabel("$Y$")
     .saveAsPNG("images")
@@ -49,19 +49,18 @@ object PGFPlotExamples extends App {
     .havingTitle("$\\sin(x)$ vs $\\cos(x)$")
     .saveAsPNG("images")
 
-
   /*
    * Gaussian distributions
    */
   def gaussian(mean: Double, variance: Double)(x: Double): Double =
-    1 / sqrt(2 * Pi * variance) * exp( -pow(x - mean, 2) / (2 * variance))
+    1 / sqrt(2 * Pi * variance) * exp(-pow(x - mean, 2) / (2 * variance))
 
   val x = BigDecimal(-5) to BigDecimal(5) by 0.1
 
   Figure("gaussian")
     .plot(lineColor = BLUE, smooth = true)(x -> gaussian(0, 0.2) _)
     .plot(lineColor = RED)(x -> gaussian(0, 1) _)
-    .plot(lineColor = YELLOW!70!BLACK)(x -> gaussian(0, 5) _)
+    .plot(lineColor = YELLOW ! 70 ! BLACK)(x -> gaussian(0, 5) _)
     .plot(lineColor = GREEN)(x -> gaussian(-2, 0.5) _)
     .havingXLabel("$X$")
     .havingXLimits(-5, 5)
@@ -77,7 +76,6 @@ object PGFPlotExamples extends App {
     .havingFontSize(FOOTNOTE)
     .saveAsPNG("images")
 
-
   /*
    * Area plot
    */
@@ -87,7 +85,6 @@ object PGFPlotExamples extends App {
     .area(lineSize = VERY_THIN, opacity = 0.2) {
       xx -> ((x: Double) => sin(4 * Pi * x) * exp(-5 * x))
     }.saveAsPNG("images")
-
 
   /*
    * Spline plot
@@ -100,7 +97,6 @@ object PGFPlotExamples extends App {
       xs -> ((x: Double) => sin(x) + 0.1 * Random.nextGaussian)
     }.saveAsPNG("images")
 
-
   /*
    * Dark background plot
    */
@@ -108,10 +104,11 @@ object PGFPlotExamples extends App {
 
   val figure =
     Figure("dark")
-      .havingBackgroundColor(BLACK!50)
+      .havingBackgroundColor(BLACK ! 50)
 
-  (1 to 6).foldLeft(figure) { case (fig, s) =>
-    fig.plot(marker = DOT, markSize = 1.5)(xxs -> ((x: Double) => sin(x + s)))
+  (1 to 6).foldLeft(figure) {
+    case (fig, s) =>
+      fig.plot(marker   = DOT, markSize = 1.5)(xxs -> ((x: Double) => sin(x + s)))
   }.saveAsPNG("images")
 
   /*
@@ -120,16 +117,15 @@ object PGFPlotExamples extends App {
   val randomPoints = (1 to 20).map(_ => Random.nextDouble)
 
   Figure("stem")
-    .stem(lineColor = BLUE!50!BLACK, marker = CIRCLE)(randomPoints)
-    .plot(lineColor = GREEN!50!BLACK, lineStyle = DASHED, smooth = true)(randomPoints)
+    .stem(lineColor = BLUE ! 50 ! BLACK, marker = CIRCLE)(randomPoints)
+    .plot(lineColor = GREEN ! 50 ! BLACK, lineStyle = DASHED, smooth = true)(randomPoints)
     .saveAsPNG("images")
-
 
   /*
    * Error bar
    */
   Figure("error_bar")
-    .errorPlot(BLUE!50!BLACK) {
+    .errorPlot(BLUE ! 50 ! BLACK) {
       (BigDecimal(0) to BigDecimal(1) by 0.1) -> ((x: Double) => x / 2.0)
     } {
       (1 to (BigDecimal(0) to BigDecimal(1) by 0.1).length).map(_ => 0 -> scala.util.Random.nextDouble / 5)
@@ -169,12 +165,12 @@ object PGFPlotExamples extends App {
         .havingYLabel("$\\log(x)$")
     }
     .subFigure(0, 1) { x =>
-      x.plot(GREEN!40!BLACK)((BigDecimal(-5) to BigDecimal(5) by 0.1) -> ((x: Double) => pow(x, 2)))
+      x.plot(GREEN ! 40 ! BLACK)((BigDecimal(-5) to BigDecimal(5) by 0.1) -> ((x: Double) => pow(x, 2)))
         .havingXLabel("$x$")
         .havingYLabel("$x^2$")
     }
     .subFigure(1, 0) { x =>
-      x.plot(YELLOW!BLACK)((BigDecimal(0) to BigDecimal(1) by 0.1) -> ((x: Double) => x))
+      x.plot(YELLOW ! BLACK)((BigDecimal(0) to BigDecimal(1) by 0.1) -> ((x: Double) => x))
         .havingXLabel("$x$")
         .havingYLabel("$y$")
     }
@@ -192,9 +188,10 @@ object PGFPlotExamples extends App {
     .plot(lineColor = RED)((-5 to 5) -> ((x: Double) => 3 * x))
     .havingXLabel("$x$")
     .havingYLabel("$3x$")
-    .secondaryAxis { x => x
-      .scatter(markStrokeColor = BLUE, markFillColor = BLUE)((-5 to 5) -> ((x: Double) => x * x))
-      .havingYLabel("$x^2$")
+    .secondaryAxis { x =>
+      x
+        .scatter(markStrokeColor = BLUE, markFillColor = BLUE)((-5 to 5) -> ((x: Double) => x * x))
+        .havingYLabel("$x^2$")
     }
     .saveAsPNG("images")
 }
