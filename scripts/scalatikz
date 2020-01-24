@@ -46,7 +46,7 @@ if [ ! -f "${ETC_DIR}"/logback.xml ]; then
     echo -e "${cyan}"$(date)" ${red}[ ERROR ] Cannot find logging configuration file '$ETC_DIR/logback.xml' ${noColour}"
     exit "${2:-1}"
 else
-    SCALA_TIKZ_JVM_ARGS=" $SCALA_TIKZ_JVM_ARGS -Dlogback.configurationFile=$ETC_DIR/logback.xml "
+    SCALA_TIKZ_JVM_ARGS=" $SCALA_TIKZ_JVM_ARGS -Dlogback.configurationFile=$ETC_DIR/logback.xml"
 fi
 
-nice java "${SCALA_TIKZ_JVM_ARGS}" -cp "${PRJ_COMMONS_CLASSPATH}" scalatikz.app.ScalaTIKZ "$@"
+nice java ${SCALA_TIKZ_JVM_ARGS} -cp "${PRJ_COMMONS_CLASSPATH}" scalatikz.app.ScalaTIKZ "$@"

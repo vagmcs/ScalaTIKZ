@@ -56,6 +56,8 @@ object ScalaTIKZBuild extends AutoPlugin {
 
     description := "A plot library for Scala",
 
+    maintainer := "Evangelos Michelioudakis",
+
     headerLicense := Some(HeaderLicense.Custom(logo)),
 
     headerMappings := headerMappings.value + (HeaderFileType.scala -> HeaderCommentStyle.cStyleBlockComment),
