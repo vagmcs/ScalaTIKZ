@@ -129,6 +129,10 @@ object DataTypes {
       val coordinates: Coordinates2D = xy.map { case (x, y) => (x.toDouble, y.toDouble) }
     }
 
+    implicit def fromXSeqYSeq[X: Numeric, Y: Numeric](xy: (Seq[X], Seq[Y])): Data2D = new Data2D {
+      val coordinates: Coordinates2D = xy._1.map(_.toDouble) zip xy._2.map(_.toDouble)
+    }
+
     implicit def fromFunction[X: Numeric, Y: Numeric](xf: (Seq[X], X => Y)): Data2D = xf match {
       case (seq, f) => new Data2D { val coordinates: Coordinates2D = seq.map(x => x.toDouble -> f(x).toDouble) }
     }
