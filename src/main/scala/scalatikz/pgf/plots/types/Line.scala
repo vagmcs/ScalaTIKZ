@@ -185,6 +185,7 @@ case class ErrorArea(
          |};
          |
          |\addplot[
+         |  forget plot,
          |  name path=upper,
          |  color=$fillColor,
          |] coordinates {
@@ -192,13 +193,14 @@ case class ErrorArea(
          |};
          |
          |\addplot[
+         |  forget plot,
          |  name path=lower,
          |  color=$fillColor
          |] coordinates {
          |${coordinates.zip(error).map { case ((x, y), (_, e)) => s"($x,${y - e})" }.mkString("\n")}
          |};
          |
-         |\addplot [$fillColor, fill opacity=$opacity] fill between [of=upper and lower];
+         |\addplot [forget plot, $fillColor, fill opacity=$opacity] fill between [of=upper and lower];
     """.stripMargin
   }
 }
