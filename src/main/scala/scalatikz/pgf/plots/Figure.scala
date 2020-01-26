@@ -315,6 +315,22 @@ class Figure private (
   def rotateYTicks(degrees: Int): Figure =
     new Figure(colorIterator, name, axis.copy(rotateYTicks = degrees), axisType, graphics, secondary)
 
+  /**
+    * Scale the X axis ticks.
+    *
+    * @return a Figure having the X ticks scaled
+    */
+  def scaleXTicks: Figure =
+    new Figure(colorIterator, name, axis.copy(scaleXTicks = true), axisType, graphics, secondary)
+
+  /**
+    * Scale the Y axis ticks.
+    *
+    * @return a Figure having the Y ticks scaled
+    */
+  def scaleYTicks: Figure =
+    new Figure(colorIterator, name, axis.copy(scaleYTicks = true), axisType, graphics, secondary)
+
   /*
    * =====================================
    *

@@ -44,12 +44,19 @@ import scalatikz.pgf.plots.enums._
   * @param legendPos legends position
   * @param xAxisLinePos X axis position
   * @param yAxisLinePos Y axis position
+  * @param zAxisLinePos Z axis position
   * @param xAxisHideTicks hide X axis ticks
   * @param yAxisHideTicks hide Y axis ticks
+  * @param zAxisHideTicks hide Z axis ticks
   * @param xTickLabels a sequence of labels for X axis ticks
   * @param yTickLabels a sequence of labels for Y axis ticks
+  * @param zTickLabels a sequence of labels for Z axis ticks
   * @param rotateXTicks rotate X axis ticks by the given degrees
   * @param rotateYTicks rotate Y axis ticks by the given degrees
+  * @param rotateZTicks rotate Z axis ticks by the given degrees
+  * @param scaleXTicks scale X axis ticks
+  * @param scaleYTicks scale Y axis ticks
+  * @param scaleZTicks scale Z axis ticks
   */
 case class Axis(
     height: Option[Double] = None,
@@ -88,6 +95,9 @@ case class Axis(
     rotateXTicks: Int = 0,
     rotateYTicks: Int = 0,
     rotateZTicks: Int = 0,
+    scaleXTicks: Boolean = false,
+    scaleYTicks: Boolean = false,
+    scaleZTicks: Boolean = false,
     stackedBars: Boolean = true) {
 
   override def toString: String = {
@@ -126,6 +136,15 @@ case class Axis(
       builder ++= s",\n\t${"zTickLabels".toLowerCase}={,,}"
     else if (yTickLabels.nonEmpty)
       builder ++= s",\n\tz" + s"tick=data,\n${"zTickLabels".toLowerCase}={${yTickLabels.mkString(",")}}"
+
+    if (scaleXTicks) builder ++= s",\n\tscaled x ticks = true"
+    else builder ++= s",\n\tscaled x ticks = false"
+
+    if (scaleYTicks) builder ++= s",\n\tscaled y ticks = true"
+    else builder ++= s",\n\tscaled y ticks = false"
+
+    if (scaleZTicks) builder ++= s",\n\tscaled y ticks = true"
+    else builder ++= s",\n\tscaled y ticks = false"
 
     if (xLabel.isDefined) builder ++= s",\n\t${Symbol("xLabel").name.toLowerCase}=${xLabel.get.toTex}"
     if (yLabel.isDefined) builder ++= s",\n\t${Symbol("yLabel").name.toLowerCase}=${yLabel.get.toTex}"
