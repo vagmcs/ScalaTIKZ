@@ -43,7 +43,7 @@ object ScalaTIKZBuild extends AutoPlugin {
   val javaVersion: Double = sys.props("java.specification.version").toDouble
 
   private lazy val settings: Seq[Setting[_]] = {
-    logger.info(s"[info] Loading settings for Java $javaVersion or higher.")
+    logger.info(s"[info] Loading options for Java $javaVersion.")
     if (javaVersion < 1.8) sys.error("Java 8 or higher is required for building ScalaTIKZ.")
     else commonSettings ++ ScalaSettings ++ JavaSettings ++ PackagingOptions ++ CodeStyle.formatSettings
   }
@@ -64,20 +64,20 @@ object ScalaTIKZBuild extends AutoPlugin {
 
     scalaVersion := "2.13.1",
 
-    crossScalaVersions := Seq("2.13.1", "2.12.10", "2.11.12"),
+    crossScalaVersions := Seq("2.13.1", "2.12.12"),
 
     autoScalaLibrary := true,
     managedScalaInstance := true,
 
     publishMavenStyle := true,
-    publishArtifact in Test := false,
+    Test / publishArtifact := false,
     pomIncludeRepository := { _ => false },
 
     // fork a new JVM for 'run' and 'test:run'
     fork := true,
 
     // fork a new JVM for 'test:run', but not 'run'
-    fork in Test := true,
+    Test / fork := true,
 
     resolvers ++= Seq(
       Resolver.mavenLocal,
@@ -117,7 +117,7 @@ object ScalaTIKZBuild extends AutoPlugin {
   private lazy val PackagingOptions: Seq[Setting[_]] = Seq(
 
     // Include bash scripts in the 'bin' directory
-    mappings in Universal ++= {
+    Universal / mappings ++= {
       val scriptsDir = file("scripts/")
       scriptsDir.listFiles.toSeq.map { f =>
         f -> ("bin/" + f.getName)
@@ -125,7 +125,7 @@ object ScalaTIKZBuild extends AutoPlugin {
     },
 
     // Include logger configuration file to the final distribution
-    mappings in Universal ++= {
+    Universal / mappings ++= {
       val scriptsDir = file("src/main/resources/")
       scriptsDir.listFiles.toSeq.map { f =>
         f -> ("etc/" + f.getName)
@@ -133,7 +133,7 @@ object ScalaTIKZBuild extends AutoPlugin {
     },
 
     // File name of the universal distribution
-    packageName in Universal := s"${name.value}-${version.value}"
+    Universal / packageName := s"${name.value}-${version.value}"
   )
 
   private lazy val JavaSettings: Seq[Setting[_]] = Seq(
@@ -141,7 +141,6 @@ object ScalaTIKZBuild extends AutoPlugin {
 
     javaOptions ++= Seq(
       "-XX:+DoEscapeAnalysis",
-      "-XX:+UseFastAccessorMethods",
       "-XX:+OptimizeStringConcat",
       "-Dlogback.configurationFile=src/main/resources/logback.xml")
   )
@@ -150,21 +149,8 @@ object ScalaTIKZBuild extends AutoPlugin {
     scalacOptions := {
       scalaBinaryVersion.value match {
 
-        case "2.11" =>
-          // Scala compiler settings for Scala 2.11.x
-          Seq(
-            "-Xno-uescape",       // Disable handling of \\u unicode escapes.
-            "-deprecation",       // Emit warning and location for usages of deprecated APIs.
-            "-unchecked",         // Enable additional warnings where generated code depends on assumptions.
-            "-feature",           // Emit warning and location for usages of features that should be imported explicitly.
-            "-target:jvm-1.8",    // Target JVM version 1.8.
-            "-Yclosure-elim",     // Perform closure elimination.
-            "-Ybackend:GenBCode", // Use the new optimisation level.
-            "-language:implicitConversions"
-          )
-
         case "2.12" | "2.13" =>
-          // Scala compiler settings for Scala 2.12.x or 2.13.x
+          // Scala compiler options for Scala 2.12.x and 2.13.x
           Seq(
             "-Xno-uescape",       // Disable handling of \\u unicode escapes.
             "-deprecation",       // Emit warning and location for usages of deprecated APIs.

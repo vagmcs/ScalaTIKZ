@@ -1,5 +1,6 @@
 ### SBT
 
+.bsp
 .cache/
 .history/
 .lib/
