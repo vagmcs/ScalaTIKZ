@@ -69,7 +69,7 @@ case class Bar(
     else
       raw"""
            |\addplot[
-           |  ${if (horizontal) Symbol("xBar").name.toLowerCase else Symbol("yBar").name.toLowerCase},
+           |  ${if (horizontal) "xBar".toLowerCase else "yBar".toLowerCase},
            |  color=$barColor,
            |  $lineStyle,
            |  $lineSize,
@@ -136,6 +136,7 @@ case class ErrorBar(
          |  fill opacity=$opacity,
          |  ${if (pattern != PLAIN) s"pattern=$pattern, pattern color=$barColor" else s"fill=$barColor"},
          |  error bars/.cd,
+         |  error bar style={black},
          |  x explicit,
          |  x dir=${if (horizontal) "both" else "none"},
          |  y explicit,
