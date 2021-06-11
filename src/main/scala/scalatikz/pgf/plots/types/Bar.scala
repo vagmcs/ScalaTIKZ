@@ -81,7 +81,7 @@ case class Bar(
            |  ${if (pattern != PLAIN) s"pattern=$pattern, pattern color=$barColor" else s"fill=$barColor"},
            |  nodes near coords,
            |  nodes near coords align={${if (horizontal) "horizontal" else "vertical"}},
-           |  nodes near coords style={font=\tiny}
+           |  nodes near coords style={font=\tiny,/pgf/number format/.cd,fixed,precision=2}
            |] coordinates {
            |${coordinates.mkString("\n")}
            |};

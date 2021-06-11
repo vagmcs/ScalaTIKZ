@@ -56,7 +56,7 @@ case class Scatter(
            |  mark options={draw=$markStrokeColor, fill=$markFillColor},
            |  nodes near coords,
            |  nodes near coords align={vertical},
-           |  nodes near coords style={font=\tiny}
+           |  nodes near coords style={font=\tiny,/pgf/number format/.cd,fixed,precision=2}
            |] coordinates {
            |${coordinates.mkString("\n")}
            |};
