@@ -14,7 +14,10 @@ package scalatikz.pgf.plots.enums
 import enumeratum._
 import scala.collection.immutable._
 
-sealed abstract class LegendPos(override val entryName: String) extends EnumEntry {
+sealed class LegendPos(override val entryName: String) extends EnumEntry {
+
+  def this(x: Double, y: Double, anchor: String) = this(s"at={$x, $y}, anchor=$anchor")
+
   override def toString: String = entryName
 }
 
