@@ -3,13 +3,11 @@
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.vagmcs/scalatikz_2.11/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.vagmcs/scalatikz_2.11)
 [![License: LGPL v3](https://img.shields.io/badge/License-LGPL%20v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0)
 
-ScalaTIKZ is an open-source library for publication quality [PGF/TIKZ](https://en.wikipedia.org/wiki/PGF/TikZ) vector graphics
-using the [Scala programming language](http://scala-lang.org).
+ScalaTIKZ is an open-source library for publication quality [PGF/TIKZ](https://en.wikipedia.org/wiki/PGF/TikZ) vector graphics using the [Scala programming language](http://scala-lang.org).
 
 ## License
 
-ScalaTIKZ comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it
-under certain conditions; See the [GNU Lesser General Public License v3 for more details](http://www.gnu.org/licenses/lgpl-3.0.html).
+ScalaTIKZ comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under certain conditions; See the [GNU Lesser General Public License v3 for more details](http://www.gnu.org/licenses/lgpl-3.0.html).
 
 ## Features
 
@@ -36,8 +34,8 @@ ScalaTIKZ is published to Maven Central for Scala 2.11, 2.12 and 2.13.
 
 Add the following dependency to your SBT build file in order to get started:
 
-```sbt
-libraryDependencies ++= "com.github.vagmcs" %% "scalatikz" % "0.4.4",
+```scala
+libraryDependencies ++= "com.github.vagmcs" %% "scalatikz" % "0.4.4"
 ```
 
 ## Documentation

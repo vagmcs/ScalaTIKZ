@@ -88,6 +88,12 @@ class Figure private (
     new Figure(colorIterator, name, axis.copy(width = Some(centimeters)), axisType, graphics, secondary)
 
   /**
+    * @return a Figure having adjacent bars instead of stacked
+    */
+  def havingAdjacentBars: Figure =
+    new Figure(colorIterator, name, axis.copy(stackedBars = false), axisType, graphics, secondary)
+
+  /**
     * @return a Figure having both X and Y log scale axis
     */
   def havingLogLogAxis: Figure =
@@ -116,12 +122,6 @@ class Figure private (
     */
   def havingMajorGridOn: Figure =
     new Figure(colorIterator, name, axis.copy(grid = Some(MAJOR)), axisType, graphics, secondary)
-
-  /**
-    * @return a Figure having adjacent bars instead of stacked
-    */
-  def havingAdjacentBars: Figure =
-    new Figure(colorIterator, name, axis.copy(stackedBars = false), axisType, graphics, secondary)
 
   /**
     * @return a Figure having both major and minor grids enabled
@@ -235,6 +235,18 @@ class Figure private (
     new Figure(colorIterator, name, axis.copy(legendPos = pos), axisType, graphics, secondary)
 
   /**
+    * Sets the legends position.
+    *
+    * @see [[scalatikz.pgf.plots.enums.LegendPos]]
+    * @param x x coordinate
+    * @param y y coordinate
+    * @param anchor position inside of an axis placed with
+    * @return a Figure having the given legend position
+    */
+  def havingLegendPos(x: Double, y: Double, anchor: String): Figure =
+    new Figure(colorIterator, name, axis.copy(legendPos = new LegendPos(x, y, anchor)), axisType, graphics, secondary)
+
+  /**
     * Sets the legend columns.
     *
     * @param cols the number of adjacent legend entries
@@ -242,6 +254,15 @@ class Figure private (
     */
   def havingLegendColumns(cols: Int): Figure =
     new Figure(colorIterator, name, axis.copy(legendColumns = cols), axisType, graphics, secondary)
+
+  /**
+    * Sets the legend font size.
+    *
+    * @param size a font size
+    * @return a Figure having the given legend font size
+    */
+  def havingLegendFontSize(size: FontSize): Figure =
+    new Figure(colorIterator, name, axis.copy(legendFontSize = size), axisType, graphics, secondary)
 
   /**
     * Sets the position of the X axis.
@@ -366,8 +387,10 @@ class Figure private (
   def plot(data: Data2D): Figure = plot()(data)
 
   /**
-    * Plots a 2D line of the data in X against the corresponding values in Y.
+    * Plots a 2D line of the data in X against the corresponding values in Y and
+    * optionally fills the area under the curve.
     *
+    * @param lineType line type (default is sharp)
     * @param lineColor line color (default random color)
     * @param lineStyle line style (default is solid)
     * @param lineSize line size (default is thin)
@@ -375,11 +398,14 @@ class Figure private (
     * @param markStrokeColor mark stroke color (optional)
     * @param markFillColor mark fill color (optional)
     * @param markSize mark size (default is 1 pt)
-    * @param smooth plot a smooth line instead of a sharp (default is false)
+    * @param pattern a fill pattern for the area under the curve (default is plain color)
+    * @param fillColor area under curve color (default random color)
+    * @param opacity opacity of the area under the curve (default is 0.0)
     * @param sparse plot only distinct points (default is false)
     * @param data sequence of X, Y points in the Euclidean space
     */
   def plot(
+      lineType: LineType = SHARP,
       lineColor: Color = nextColor,
       lineStyle: LineStyle = SOLID,
       lineSize: LineSize = THIN,
@@ -387,12 +413,14 @@ class Figure private (
       markStrokeColor: Color = currentColor,
       markFillColor: Color = currentColor,
       markSize: Double = 1,
-      smooth: Boolean = false,
+      pattern: Pattern = PLAIN,
+      fillColor: Color = currentColor,
+      opacity: Double = 0.0,
       sparse: Boolean = false)(data: Data2D): Figure =
     new Figure(colorIterator, name, axis, axisType,
       Line(
         if (sparse) data.compress.coordinates else data.coordinates,
-        if (smooth) SMOOTH else SHARP,
+        lineType,
         lineColor,
         lineStyle,
         lineSize,
@@ -400,9 +428,9 @@ class Figure private (
         markStrokeColor,
         markFillColor,
         markSize,
-        PLAIN,
-        None,
-        0.0
+        pattern,
+        Some(fillColor),
+        opacity
       ) :: graphics, secondary
     )
 
@@ -422,10 +450,11 @@ class Figure private (
     */
   def mesh(
       lineStyle: LineStyle = SOLID,
-      lineSize: LineSize = THIN)(data: Data2D): Figure =
+      lineSize: LineSize = THIN,
+      sparse: Boolean = false)(data: Data2D): Figure =
     new Figure(colorIterator, name, axis, axisType,
       Mesh(
-        data.coordinates,
+        if (sparse) data.compress.coordinates else data.coordinates,
         lineStyle,
         lineSize
       ) :: graphics, secondary
@@ -444,6 +473,7 @@ class Figure private (
     * Plots a 2D line of the data in Y versus the corresponding values in X
     * along vertical and/or horizontal error bars at each data point.
     *
+    * @param lineType line type (default is sharp)
     * @param lineColor line color (default random color)
     * @param lineStyle line style (default is solid)
     * @param lineSize line size (default is thin)
@@ -451,24 +481,23 @@ class Figure private (
     * @param markStrokeColor mark stroke color (optional)
     * @param markFillColor mark fill color (optional)
     * @param markSize mark size (default is 1 pt)
-    * @param smooth plot a smooth line instead of a sharp (default is false)
     * @param data sequence of X, Y points in the Euclidean space
     * @param error sequence of X, Y error points
     */
   def errorPlot(
+      lineType: LineType = SHARP,
       lineColor: Color = nextColor,
       lineStyle: LineStyle = SOLID,
       lineSize: LineSize = THIN,
       marker: Mark = NONE,
       markStrokeColor: Color = currentColor,
       markFillColor: Color = currentColor,
-      markSize: Double = 1,
-      smooth: Boolean = false)(data: Data2D)(error: Data2D): Figure =
+      markSize: Double = 1)(data: Data2D)(error: Data2D): Figure =
     new Figure(colorIterator, name, axis, axisType,
       ErrorLine(
         data.coordinates,
         error.coordinates,
-        if (smooth) SMOOTH else SHARP,
+        lineType,
         lineColor,
         lineStyle,
         lineSize,
@@ -476,70 +505,6 @@ class Figure private (
         markStrokeColor,
         markFillColor,
         markSize
-      ) :: graphics, secondary
-    )
-
-  /*
-   * =====================================
-   *
-   * ========: Area plots
-   *
-   * =====================================
-   */
-
-  /**
-    * Plots a 2D line of the data in X against the corresponding values in Y
-    * and fills the area under the curve.
-    *
-    * @param data sequence of X, Y points in the Euclidean space
-    */
-  def area(data: Data2D): Figure = area()(data)
-
-  /**
-    * Plots a 2D line of the data in X against the corresponding values in Y
-    * and fills the area under the curve.
-    *
-    * @param lineColor line color (default random color)
-    * @param lineStyle line style (default is solid)
-    * @param lineSize line size (default is thin)
-    * @param marker mark style (default none)
-    * @param markStrokeColor mark stroke color (optional)
-    * @param markFillColor mark fill color (optional)
-    * @param markSize mark size (default is 1 pt)
-    * @param pattern a fill pattern for the area under the curve (default is plain color)
-    * @param fillColor pattern color
-    * @param opacity opacity of the area under the curve
-    * @param smooth plot a smooth line instead of a sharp (default is false)
-    * @param sparse plot only distinct points (default is false)
-    * @param data sequence of X, Y points in the Euclidean space
-    */
-  def area(
-      lineColor: Color = nextColor,
-      lineStyle: LineStyle = SOLID,
-      lineSize: LineSize = THIN,
-      marker: Mark = NONE,
-      markStrokeColor: Color = currentColor,
-      markFillColor: Color = currentColor,
-      markSize: Double = 1,
-      pattern: Pattern = PLAIN,
-      fillColor: Color = currentColor,
-      opacity: Double = 0.5,
-      smooth: Boolean = false,
-      sparse: Boolean = false)(data: Data2D): Figure =
-    new Figure(colorIterator, name, axis, axisType,
-      Line(
-        if (sparse) data.compress.coordinates else data.coordinates,
-        if (smooth) SMOOTH else SHARP,
-        lineColor,
-        lineStyle,
-        lineSize,
-        marker,
-        markStrokeColor,
-        markFillColor,
-        markSize,
-        pattern,
-        Some(fillColor),
-        opacity
       ) :: graphics, secondary
     )
 
@@ -556,20 +521,21 @@ class Figure private (
     * Plots a 2D line of the data in X against the corresponding values in Y
     * and fills the area under the curve.
     *
+    * @param lineType line type (default is sharp)
     * @param lineColor line color (default random color)
     * @param lineStyle line style (default is solid)
     * @param lineSize line size (default is thin)
     * @param marker mark style (default none)
-    * @param markStrokeColor mark stroke color (optional)
-    * @param markFillColor mark fill color (optional)
+    * @param markStrokeColor mark stroke color (default random color)
+    * @param markFillColor mark fill color (default random color)
     * @param markSize mark size (default is 1 pt)
-    * @param fillColor color of the error area
-    * @param opacity opacity of the error area
-    * @param smooth plot a smooth line instead of a sharp (default is false)
+    * @param fillColor color of the error area (default random color)
+    * @param opacity opacity of the error area (default is 0.5)
     * @param data sequence of X, Y points in the Euclidean space
     * @param error sequence of X, Y error points
     */
   def errorArea(
+      lineType: LineType = SHARP,
       lineColor: Color = nextColor,
       lineStyle: LineStyle = SOLID,
       lineSize: LineSize = THIN,
@@ -578,13 +544,12 @@ class Figure private (
       markFillColor: Color = currentColor,
       markSize: Double = 1,
       fillColor: Color = currentColor,
-      opacity: Double = 0.5,
-      smooth: Boolean = false)(data: Data2D)(error: Data2D): Figure =
+      opacity: Double = 0.5)(data: Data2D)(error: Data2D): Figure =
     new Figure(colorIterator, name, axis, axisType,
       ErrorArea(
         data.coordinates,
         error.coordinates,
-        if (smooth) SMOOTH else SHARP,
+        lineType,
         lineColor,
         lineStyle,
         lineSize,
@@ -648,60 +613,6 @@ class Figure private (
         markSize,
         nodesNearCoords,
         horizontal
-      ) :: graphics, secondary
-    )
-
-  /*
-   * =====================================
-   *
-   * ========: Steps plots
-   *
-   * =====================================
-   */
-
-  /**
-    * Plots the data in X against the corresponding values in Y as constant steps.
-    *
-    * @param data sequence of X, Y points in the Euclidean space
-    */
-  def steps(data: Data2D): Figure = steps()(data)
-
-  /**
-    * Plots the data in X against the corresponding values in Y as constant steps.
-    *
-    * @param lineColor line color (default random color)
-    * @param lineStyle line style (default is solid)
-    * @param lineSize line size (default is thin)
-    * @param marker mark style (default none)
-    * @param markStrokeColor mark stroke color (optional)
-    * @param markFillColor mark fill color (optional)
-    * @param markSize mark size (default is 1 pt)
-    * @param sparse plot only distinct points (default is false)
-    * @param data sequence of X, Y points in the Euclidean space
-    */
-  def steps(
-      lineColor: Color = nextColor,
-      lineStyle: LineStyle = SOLID,
-      lineSize: LineSize = THIN,
-      marker: Mark = NONE,
-      markStrokeColor: Color = currentColor,
-      markFillColor: Color = currentColor,
-      markSize: Double = 1,
-      sparse: Boolean = false)(data: Data2D): Figure =
-    new Figure(colorIterator, name, axis, axisType,
-      Line(
-        if (sparse) data.compress.coordinates else data.coordinates,
-        CONST,
-        lineColor,
-        lineStyle,
-        lineSize,
-        marker,
-        markStrokeColor,
-        markFillColor,
-        markSize,
-        PLAIN,
-        None,
-        0.5
       ) :: graphics, secondary
     )
 
@@ -840,14 +751,14 @@ class Figure private (
     * @param lineStyle line style (default is solid)
     * @param lineSize line size (default is thin)
     * @param marker mark style (default none)
-    * @param markStrokeColor mark stroke color (optional)
-    * @param markFillColor mark fill color (optional)
+    * @param markStrokeColor mark stroke color (default random color)
+    * @param markFillColor mark fill color (default random color)
     * @param markSize mark size (default is 1 pt)
     * @param pattern a pattern to fill the bars (default is plain color)
     * @param opacity opacity of the bars (default is 1)
     * @param barWidth the bars width (default is 0.5 pt)
     * @param nodesNearCoords depict nodes near coords
-    * @param horizontal horizontal stems extending from Y-axis to X values
+    * @param horizontal horizontal bars extending from Y-axis to X values
     * @param data sequence of X, Y points in the Euclidean space
     */
   def bar(
@@ -894,13 +805,17 @@ class Figure private (
     * Plots a 2D line of the data in Y versus the corresponding values in X
     * along vertical and/or horizontal error bars at each data point.
     *
-    * @param barColor bar color
-    * @param marker mark style
-    * @param markStrokeColor mark stroke color
-    * @param markFillColor mark fill color
-    * @param markSize mark size
-    * @param lineStyle line style
-    * @param lineSize line size
+    * @param barColor bar color (default random color)
+    * @param lineStyle line style (default is solid)
+    * @param lineSize line size (default is thin)
+    * @param marker mark style (default none)
+    * @param markStrokeColor mark stroke color (default random color)
+    * @param markFillColor mark fill color (default random color)
+    * @param markSize mark size (default is 1 pt)
+    * @param pattern a pattern to fill the bars (default is plain color)
+    * @param opacity opacity of the bars (default is 1)
+    * @param barWidth the bars width (default is 0.5 pt)
+    * @param horizontal horizontal bars extending from Y-axis to X values
     * @param data sequence of X, Y points in the Euclidean space
     * @param error sequence of X, Y error points
     */
@@ -914,7 +829,7 @@ class Figure private (
       markSize: Double = 1,
       pattern: Pattern = PLAIN,
       opacity: Double = 1,
-      barWidth: Double = 0.25,
+      barWidth: Double = 0.5,
       horizontal: Boolean = false)(data: Data2D)(error: Data2D): Figure =
     new Figure(colorIterator, name, axis, axisType,
       ErrorBar(
@@ -927,7 +842,7 @@ class Figure private (
         markStrokeColor,
         markFillColor,
         markSize,
-        PLAIN,
+        pattern,
         opacity,
         barWidth,
         horizontal
@@ -976,7 +891,7 @@ class Figure private (
       marker: Mark = NONE,
       markStrokeColor: Color = nextColor,
       markFillColor: Color = currentColor,
-      markSize: Double = 2)(data: Data2D): Figure =
+      markSize: Double = 1)(data: Data2D): Figure =
     new Figure(colorIterator, name, axis, POLAR,
       Scatter(
         data.coordinates,
@@ -988,6 +903,11 @@ class Figure private (
       ) :: graphics, secondary
     )
 
+  /**
+    * Appends another Figure as a secondary axis to the current Figure.
+    *
+    * @param f a parametrized Figure plot
+    */
   def secondaryAxis(f: Figure => Figure): Figure = {
 
     val transformed = f(secondary.getOrElse(

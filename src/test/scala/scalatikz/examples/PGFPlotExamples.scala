@@ -21,6 +21,7 @@ import scalatikz.pgf.plots.enums.FontSize.FOOTNOTE
 import scalatikz.pgf.plots.enums.LegendPos.{ NORTH_EAST, SOUTH_WEST }
 import scalatikz.pgf.enums.LineSize.VERY_THIN
 import scalatikz.pgf.enums.LineStyle.DASHED
+import scalatikz.pgf.plots.enums.LineType.SMOOTH
 import scalatikz.pgf.plots.enums.Mark.{ CIRCLE, DOT }
 
 object PGFPlotExamples extends App {
@@ -58,7 +59,7 @@ object PGFPlotExamples extends App {
   val x = BigDecimal(-5) to BigDecimal(5) by 0.1
 
   Figure("gaussian")
-    .plot(lineColor = BLUE, smooth = true)(x -> gaussian(0, 0.2) _)
+    .plot(lineColor = BLUE, lineType = SMOOTH)(x -> gaussian(0, 0.2) _)
     .plot(lineColor = RED)(x -> gaussian(0, 1) _)
     .plot(lineColor = YELLOW ! 70 ! BLACK)(x -> gaussian(0, 5) _)
     .plot(lineColor = GREEN)(x -> gaussian(-2, 0.5) _)
@@ -73,7 +74,7 @@ object PGFPlotExamples extends App {
       "$\\mu=-2\\, \\sigma=0.5$"
     )
     .havingLegendPos(NORTH_EAST)
-    .havingFontSize(FOOTNOTE)
+    .havingLegendFontSize(FOOTNOTE)
     .saveAsPNG("images")
 
   /*
@@ -82,7 +83,7 @@ object PGFPlotExamples extends App {
   val xx = BigDecimal(0) to BigDecimal(1) by 0.01
 
   Figure("area")
-    .area(lineSize = VERY_THIN, opacity = 0.2) {
+    .plot(lineSize = VERY_THIN, opacity = 0.2) {
       xx -> ((x: Double) => sin(4 * Pi * x) * exp(-5 * x))
     }.saveAsPNG("images")
 
@@ -118,14 +119,14 @@ object PGFPlotExamples extends App {
 
   Figure("stem")
     .stem(lineColor = BLUE ! 50 ! BLACK, marker = CIRCLE)(randomPoints)
-    .plot(lineColor = GREEN ! 50 ! BLACK, lineStyle = DASHED, smooth = true)(randomPoints)
+    .plot(lineColor = GREEN ! 50 ! BLACK, lineStyle = DASHED, lineType = SMOOTH)(randomPoints)
     .saveAsPNG("images")
 
   /*
    * Error bar
    */
   Figure("error_bar")
-    .errorPlot(BLUE ! 50 ! BLACK) {
+    .errorPlot(lineColor = BLUE ! 50 ! BLACK) {
       (BigDecimal(0) to BigDecimal(1) by 0.1) -> ((x: Double) => x / 2.0)
     } {
       (1 to (BigDecimal(0) to BigDecimal(1) by 0.1).length).map(_ => 0 -> scala.util.Random.nextDouble / 5)
@@ -165,17 +166,17 @@ object PGFPlotExamples extends App {
         .havingYLabel("$\\log(x)$")
     }
     .subFigure(0, 1) { x =>
-      x.plot(GREEN ! 40 ! BLACK)((BigDecimal(-5) to BigDecimal(5) by 0.1) -> ((x: Double) => pow(x, 2)))
+      x.plot(lineColor = GREEN ! 40 ! BLACK)((BigDecimal(-5) to BigDecimal(5) by 0.1) -> ((x: Double) => pow(x, 2)))
         .havingXLabel("$x$")
         .havingYLabel("$x^2$")
     }
     .subFigure(1, 0) { x =>
-      x.plot(YELLOW ! BLACK)((BigDecimal(0) to BigDecimal(1) by 0.1) -> ((x: Double) => x))
+      x.plot(lineColor = YELLOW ! BLACK)((BigDecimal(0) to BigDecimal(1) by 0.1) -> ((x: Double) => x))
         .havingXLabel("$x$")
         .havingYLabel("$y$")
     }
     .subFigure(1, 1) { x =>
-      x.plot(BLUE)((BigDecimal(-5) to BigDecimal(5) by 0.1) -> ((x: Double) => pow(x, 3)))
+      x.plot(lineColor = BLUE)((BigDecimal(-5) to BigDecimal(5) by 0.1) -> ((x: Double) => pow(x, 3)))
         .havingXLabel("$x$")
         .havingYLabel("$x^3$")
     }

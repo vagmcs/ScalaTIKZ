@@ -21,7 +21,7 @@ package object app {
 
   object GraphType extends Enumeration {
     type GraphType = Value
-    val PLOT, STEM, SCATTER, STAIR, AREA, ERROR_AREA, ERROR_BAR, BAR = Value
+    val PLOT, SCATTER, MESH, STEM, BAR = Value
   }
 
   implicit val colorMixRead: scopt.Read[Color] = scopt.Read.reads { x =>
@@ -44,6 +44,9 @@ package object app {
   implicit val lineSizeRead: scopt.Read[LineSize] =
     scopt.Read.reads(x => LineSize.withName(x.toLowerCase))
 
+  implicit val lineTypeRead: scopt.Read[LineType] =
+    scopt.Read.reads(x => LineType.withName(x.toLowerCase))
+
   implicit val fontSizeRead: scopt.Read[FontSize] =
     scopt.Read.reads(FontSize.withName)
 
@@ -55,4 +58,7 @@ package object app {
 
   implicit val patternRead: scopt.Read[Pattern] =
     scopt.Read.reads(x => Pattern.withName(x.toLowerCase))
+
+  implicit val colorMapRead: scopt.Read[ColorMap] =
+    scopt.Read.reads(x => ColorMap.withName(x.toLowerCase))
 }

@@ -15,6 +15,7 @@ import scalatikz.pgf.enums.Color
 import scalatikz.pgf.plots.enums.AxisLinePos.BOX
 import scalatikz.pgf.plots.enums.AxisScale.LINEAR
 import scalatikz.pgf.enums.Color.WHITE
+import scalatikz.pgf.plots.enums.FontSize.{FOOTNOTE, NORMAL, SMALL}
 import scalatikz.pgf.plots.enums.LegendPos.OUTER_NORTH_EAST
 import scalatikz.pgf.plots.enums._
 
@@ -42,6 +43,8 @@ import scalatikz.pgf.plots.enums._
   * @param fontSize axis font size
   * @param legends legends for the plotted data sequences
   * @param legendPos legends position
+  * @param legendColumns number of legend columns
+  * @param legendFontSize legends font size
   * @param xAxisLinePos X axis position
   * @param yAxisLinePos Y axis position
   * @param zAxisLinePos Z axis position
@@ -83,6 +86,7 @@ case class Axis(
     legends: Seq[String] = List.empty,
     legendPos: LegendPos = OUTER_NORTH_EAST,
     legendColumns: Int = 1,
+    legendFontSize: FontSize = NORMAL,
     xAxisLinePos: AxisLinePos = BOX,
     yAxisLinePos: AxisLinePos = BOX,
     zAxisLinePos: AxisLinePos = BOX,
@@ -163,7 +167,11 @@ case class Axis(
     if (fontSize.isDefined) builder ++= s",\n\tfont=\\${fontSize.get}"
     if (legends.nonEmpty) {
       builder ++= s",\n\tlegend entries={${legends.map(_.toTex).mkString(",")}}"
-      builder ++= s",\n\tlegend pos=$legendPos"
+      if (LegendPos.values.contains(legendPos)) {
+        builder ++= s",\n\tlegend pos=$legendPos"
+        builder ++= s",\n\tlegend style={font=\\$legendFontSize}"
+      } else
+        builder ++= s",\n\tlegend style={$legendPos,font=\\$legendFontSize}"
       builder ++= s",\n\tlegend columns=$legendColumns"
     }
 
