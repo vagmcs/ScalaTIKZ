@@ -14,15 +14,16 @@ package scalatikz.examples
 import math._
 import scala.util.Random
 import scalatikz.pgf.plots.Figure
-import scalatikz.pgf.plots.enums.AxisLinePos.{ BOTTOM, LEFT }
-import scalatikz.pgf.enums.Color.{ BLACK, BLUE, GREEN, RED, WHITE, YELLOW }
+import scalatikz.pgf.plots.enums.AxisLinePos.{BOTTOM, LEFT}
+import scalatikz.pgf.enums.Color._
 import scalatikz.pgf.plots.enums.ColorMap
-import scalatikz.pgf.plots.enums.FontSize.FOOTNOTE
-import scalatikz.pgf.plots.enums.LegendPos.{ NORTH_EAST, SOUTH_WEST }
-import scalatikz.pgf.enums.LineSize.VERY_THIN
+import scalatikz.pgf.plots.enums.FontSize.{FOOTNOTE, LARGE}
+import scalatikz.pgf.plots.enums.LegendPos.{NORTH_EAST, SOUTH_WEST}
+import scalatikz.pgf.enums.LineSize.{VERY_THICK, VERY_THIN}
 import scalatikz.pgf.enums.LineStyle.DASHED
 import scalatikz.pgf.plots.enums.LineType.SMOOTH
-import scalatikz.pgf.plots.enums.Mark.{ CIRCLE, DOT }
+import scalatikz.pgf.plots.enums.Mark.{CIRCLE, DOT}
+import scalatikz.pgf.plots.enums.Pattern.CROSSHATCH
 
 object PGFPlotExamples extends App {
 
@@ -30,9 +31,12 @@ object PGFPlotExamples extends App {
    * Bars for the function y = x^2
    */
   Figure("bar")
-    .bar(barColor = BLUE ! 80 ! WHITE)((-20 to 20).map(x => (x, x * x)))
-    .havingXLabel("$X$")
-    .havingYLabel("$Y$")
+    .havingAdjacentBars
+    .bar(barColor = CYAN!75!BLACK, pattern = CROSSHATCH)((0 to 5).map(x => x -> x * x))
+    .bar(barColor = GREEN!75!BLACK, lineSize = VERY_THICK, opacity = 0)((0 to 5).map(x => x -> (5 - x) * (5 - x)))
+    .havingYLimits(0, 30)
+    .havingFontSize(LARGE)
+    .havingAxisXLabels(Seq("A", "B", "C", "D", "E", "F"))
     .saveAsPNG("images")
 
   /*
@@ -45,9 +49,10 @@ object PGFPlotExamples extends App {
     .plot(lineStyle = DASHED)(domain -> cos _)
     .havingLegends("$\\sin(x)$", "$\\cos(x)$")
     .havingLegendPos(SOUTH_WEST)
-    .havingXLabel("$X$")
-    .havingYLabel("$Y$")
+    .havingXLabel("$x$")
+    .havingYLabel("$y$")
     .havingTitle("$\\sin(x)$ vs $\\cos(x)$")
+    .havingFontSize(LARGE)
     .saveAsPNG("images")
 
   /*
@@ -59,12 +64,12 @@ object PGFPlotExamples extends App {
   val x = BigDecimal(-5) to BigDecimal(5) by 0.1
 
   Figure("gaussian")
-    .plot(lineColor = BLUE, lineType = SMOOTH)(x -> gaussian(0, 0.2) _)
-    .plot(lineColor = RED)(x -> gaussian(0, 1) _)
-    .plot(lineColor = YELLOW ! 70 ! BLACK)(x -> gaussian(0, 5) _)
-    .plot(lineColor = GREEN)(x -> gaussian(-2, 0.5) _)
-    .havingXLabel("$X$")
-    .havingXLimits(-5, 5)
+    .plot(lineColor = BLUE!75!BLACK, lineType = SMOOTH)(x -> gaussian(0, 0.2) _)
+    .plot(lineColor = RED!75!BLACK)(x -> gaussian(0, 1) _)
+    .plot(lineColor = YELLOW!70!BLACK)(x -> gaussian(0, 5) _)
+    .plot(lineColor = GREEN!75!BLACK)(x -> gaussian(-2, 0.5) _)
+    .havingXLabel("$x$")
+    .havingLimits(-5, 5, 0, 1)
     .havingMajorGridOn
     .havingTitle("Normal Distribution")
     .havingLegends(
@@ -75,6 +80,7 @@ object PGFPlotExamples extends App {
     )
     .havingLegendPos(NORTH_EAST)
     .havingLegendFontSize(FOOTNOTE)
+    .havingFontSize(LARGE)
     .saveAsPNG("images")
 
   /*
@@ -85,7 +91,9 @@ object PGFPlotExamples extends App {
   Figure("area")
     .plot(lineSize = VERY_THIN, opacity = 0.2) {
       xx -> ((x: Double) => sin(4 * Pi * x) * exp(-5 * x))
-    }.saveAsPNG("images")
+    }
+    .havingFontSize(LARGE)
+    .saveAsPNG("images")
 
   /*
    * Spline plot
@@ -96,7 +104,9 @@ object PGFPlotExamples extends App {
     .plot(lineColor = BLACK, lineStyle = DASHED)(xs -> sin _)
     .scatter(markFillColor = RED, markSize = 1.5) {
       xs -> ((x: Double) => sin(x) + 0.1 * Random.nextGaussian)
-    }.saveAsPNG("images")
+    }
+    .havingFontSize(LARGE)
+    .saveAsPNG("images")
 
   /*
    * Dark background plot
