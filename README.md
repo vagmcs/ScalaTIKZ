@@ -23,12 +23,16 @@ ScalaTIKZ comes with ABSOLUTELY NO WARRANTY. This is free software, and you are 
 
 <table>
 <tr>
-    <td><img src="images/error_bar.png" alt=""/></td>
+    <td><img src="images/area.png" alt=""/></td>
+    <td><img src="images/bar.png" alt=""/></td>
+    <td><img src="images/dark.png" alt=""/></td>
     <td><img src="images/error_bar.png" alt=""/></td>
 </tr>
 <tr>
-    <td><img src="images/error_bar.png" alt=""/></td>
-    <td><img src="images/error_bar.png" alt=""/></td>
+    <td><img src="images/gaussian.png" alt=""/></td>
+    <td><img src="images/scatter_mesh.png" alt=""/></td>
+    <td><img src="images/sine_vs_cosine.png" alt=""/></td>
+    <td><img src="images/spline.png" alt=""/></td>
 </tr>
 </table>
 
