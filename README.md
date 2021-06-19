@@ -49,16 +49,13 @@ ScalaTIKZ is published to Maven Central for Scala 2.12 and 2.13.
 Add the following dependency to your SBT build file in order to get started:
 
 ```scala
-libraryDependencies ++= "com.github.vagmcs" %% "scalatikz" % "0.4.4"
+libraryDependencies ++= "com.github.vagmcs" %% "scalatikz" % "0.5.0"
 ```
 
 ## Documentation
 
-- [Building and Linking](docs/building_and_linking.md)
-- [PGFPlot Gallery](docs/pgfplots_examples.md)
-- [Chart Gallery](docs/charts_examples.md)
-- [Automata Gallery](docs/automata_examples.md)
-- [Documentation](docs/index.md)
+- [PGFPlots, Charts and Automata](docs/index.md)
+- [ScalaTIKZ on the Terminal](docs/building_and_linking.md)
 
 ## Contributions
 
