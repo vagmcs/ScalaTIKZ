@@ -52,8 +52,7 @@ object ScalaTIKZBuild extends AutoPlugin {
   private val commonSettings: Seq[Setting[_]] = Seq(
 
     ghreleaseRepoOrg := "vagmcs",
-    ghreleaseTitle := { tagName => s"${name.value} ${tagName}" },
-    ghreleaseNotes := { _ => "" },
+    ghreleaseTitle := { tagName => s"${name.value} $tagName" },
 
     name := "ScalaTIKZ",
 
