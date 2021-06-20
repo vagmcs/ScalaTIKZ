@@ -19,7 +19,6 @@ import com.typesafe.sbt.packager.archetypes.JavaAppPackaging
 import de.heikoseeberger.sbtheader.HeaderPlugin
 import de.heikoseeberger.sbtheader.HeaderPlugin.autoImport._
 import ohnosequences.sbt.GithubRelease.keys._
-import ohnosequences.sbt.GithubRelease.defs
 
 object ScalaTIKZBuild extends AutoPlugin {
 
@@ -52,17 +51,9 @@ object ScalaTIKZBuild extends AutoPlugin {
 
   private val commonSettings: Seq[Setting[_]] = Seq(
 
-    ghreleaseRepoName := name.value,
-    ghreleaseRepoOrg := organization.value,
+    ghreleaseRepoOrg := "vagmcs",
     ghreleaseTitle := { tagName => s"${name.value} ${tagName}" },
-    ghreleaseAssets := packagedArtifacts.value.values.toSeq,
-    ghreleaseMediaTypesMap  := defs.ghreleaseMediaTypesMap,
-    ghreleaseIsPrerelease := { _.matches(""".*-.*""") },
     ghreleaseNotes := { _ => "" },
-    ghreleaseGithubToken := {
-      defs.githubTokenFromEnv(defs.defaultTokenEnvVar) orElse
-        defs.githubTokenFromFile(defs.defaultTokenFile)
-    },
 
     name := "ScalaTIKZ",
 
