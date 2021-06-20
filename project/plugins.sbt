@@ -15,3 +15,5 @@ addSbtPlugin("com.typesafe.sbt" % "sbt-git" % "1.0.0")
 addSbtPlugin("org.scalariform" % "sbt-scalariform" % "1.8.3")
 
 addSbtPlugin("com.timushev.sbt" % "sbt-updates" % "0.5.2")
+
+addSbtPlugin("ohnosequences" % "sbt-github-release" % "0.7.0")
