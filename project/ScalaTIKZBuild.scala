@@ -56,7 +56,9 @@ object ScalaTIKZBuild extends AutoPlugin {
     ghreleaseRepoOrg := organization.value,
     ghreleaseTitle := { tagName => s"${name.value} ${tagName}" },
     ghreleaseAssets := packagedArtifacts.value.values.toSeq,
+    ghreleaseMediaTypesMap  := defs.ghreleaseMediaTypesMap,
     ghreleaseIsPrerelease := { _.matches(""".*-.*""") },
+    ghreleaseNotes := { _ => "" },
     ghreleaseGithubToken := {
       defs.githubTokenFromEnv(defs.defaultTokenEnvVar) orElse
         defs.githubTokenFromFile(defs.defaultTokenFile)
