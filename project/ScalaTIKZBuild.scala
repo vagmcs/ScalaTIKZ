@@ -18,6 +18,8 @@ import com.typesafe.sbt.SbtNativePackager.autoImport._
 import com.typesafe.sbt.packager.archetypes.JavaAppPackaging
 import de.heikoseeberger.sbtheader.HeaderPlugin
 import de.heikoseeberger.sbtheader.HeaderPlugin.autoImport._
+import ohnosequences.sbt.GithubRelease.keys._
+import ohnosequences.sbt.GithubRelease.defs
 
 object ScalaTIKZBuild extends AutoPlugin {
 
@@ -50,6 +52,16 @@ object ScalaTIKZBuild extends AutoPlugin {
 
   private val commonSettings: Seq[Setting[_]] = Seq(
 
+    ghreleaseRepoName := name.value,
+    ghreleaseRepoOrg := organization.value,
+    ghreleaseTitle := { tagName => s"${name.value} ${tagName}" },
+    ghreleaseAssets := packagedArtifacts.value.values.toSeq,
+    ghreleaseIsPrerelease := { _.matches(""".*-.*""") },
+    ghreleaseGithubToken := {
+      defs.githubTokenFromEnv(defs.defaultTokenEnvVar) orElse
+        defs.githubTokenFromFile(defs.defaultTokenFile)
+    },
+
     name := "ScalaTIKZ",
 
     organization := "com.github.vagmcs",
@@ -64,7 +76,7 @@ object ScalaTIKZBuild extends AutoPlugin {
 
     scalaVersion := "2.13.1",
 
-    crossScalaVersions := Seq("2.13.1", "2.12.12"),
+    crossScalaVersions := Seq("2.13.1", "2.12.14"),
 
     autoScalaLibrary := true,
     managedScalaInstance := true,
