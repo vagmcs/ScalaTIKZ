@@ -1,0 +1,23 @@
+## Highlights
+
+- Implicit conversion for tuple of Seq into Data2D ([34ca](https://github.com/vagmcs/ScalaTIKZ/commit/34ca1363eed557bfd15406fa3ef1140f83ec1cfb)).
+- Custom constructor added for the `LegendPos` class ([fed4](https://github.com/vagmcs/ScalaTIKZ/commit/fed40b675e92c0fde9483f746d48ea3f2855e783)).
+    - The constructor allows for user positioned legends.
+- Support for axis scaling ([089d](https://github.com/vagmcs/ScalaTIKZ/commit/089d2d3a1ac45625a177abbd7c62df18f9a65fc8)).
+- CLI and Figure API refactor ([106c](https://github.com/vagmcs/ScalaTIKZ/commit/106cbd2b3701ba95bbcfcc71e3231d812a22dd38)).
+    - The command line interface is now simpler and more compact. Moreover, it supports more options for the figures.
+    - Error plot types are not available as an option anymore, instead the CLI detects if the user has given error data and adapts the plots automatically.
+    - Axis support for legend font size and custom positions has been added.
+    
+## Bugs
+
+- Removed underline format from long parser args ([6232](https://github.com/vagmcs/ScalaTIKZ/commit/62326ba121bca200903ad108de96968a44128e92)).
+- Added forget plot argument to secondary add plot commands used for filling the area between upper and lower error lines ([75f3](https://github.com/vagmcs/ScalaTIKZ/commit/75f3a2d4bafb915a7635086c7bc357e06c77433a)).
+
+## Other Changes
+
+- Bar plots use black error lines in order to be more visible ([cef6](https://github.com/vagmcs/ScalaTIKZ/commit/cef68a9b34fd43eda1cbdc207e0032a3900a0f04)).
+- Nodes near coords use fixed precision set to 2 ([33f1](https://github.com/vagmcs/ScalaTIKZ/commit/33f1120287a5d8b18b2b32593a48ebe5039473a2)).
+- SBT updated to version 1.5.2 ([6031](https://github.com/vagmcs/ScalaTIKZ/commit/60315ed545fbad17019492d88c886a854762ba4f)).
+- LICENSE changed to GPLv3 ([93e6](https://github.com/vagmcs/ScalaTIKZ/commit/93e69755f82d5ded1cb445b45272828dd2b16c9f)).
+
