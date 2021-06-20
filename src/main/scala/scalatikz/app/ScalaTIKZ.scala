@@ -370,7 +370,7 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
     .action { (size, conf) =>
       conf.copy(figure = conf.figure.havingLegendFontSize(size))
     }.text(s"Set legend font size (default is $NORMAL). " +
-    s"\n\t${"Available font sizes:".green.bold} ${FontSize.values.mkString(", ")}\n")
+      s"\n\t${"Available font sizes:".green.bold} ${FontSize.values.mkString(", ")}\n")
 
   opt[Unit]("x-log-scale").optional.unbounded
     .action((_, conf) => conf.copy(figure = conf.figure.havingLogXAxis))
@@ -535,7 +535,7 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
 
               resultedFigure =
                 resultedFigure.scatterMesh(
-                  marker = graphic.marker.getOrElse(CIRCLE),
+                  marker   = graphic.marker.getOrElse(CIRCLE),
                   markSize = graphic.markSize
                 )(coordinates)
 

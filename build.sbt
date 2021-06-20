@@ -1,5 +1,3 @@
-import sbt.Keys._
-
 addCommandAlias("check", ";headerCreate;dependencyUpdates;compile")
 addCommandAlias("build", ";check;test;package")
 addCommandAlias("rebuild", ";clean;build")
