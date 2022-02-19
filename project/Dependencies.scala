@@ -14,16 +14,17 @@ import sbt._
 object Dependencies {
 
   object v {
-    final val Logback = "1.2.3"
-    final val ScalaLogging = "3.9.3"
+    final val Logback = "1.2.10"
+    final val ScalaLogging = "3.9.4"
 
-    final val ScalaTest = "3.2.7"
-    final val ScalaCheck = "1.15.3"
+    final val ScalaTest = "3.2.11"
+    final val ScalaCheck = "1.15.4"
 
     final val ScalaOpt = "3.7.1"
-    final val Ghost4J = "1.0.1"
+    final val PDFBox = "2.0.24"
     final val CSVParser = "2.9.1"
-    final val Enums = "1.6.1"
+    final val Enums = "1.7.0"
+    final val Ammonite = "0.11.2"
   }
 
   // Logging using slf4j and logback
@@ -41,8 +42,9 @@ object Dependencies {
   // Libraries for option parsing, csv parsing and ghost-script
   lazy val Commons: Seq[ModuleID] = Seq(
     "com.github.scopt" %% "scopt" % v.ScalaOpt,
-    "org.ghost4j" % "ghost4j" % v.Ghost4J,
+    "org.apache.pdfbox" % "pdfbox-tools" % v.PDFBox,
     "com.univocity" % "univocity-parsers" % v.CSVParser,
-    "com.beachape" %% "enumeratum" % v.Enums
+    "com.beachape" %% "enumeratum" % v.Enums,
+    "sh.almond" %% "scala-kernel-api" % v.Ammonite % Provided cross CrossVersion.full
   )
 }

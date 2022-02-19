@@ -68,7 +68,7 @@ object ScalaTIKZBuild extends AutoPlugin {
 
     scalaVersion := "2.13.1",
 
-    crossScalaVersions := Seq("2.13.1", "2.12.14"),
+    crossScalaVersions := Seq("2.13.1", "2.12.10"),
 
     autoScalaLibrary := true,
     managedScalaInstance := true,
@@ -87,7 +87,8 @@ object ScalaTIKZBuild extends AutoPlugin {
       Resolver.mavenLocal,
       Resolver.typesafeRepo("releases"),
       Resolver.sonatypeRepo("releases"),
-      Resolver.sonatypeRepo("snapshots")
+      Resolver.sonatypeRepo("snapshots"),
+      "jitpack" at "https://jitpack.io"
     ),
 
     libraryDependencies ++= Seq(
