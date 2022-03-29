@@ -20,6 +20,7 @@ ScalaTIKZ comes with ABSOLUTELY NO WARRANTY. This is free software, and you are 
 7. High level API for declaring plot types and subplots.
 8. Save generated graphics as TeX, PDF, JPEG or PNG formats.
 9. Command line interface that can be used in any Unix/Linux shell script.
+10. Works on the [Almond](https://github.com/almond-sh/almond) kernel.
 
 <table>
 <tr>
@@ -38,7 +39,7 @@ ScalaTIKZ comes with ABSOLUTELY NO WARRANTY. This is free software, and you are 
 
 ## Requirements
 
-ScalaTIKZ requires to have a TeXLive distribution installed on your system. Moreover, in case you want to export your plots as image formats, the GhostScript package is also required.
+ScalaTIKZ requires to have a TeXLive distribution installed on your system.
 
 For more details please read the [Requirements](docs/requirements.md).
 
