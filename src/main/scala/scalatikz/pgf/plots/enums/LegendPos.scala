@@ -16,7 +16,7 @@ import scala.collection.immutable._
 
 sealed class LegendPos(override val entryName: String) extends EnumEntry {
 
-  def this(x: Double, y: Double, anchor: String) = this(s"at={$x, $y}, anchor=$anchor")
+  def this(x: Double, y: Double, anchor: String) = this(s"at={($x, $y)}, anchor=$anchor")
 
   override def toString: String = entryName
 }
