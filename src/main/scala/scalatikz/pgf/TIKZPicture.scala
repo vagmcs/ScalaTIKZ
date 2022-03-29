@@ -16,11 +16,12 @@ import java.awt.Desktop
 import java.io.{ File, PrintStream }
 import java.nio.file.{ Files, Paths, StandardCopyOption }
 import java.util.UUID
+import javax.imageio.ImageIO
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.rendering.{ ImageType, PDFRenderer }
 import org.apache.pdfbox.tools.imageio.ImageIOUtil
 import scala.io.Source
-import scala.util.{ Failure, Try }
+import scala.util.{ Success, Failure, Try }
 import scalatikz.common.Logging
 import scalatikz.pgf.Compiler._
 import sys.process._
@@ -151,13 +152,16 @@ trait TIKZPicture extends Logging {
       case _ =>
     }
     else compileImage("png", compiler) match {
-      case Failure(ex) =>
-        throw ex
-      case _ =>
+      case Failure(exception) => throw exception
+      case Success(imageFile) =>
+
+        val img = ImageIO.read(imageFile)
+        val ratio = math.max(img.getHeight, img.getWidth).toDouble / math.min(img.getHeight, img.getWidth).toDouble
+        val (adjHeight, adjWidth) = if (img.getHeight <= img.getWidth) 33 -> ratio * 33 else ratio * 33 -> 33
 
         val uuid = UUID.randomUUID.toString
         s"mv $path/$name.png $name-$uuid.png" ! devNullLogger
-        kernel.publish.html(s"<img src='$name-$uuid.png' width='50%'/>", id = name)
+        kernel.publish.html(s"<img src='$name-$uuid.png' height='$adjHeight%' width='$adjWidth%'/>", id = name)
         Thread.sleep(500)
         s"rm $name-$uuid.png" ! devNullLogger
     }
