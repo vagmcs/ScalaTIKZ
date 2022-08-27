@@ -17,6 +17,16 @@ import scala.language.reflectiveCalls
 
 package object pgf {
 
+  final private val SLASH = """\"""
+  final private val USE = """use"""
+  final private val TIKZ = """tikz"""
+  final private val LIBRARY = """library"""
+  final private val PACKAGE = """package"""
+  final private val PGF_PLOTS = """pgf""" + """plots"""
+  final val TIKZLibrary = SLASH + USE + TIKZ + LIBRARY
+  final val UsePackage = SLASH + USE + PACKAGE
+  final val PGFLibrary = SLASH + USE + PGF_PLOTS + LIBRARY
+
   sealed abstract class Compiler(override val entryName: String) extends EnumEntry {
     override def toString: String = entryName
   }

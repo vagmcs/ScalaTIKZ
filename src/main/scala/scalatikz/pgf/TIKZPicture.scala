@@ -48,8 +48,8 @@ trait TIKZPicture extends Logging {
   private def asTex: String = raw"""
        |\documentclass{standalone}
        |
-       |\usepackage{luatex85}
-       |\usepackage{tikz,pgfplots}
+       |$UsePackage{luatex85}
+       |$UsePackage{tikz,pgfplots}
        |$libraries
        |\pgfplotsset{compat=newest}
        |

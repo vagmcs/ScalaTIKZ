@@ -6,12 +6,12 @@
  * /___/\__/\_,_/_/\_,_//_/ /___/_/|_| /___/
  *
  * A PGF/TIKZ plot library for Scala.
- *     
+ *
  */
 
 package scalatikz.pgf.automata
 
-import scalatikz.pgf.TIKZPicture
+import scalatikz.pgf.{ TIKZLibrary, TIKZPicture }
 import scalatikz.pgf.automata.enums.EdgeType._
 import scalatikz.pgf.automata.enums.StateType
 import scalatikz.pgf.enums.Color.BLACK
@@ -26,8 +26,8 @@ case class Automaton private (
   private[automata] val edges: List[Edge])
     extends TIKZPicture {
 
-  override protected val libraries: String = """
-      |\usetikzlibrary{automata}
+  override protected val libraries: String = s"""
+      |$TIKZLibrary{automata}
       |""".stripMargin
 
   override protected val tiKZArgs: List[String] = List("auto")

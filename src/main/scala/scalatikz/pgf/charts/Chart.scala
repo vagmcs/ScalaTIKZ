@@ -11,7 +11,7 @@
 
 package scalatikz.pgf.charts
 
-import scalatikz.pgf.TIKZPicture
+import scalatikz.pgf.{ TIKZPicture, UsePackage }
 import scalatikz.pgf.charts.enums.TextLocation
 import scalatikz.pgf.enums.Color
 import Numeric.Implicits._
@@ -23,7 +23,7 @@ case class Chart private (
   data: Map[String, Double])
     extends TIKZPicture {
 
-  override protected val libraries: String = """\usepackage{pgf-pie}"""
+  override protected val libraries: String = s"""$UsePackage{pgf-pie}"""
 
   /**
    * Rename the chart.

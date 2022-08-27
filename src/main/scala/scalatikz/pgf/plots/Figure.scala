@@ -11,7 +11,7 @@
 
 package scalatikz.pgf.plots
 
-import scalatikz.pgf.TIKZPicture
+import scalatikz.pgf.{ PGFLibrary, TIKZLibrary, TIKZPicture, UsePackage }
 import scalatikz.pgf.enums.{ Color, LineSize, LineStyle }
 import scalatikz.pgf.enums.LineSize.THIN
 import scalatikz.pgf.enums.LineStyle.SOLID
@@ -34,11 +34,11 @@ class Figure private (
   private[plots] val secondary: Option[Figure])
     extends TIKZPicture {
 
-  override protected val libraries: String = """
-      |\usetikzlibrary{plotmarks}
-      |\usetikzlibrary{patterns}
-      |\usetikzlibrary{pgfplots.polar}
-      |\usepgfplotslibrary{fillbetween}
+  override protected val libraries: String = s"""
+      |$TIKZLibrary{plotmarks}
+      |$TIKZLibrary{patterns}
+      |$TIKZLibrary{pgfplots.polar}
+      |$PGFLibrary{fillbetween}
     |""".stripMargin
 
   // An iterator over available colors in case user does not specify one.
@@ -1012,12 +1012,12 @@ class FigureArray private[pgf] (
   M: Int)
     extends TIKZPicture {
 
-  override protected val libraries: String = """
-      |\usepackage{tikz,pgfplots}
-      |\usetikzlibrary{plotmarks}
-      |\usetikzlibrary{patterns}
-      |\usetikzlibrary{pgfplots.polar}
-      |\usepgfplotslibrary{fillbetween}
+  override protected val libraries: String = s"""
+      |$UsePackage{tikz,pgfplots}
+      |$TIKZLibrary{plotmarks}
+      |$TIKZLibrary{patterns}
+      |$TIKZLibrary{pgfplots.polar}
+      |$PGFLibrary{fillbetween}
       |""".stripMargin
 
   /**

@@ -14,15 +14,15 @@ package scalatikz.examples
 import math._
 import scala.util.Random
 import scalatikz.pgf.plots.Figure
-import scalatikz.pgf.plots.enums.AxisLinePos.{BOTTOM, LEFT}
+import scalatikz.pgf.plots.enums.AxisLinePos.{ BOTTOM, LEFT }
 import scalatikz.pgf.enums.Color._
 import scalatikz.pgf.plots.enums.ColorMap
-import scalatikz.pgf.plots.enums.FontSize.{FOOTNOTE, LARGE}
-import scalatikz.pgf.plots.enums.LegendPos.{NORTH_EAST, SOUTH_WEST}
-import scalatikz.pgf.enums.LineSize.{VERY_THICK, VERY_THIN}
+import scalatikz.pgf.plots.enums.FontSize.{ FOOTNOTE, LARGE }
+import scalatikz.pgf.plots.enums.LegendPos.{ NORTH_EAST, SOUTH_WEST }
+import scalatikz.pgf.enums.LineSize.{ VERY_THICK, VERY_THIN }
 import scalatikz.pgf.enums.LineStyle.DASHED
 import scalatikz.pgf.plots.enums.LineType.SMOOTH
-import scalatikz.pgf.plots.enums.Mark.{CIRCLE, DOT}
+import scalatikz.pgf.plots.enums.Mark.{ CIRCLE, DOT }
 import scalatikz.pgf.plots.enums.Pattern.CROSSHATCH
 
 object PGFPlotExamples extends App {
@@ -32,8 +32,8 @@ object PGFPlotExamples extends App {
    */
   Figure("bar")
     .havingAdjacentBars
-    .bar(barColor = CYAN!75!BLACK, pattern = CROSSHATCH)((0 to 5).map(x => x -> x * x))
-    .bar(barColor = GREEN!75!BLACK, lineSize = VERY_THICK, opacity = 0)((0 to 5).map(x => x -> (5 - x) * (5 - x)))
+    .bar(barColor = CYAN ! 75 ! BLACK, pattern = CROSSHATCH)((0 to 5).map(x => x -> x * x))
+    .bar(barColor = GREEN ! 75 ! BLACK, lineSize = VERY_THICK, opacity = 0)((0 to 5).map(x => x -> (5 - x) * (5 - x)))
     .havingYLimits(0, 30)
     .havingFontSize(LARGE)
     .havingAxisXLabels(Seq("A", "B", "C", "D", "E", "F"))
@@ -64,10 +64,10 @@ object PGFPlotExamples extends App {
   val x = BigDecimal(-5) to BigDecimal(5) by 0.1
 
   Figure("gaussian")
-    .plot(lineColor = BLUE!75!BLACK, lineType = SMOOTH)(x -> gaussian(0, 0.2) _)
-    .plot(lineColor = RED!75!BLACK)(x -> gaussian(0, 1) _)
-    .plot(lineColor = YELLOW!70!BLACK)(x -> gaussian(0, 5) _)
-    .plot(lineColor = GREEN!75!BLACK)(x -> gaussian(-2, 0.5) _)
+    .plot(lineColor = BLUE ! 75 ! BLACK, lineType = SMOOTH)(x -> gaussian(0, 0.2) _)
+    .plot(lineColor = RED ! 75 ! BLACK)(x -> gaussian(0, 1) _)
+    .plot(lineColor = YELLOW ! 70 ! BLACK)(x -> gaussian(0, 5) _)
+    .plot(lineColor = GREEN ! 75 ! BLACK)(x -> gaussian(-2, 0.5) _)
     .havingXLabel("$x$")
     .havingLimits(-5, 5, 0, 1)
     .havingMajorGridOn
@@ -113,14 +113,12 @@ object PGFPlotExamples extends App {
    */
   val xxs = BigDecimal(0) to BigDecimal(6) by 0.1
 
-  val figure =
-    Figure("dark")
-      .havingBackgroundColor(BLACK ! 50)
+  val figure = Figure("dark")
+    .havingBackgroundColor(BLACK ! 50)
 
-  (1 to 6).foldLeft(figure) {
-    case (fig, s) =>
-      fig.plot(marker   = DOT, markSize = 1.5)(xxs -> ((x: Double) => sin(x + s)))
-  }.saveAsPNG("images")
+  (1 to 6)
+    .foldLeft(figure) { case (fig, s) => fig.plot(marker = DOT, markSize = 1.5)(xxs -> ((x: Double) => sin(x + s))) }
+    .saveAsPNG("images")
 
   /*
    * Random stem plot
