@@ -6,7 +6,7 @@
  * /___/\__/\_,_/_/\_,_//_/ /___/_/|_| /___/
  *
  * A PGF/TIKZ plot library for Scala.
- *
+ *     
  */
 
 package scalatikz.app
@@ -16,13 +16,13 @@ import scalatikz.BuildVersion
 import scalatikz.common.{ Colors, Logging }
 
 /**
-  * Command line basic abstraction.
-  *
-  * @param program program name
-  * @tparam T type of option configuration
-  */
+ * Command line basic abstraction.
+ *
+ * @param program program name
+ * @tparam T type of option configuration
+ */
 abstract class AppCLI[T <: OptionConf](program: String)
-  extends OptionParser[T](program) with Colors with Logging with App {
+    extends OptionParser[T](program) with Colors with Logging with App {
 
   println {
     """
@@ -42,6 +42,5 @@ abstract class AppCLI[T <: OptionConf](program: String)
   override def renderingMode: RenderingMode.OneColumn.type = scopt.RenderingMode.OneColumn
 
   override def showTryHelp(): Unit =
-    if (helpOptions.nonEmpty)
-      logger.info(s"Try ${helpOptions.head.fullName} for more information.")
+    if (helpOptions.nonEmpty) logger.info(s"Try ${helpOptions.head.fullName} for more information.")
 }

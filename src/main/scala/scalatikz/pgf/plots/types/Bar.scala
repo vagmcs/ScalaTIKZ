@@ -6,7 +6,7 @@
  * /___/\__/\_,_/_/\_,_//_/ /___/_/|_| /___/
  *
  * A PGF/TIKZ plot library for Scala.
- *
+ *     
  */
 
 package scalatikz.pgf.plots.types
@@ -17,40 +17,40 @@ import scalatikz.pgf.plots.enums.Pattern.PLAIN
 import scalatikz.pgf.plots.enums.{ Mark, Pattern }
 
 /**
-  * Creates 2D bars of the data in X against the corresponding values in Y.
-  *
-  * @param coordinates sequence of x, y points in the Euclidean space
-  * @param barColor bar color
-  * @param lineStyle line style
-  * @param lineSize line size
-  * @param marker mark style
-  * @param markStrokeColor mark stroke color
-  * @param markFillColor mark fill color
-  * @param markSize mark size
-  * @param pattern a pattern to fill the bars
-  * @param opacity opacity of the bars
-  * @param barWidth the bars width
-  * @param nodesNearCoords depict nodes near coords
-  * @param horizontal horizontal stems extending from Y-axis to X values
-  */
+ * Creates 2D bars of the data in X against the corresponding values in Y.
+ *
+ * @param coordinates sequence of x, y points in the Euclidean space
+ * @param barColor bar color
+ * @param lineStyle line style
+ * @param lineSize line size
+ * @param marker mark style
+ * @param markStrokeColor mark stroke color
+ * @param markFillColor mark fill color
+ * @param markSize mark size
+ * @param pattern a pattern to fill the bars
+ * @param opacity opacity of the bars
+ * @param barWidth the bars width
+ * @param nodesNearCoords depict nodes near coords
+ * @param horizontal horizontal stems extending from Y-axis to X values
+ */
 case class Bar(
-    coordinates: Coordinates2D,
-    barColor: Color,
-    lineStyle: LineStyle,
-    lineSize: LineSize,
-    marker: Mark,
-    markStrokeColor: Color,
-    markFillColor: Color,
-    markSize: Double,
-    pattern: Pattern,
-    opacity: Double,
-    barWidth: Double,
-    nodesNearCoords: Boolean,
-    horizontal: Boolean) extends PGFPlot {
+  coordinates: Coordinates2D,
+  barColor: Color,
+  lineStyle: LineStyle,
+  lineSize: LineSize,
+  marker: Mark,
+  markStrokeColor: Color,
+  markFillColor: Color,
+  markSize: Double,
+  pattern: Pattern,
+  opacity: Double,
+  barWidth: Double,
+  nodesNearCoords: Boolean,
+  horizontal: Boolean)
+    extends PGFPlot {
 
-  override def toString: String = {
-    if (!nodesNearCoords)
-      raw"""
+  override def toString: String =
+    if (!nodesNearCoords) raw"""
            |\addplot[
            |  ${if (horizontal) "xBar".toLowerCase else "yBar".toLowerCase},
            |  color=$barColor,
@@ -66,8 +66,7 @@ case class Bar(
            |${coordinates.mkString("\n")}
            |};
       """.stripMargin
-    else
-      raw"""
+    else raw"""
            |\addplot[
            |  ${if (horizontal) "xBar".toLowerCase else "yBar".toLowerCase},
            |  color=$barColor,
@@ -86,44 +85,43 @@ case class Bar(
            |${coordinates.mkString("\n")}
            |};
       """.stripMargin
-  }
 }
 
 /**
-  * Creates 2D bars of the data in X against the corresponding values in Y
-  * along vertical and/or horizontal error bars at each data point.
-  *
-  * @param coordinates sequence of X, Y points in the Euclidean space
-  * @param error sequence of X, Y error points
-  * @param barColor bar color
-  * @param lineStyle line style
-  * @param lineSize line size
-  * @param marker mark style
-  * @param markStrokeColor mark stroke color
-  * @param markFillColor mark fill color
-  * @param markSize mark size
-  * @param pattern a pattern to fill the bars
-  * @param opacity opacity of the bars
-  * @param barWidth the bars width
-  * @param horizontal horizontal stems extending from Y-axis to X values
-  */
+ * Creates 2D bars of the data in X against the corresponding values in Y
+ * along vertical and/or horizontal error bars at each data point.
+ *
+ * @param coordinates sequence of X, Y points in the Euclidean space
+ * @param error sequence of X, Y error points
+ * @param barColor bar color
+ * @param lineStyle line style
+ * @param lineSize line size
+ * @param marker mark style
+ * @param markStrokeColor mark stroke color
+ * @param markFillColor mark fill color
+ * @param markSize mark size
+ * @param pattern a pattern to fill the bars
+ * @param opacity opacity of the bars
+ * @param barWidth the bars width
+ * @param horizontal horizontal stems extending from Y-axis to X values
+ */
 case class ErrorBar(
-    coordinates: Coordinates2D,
-    error: Coordinates2D,
-    barColor: Color,
-    lineStyle: LineStyle,
-    lineSize: LineSize,
-    marker: Mark,
-    markStrokeColor: Color,
-    markFillColor: Color,
-    markSize: Double,
-    pattern: Pattern,
-    opacity: Double,
-    barWidth: Double,
-    horizontal: Boolean) extends PGFPlot {
+  coordinates: Coordinates2D,
+  error: Coordinates2D,
+  barColor: Color,
+  lineStyle: LineStyle,
+  lineSize: LineSize,
+  marker: Mark,
+  markStrokeColor: Color,
+  markFillColor: Color,
+  markSize: Double,
+  pattern: Pattern,
+  opacity: Double,
+  barWidth: Double,
+  horizontal: Boolean)
+    extends PGFPlot {
 
-  override def toString: String = {
-    raw"""
+  override def toString: String = raw"""
          |\addplot[
          |  ${if (horizontal) "xBar".toLowerCase else "yBar".toLowerCase},
          |  color=$barColor,
@@ -145,5 +143,4 @@ case class ErrorBar(
          |${coordinates.zip(error).map { case (xy, e) => s"$xy +- $e" }.mkString("\n")}
          |};
     """.stripMargin
-  }
 }

@@ -6,7 +6,7 @@
  * /___/\__/\_,_/_/\_,_//_/ /___/_/|_| /___/
  *
  * A PGF/TIKZ plot library for Scala.
- *
+ *     
  */
 
 package scalatikz
@@ -30,15 +30,16 @@ package object pgf {
   }
 
   /**
-    * Uses an object that can be closed (e.g. BufferedSource) and
-    * applies a function to get a result. Finally it closes the source.
-    *
-    * @param closeable a closable instance
-    * @param f a function
-    * @tparam C type of the closable
-    * @tparam R type of the return value
-    * @return a result from the function
-    */
+   * Uses an object that can be closed (e.g. BufferedSource) and
+   * applies a function to get a result. Finally it closes the source.
+   *
+   * @param closeable a closable instance
+   * @param f a function
+   * @tparam C type of the closable
+   * @tparam R type of the return value
+   * @return a result from the function
+   */
   def using[R, C <: { def close(): Unit }](closeable: C)(f: C => R): R =
-    try { f(closeable) } finally { closeable.close() }
+    try f(closeable)
+    finally closeable.close()
 }

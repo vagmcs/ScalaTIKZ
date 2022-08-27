@@ -24,8 +24,7 @@ object ScalaTIKZBuild extends AutoPlugin {
 
   private val logger = ConsoleLogger()
 
-  final val logo =
-    """
+  final val logo = """
       |   ____         __    ____________ ______
       |  / __/______ _/ /__ /_  __/  _/ //_/_  /
       | _\ \/ __/ _ `/ / _ `// / _/ // ,<   / /_
@@ -46,33 +45,22 @@ object ScalaTIKZBuild extends AutoPlugin {
   private lazy val settings: Seq[Setting[_]] = {
     logger.info(s"[info] Loading options for Java $javaVersion.")
     if (javaVersion < 1.8) sys.error("Java 8 or higher is required for building ScalaTIKZ.")
-    else commonSettings ++ ScalaSettings ++ JavaSettings ++ PackagingOptions ++ CodeStyle.formatSettings
+    else commonSettings ++ ScalaSettings ++ JavaSettings ++ PackagingOptions
   }
 
   private val commonSettings: Seq[Setting[_]] = Seq(
-
     ghreleaseRepoOrg := "vagmcs",
     ghreleaseTitle := { tagName => s"${name.value} $tagName" },
-
     name := "ScalaTIKZ",
-
     organization := "com.github.vagmcs",
-
     description := "A plot library for Scala",
-
     maintainer := "Evangelos Michelioudakis",
-
     headerLicense := Some(HeaderLicense.Custom(logo)),
-
     headerMappings := headerMappings.value + (HeaderFileType.scala -> HeaderCommentStyle.cStyleBlockComment),
-
     scalaVersion := "2.13.1",
-
-    crossScalaVersions := Seq("2.13.1", "2.12.10"),
-
+    crossScalaVersions := Seq("2.13.1", "2.12.16"),
     autoScalaLibrary := true,
     managedScalaInstance := true,
-
     publishMavenStyle := true,
     Test / publishArtifact := false,
     pomIncludeRepository := { _ => false },
@@ -82,7 +70,6 @@ object ScalaTIKZBuild extends AutoPlugin {
 
     // fork a new JVM for 'test:run', but not 'run'
     Test / fork := true,
-
     resolvers ++= Seq(
       Resolver.mavenLocal,
       Resolver.typesafeRepo("releases"),
@@ -90,12 +77,10 @@ object ScalaTIKZBuild extends AutoPlugin {
       Resolver.sonatypeRepo("snapshots"),
       "jitpack" at "https://jitpack.io"
     ),
-
     libraryDependencies ++= Seq(
       "org.scala-lang" % "scala-library" % scalaVersion.value,
       "org.scala-lang" % "scala-reflect" % scalaVersion.value
     ),
-
     publishTo := Some(
       if (isSnapshot.value) Opts.resolver.sonatypeSnapshots
       else Opts.resolver.sonatypeStaging
@@ -120,21 +105,16 @@ object ScalaTIKZBuild extends AutoPlugin {
   )
 
   private lazy val PackagingOptions: Seq[Setting[_]] = Seq(
-
     // Include bash scripts in the 'bin' directory
     Universal / mappings ++= {
       val scriptsDir = file("scripts/")
-      scriptsDir.listFiles.toSeq.map { f =>
-        f -> ("bin/" + f.getName)
-      }
+      scriptsDir.listFiles.toSeq.map(f => f -> ("bin/" + f.getName))
     },
 
     // Include logger configuration file to the final distribution
     Universal / mappings ++= {
       val scriptsDir = file("src/main/resources/")
-      scriptsDir.listFiles.toSeq.map { f =>
-        f -> ("etc/" + f.getName)
-      }
+      scriptsDir.listFiles.toSeq.map(f => f -> ("etc/" + f.getName))
     },
 
     // File name of the universal distribution
@@ -143,11 +123,11 @@ object ScalaTIKZBuild extends AutoPlugin {
 
   private lazy val JavaSettings: Seq[Setting[_]] = Seq(
     javacOptions ++= Seq("-source", "1.8", "-target", "1.8"),
-
     javaOptions ++= Seq(
       "-XX:+DoEscapeAnalysis",
       "-XX:+OptimizeStringConcat",
-      "-Dlogback.configurationFile=src/main/resources/logback.xml")
+      "-Dlogback.configurationFile=src/main/resources/logback.xml"
+    )
   )
 
   private lazy val ScalaSettings: Seq[Setting[_]] = Seq(
@@ -157,11 +137,11 @@ object ScalaTIKZBuild extends AutoPlugin {
         case "2.12" | "2.13" =>
           // Scala compiler options for Scala 2.12.x and 2.13.x
           Seq(
-            "-Xno-uescape",       // Disable handling of \\u unicode escapes.
-            "-deprecation",       // Emit warning and location for usages of deprecated APIs.
-            "-unchecked",         // Enable additional warnings where generated code depends on assumptions.
-            "-feature",           // Emit warning and location for usages of features that should be imported explicitly.
-            "-target:jvm-1.8",    // Target JVM version 1.8.
+            "-Xno-uescape", // Disable handling of \\u unicode escapes.
+            "-deprecation", // Emit warning and location for usages of deprecated APIs.
+            "-unchecked", // Enable additional warnings where generated code depends on assumptions.
+            "-feature", // Emit warning and location for usages of features that should be imported explicitly.
+            "-target:jvm-1.8", // Target JVM version 1.8.
             "-language:implicitConversions"
           )
 

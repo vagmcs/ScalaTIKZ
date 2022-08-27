@@ -6,7 +6,7 @@
  * /___/\__/\_,_/_/\_,_//_/ /___/_/|_| /___/
  *
  * A PGF/TIKZ plot library for Scala.
- *
+ *     
  */
 
 package scalatikz.pgf
@@ -17,7 +17,9 @@ package object plots {
     def toTex: String = tex
       .replaceAll("%", "\\\\%")
       .replaceAll("#", "\\\\#")
-      .split("\\$").zipWithIndex.map {
+      .split("\\$")
+      .zipWithIndex
+      .map {
         case (str, i) =>
           if ((i + 1) % 2 != 0) str
             .replaceAll("_", "\\\\_")
@@ -25,6 +27,7 @@ package object plots {
             .replaceAll("~", "\\\\~")
             .replaceAll("\\^", "\\\\^")
           else "$" + str + "$"
-      }.reduce(_ + _)
+      }
+      .reduce(_ + _)
   }
 }

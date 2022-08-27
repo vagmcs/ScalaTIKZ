@@ -14,17 +14,17 @@ import sbt._
 object Dependencies {
 
   object v {
-    final val Logback = "1.2.10"
-    final val ScalaLogging = "3.9.4"
+    final val Logback = "1.2.11"
+    final val ScalaLogging = "3.9.5"
 
-    final val ScalaTest = "3.2.11"
-    final val ScalaCheck = "1.15.4"
+    final val ScalaTest = "3.2.12"
+    final val ScalaCheck = "1.16.0"
 
     final val ScalaOpt = "3.7.1"
-    final val PDFBox = "2.0.24"
+    final val PDFBox = "2.0.26"
     final val CSVParser = "2.9.1"
     final val Enums = "1.7.0"
-    final val Ammonite = "0.11.2"
+    final val Ammonite = "0.13.1"
   }
 
   // Logging using slf4j and logback
