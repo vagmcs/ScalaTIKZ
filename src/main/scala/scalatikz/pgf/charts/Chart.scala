@@ -6,7 +6,7 @@
  * /___/\__/\_,_/_/\_,_//_/ /___/_/|_| /___/
  *
  * A PGF/TIKZ plot library for Scala.
- *     
+ *
  */
 
 package scalatikz.pgf.charts
@@ -20,8 +20,8 @@ case class Chart private (
   override val name: String,
   private[charts] val conf: ChartConf,
   private[charts] val variation: Option[String],
-  data: Map[String, Double])
-    extends TIKZPicture {
+  data: Map[String, Double]
+) extends TIKZPicture {
 
   override protected val libraries: String = s"""$UsePackage{pgf-pie}"""
 

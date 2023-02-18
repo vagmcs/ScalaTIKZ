@@ -6,7 +6,7 @@
  * /___/\__/\_,_/_/\_,_//_/ /___/_/|_| /___/
  *
  * A PGF/TIKZ plot library for Scala.
- *     
+ *
  */
 
 package scalatikz.pgf.plots.types
@@ -22,11 +22,7 @@ import scalatikz.pgf.plots.enums.Mark
  * @param lineStyle line style
  * @param lineSize line size
  */
-case class Mesh(
-  coordinates: Coordinates2D,
-  lineStyle: LineStyle,
-  lineSize: LineSize)
-    extends PGFPlot {
+case class Mesh(coordinates: Coordinates2D, lineStyle: LineStyle, lineSize: LineSize) extends PGFPlot {
 
   override def toString: String = raw"""
       |\addplot[
@@ -48,11 +44,7 @@ case class Mesh(
  * @param marker mark style
  * @param markSize mark size
  */
-case class MeshScatter(
-  coordinates: Coordinates2D,
-  marker: Mark,
-  markSize: Double)
-    extends PGFPlot {
+case class MeshScatter(coordinates: Coordinates2D, marker: Mark, markSize: Double) extends PGFPlot {
 
   override def toString: String = raw"""
       |\addplot[

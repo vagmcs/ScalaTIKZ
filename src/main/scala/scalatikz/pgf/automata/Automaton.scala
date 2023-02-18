@@ -6,7 +6,7 @@
  * /___/\__/\_,_/_/\_,_//_/ /___/_/|_| /___/
  *
  * A PGF/TIKZ plot library for Scala.
- *     
+ *
  */
 
 package scalatikz.pgf.automata
@@ -23,8 +23,8 @@ case class Automaton private (
   override val name: String,
   override protected val nodeDistance: Double,
   private[automata] val states: List[State],
-  private[automata] val edges: List[Edge])
-    extends TIKZPicture {
+  private[automata] val edges: List[Edge]
+) extends TIKZPicture {
 
   override protected val libraries: String = s"""
       |$TIKZLibrary{automata}
@@ -65,9 +65,7 @@ case class Automaton private (
     textColor: Color = Color.BLACK,
     lineStyle: LineStyle = LineStyle.SOLID,
     lineSize: LineSize = LineSize.THICK
-  )(id: Int,
-    name: String
-  ): Automaton = copy(states =
+  )(id: Int, name: String): Automaton = copy(states =
     State(id, name, StateType.INITIAL, None, None, None, drawColor, fillColor, textColor, lineStyle, lineSize) :: states
   )
 
@@ -109,10 +107,7 @@ case class Automaton private (
     textColor: Color = Color.BLACK,
     lineStyle: LineStyle = LineStyle.SOLID,
     lineSize: LineSize = LineSize.THICK
-  )(id: Int,
-    name: String,
-    output: Option[String] = None
-  ): StateConf = StateConf(
+  )(id: Int, name: String, output: Option[String] = None): StateConf = StateConf(
     copy(states =
       State(
         id,
@@ -168,10 +163,7 @@ case class Automaton private (
     textColor: Color = Color.BLACK,
     lineStyle: LineStyle = LineStyle.SOLID,
     lineSize: LineSize = LineSize.THICK
-  )(id: Int,
-    name: String,
-    output: Option[String] = None
-  ): StateConf = StateConf(
+  )(id: Int, name: String, output: Option[String] = None): StateConf = StateConf(
     copy(states =
       State(
         id,
@@ -216,10 +208,7 @@ case class Automaton private (
     textColor: Color = BLACK,
     lineStyle: LineStyle = SOLID,
     lineSize: LineSize = THIN
-  )(from: Int,
-    to: Int,
-    condition: String
-  ): EdgeConf =
+  )(from: Int, to: Int, condition: String): EdgeConf =
     EdgeConf(copy(edges = Edge(from, to, condition, STRAIGHT, drawColor, textColor, lineStyle, lineSize) :: edges))
 
   override def toString: String = raw"""

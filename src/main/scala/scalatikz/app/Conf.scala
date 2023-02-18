@@ -6,7 +6,7 @@
  * /___/\__/\_,_/_/\_,_//_/ /___/_/|_| /___/
  *
  * A PGF/TIKZ plot library for Scala.
- *     
+ *
  */
 
 package scalatikz.app
@@ -26,8 +26,8 @@ final case class Conf(
   figure: Figure = Figure(DEFAULT_NAME),
   inputs: IndexedSeq[String] = IndexedSeq.empty,
   delimiters: IndexedSeq[Char] = IndexedSeq.empty,
-  graphics: Seq[GraphicConf] = Seq.empty)
-    extends OptionConf
+  graphics: Seq[GraphicConf] = Seq.empty
+) extends OptionConf
 
 final case class GraphicConf(
   graph: GraphType,
@@ -48,4 +48,5 @@ final case class GraphicConf(
   opacity: Double = 0.5,
   barWidth: Double = 0.25,
   horizontalAlignment: Boolean = false,
-  nodesNearCoords: Boolean = false)
+  nodesNearCoords: Boolean = false
+)

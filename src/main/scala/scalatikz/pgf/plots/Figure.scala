@@ -6,7 +6,7 @@
  * /___/\__/\_,_/_/\_,_//_/ /___/_/|_| /___/
  *
  * A PGF/TIKZ plot library for Scala.
- *     
+ *
  */
 
 package scalatikz.pgf.plots
@@ -31,8 +31,8 @@ class Figure private (
   private[plots] val axis: Axis,
   private[plots] val axisType: AxisSystem,
   private[plots] val graphics: List[PGFPlot],
-  private[plots] val secondary: Option[Figure])
-    extends TIKZPicture {
+  private[plots] val secondary: Option[Figure]
+) extends TIKZPicture {
 
   override protected val libraries: String = s"""
       |$TIKZLibrary{plotmarks}
@@ -407,8 +407,7 @@ class Figure private (
     fillColor: Color = currentColor,
     opacity: Double = 0.0,
     sparse: Boolean = false
-  )(data: Data2D
-  ): Figure = new Figure(
+  )(data: Data2D): Figure = new Figure(
     colorIterator,
     name,
     axis,
@@ -448,8 +447,7 @@ class Figure private (
     lineStyle: LineStyle = SOLID,
     lineSize: LineSize = THIN,
     sparse: Boolean = false
-  )(data: Data2D
-  ): Figure = new Figure(
+  )(data: Data2D): Figure = new Figure(
     colorIterator,
     name,
     axis,
@@ -495,9 +493,7 @@ class Figure private (
     markStrokeColor: Color = currentColor,
     markFillColor: Color = currentColor,
     markSize: Double = 1
-  )(data: Data2D
-  )(error: Data2D
-  ): Figure = new Figure(
+  )(data: Data2D)(error: Data2D): Figure = new Figure(
     colorIterator,
     name,
     axis,
@@ -554,9 +550,7 @@ class Figure private (
     markSize: Double = 1,
     fillColor: Color = currentColor,
     opacity: Double = 0.5
-  )(data: Data2D
-  )(error: Data2D
-  ): Figure = new Figure(
+  )(data: Data2D)(error: Data2D): Figure = new Figure(
     colorIterator,
     name,
     axis,
@@ -619,8 +613,7 @@ class Figure private (
     markSize: Double = 1,
     nodesNearCoords: Boolean = false,
     horizontal: Boolean = false
-  )(data: Data2D
-  ): Figure = new Figure(
+  )(data: Data2D): Figure = new Figure(
     colorIterator,
     name,
     axis,
@@ -673,8 +666,7 @@ class Figure private (
     markFillColor: Color = currentColor,
     markSize: Double = 1,
     nodesNearCoords: Boolean = false
-  )(data: Data2D
-  ): Figure = new Figure(
+  )(data: Data2D): Figure = new Figure(
     colorIterator,
     name,
     axis,
@@ -711,8 +703,7 @@ class Figure private (
   def scatterMesh(
     marker: Mark = Mark.DOT,
     markSize: Double = 1
-  )(data: Data2D
-  ): Figure = new Figure(
+  )(data: Data2D): Figure = new Figure(
     colorIterator,
     name,
     axis,
@@ -752,9 +743,7 @@ class Figure private (
     markStrokeColor: Color = nextColor,
     markFillColor: Color = currentColor,
     markSize: Double = 1
-  )(data: Data2D
-  )(error: Data2D
-  ): Figure = new Figure(
+  )(data: Data2D)(error: Data2D): Figure = new Figure(
     colorIterator,
     name,
     axis,
@@ -815,8 +804,7 @@ class Figure private (
     barWidth: Double = 0.25,
     nodesNearCoords: Boolean = false,
     horizontal: Boolean = false
-  )(data: Data2D
-  ): Figure = new Figure(
+  )(data: Data2D): Figure = new Figure(
     colorIterator,
     name,
     axis,
@@ -878,9 +866,7 @@ class Figure private (
     opacity: Double = 1,
     barWidth: Double = 0.5,
     horizontal: Boolean = false
-  )(data: Data2D
-  )(error: Data2D
-  ): Figure = new Figure(
+  )(data: Data2D)(error: Data2D): Figure = new Figure(
     colorIterator,
     name,
     axis,
@@ -922,8 +908,7 @@ class Figure private (
     lineStyle: LineStyle = SOLID,
     lineSize: LineSize = THIN,
     smooth: Boolean = false
-  )(data: Data2D
-  ): Figure = new Figure(
+  )(data: Data2D): Figure = new Figure(
     colorIterator,
     name,
     axis,
@@ -952,8 +937,7 @@ class Figure private (
     markStrokeColor: Color = nextColor,
     markFillColor: Color = currentColor,
     markSize: Double = 1
-  )(data: Data2D
-  ): Figure = new Figure(
+  )(data: Data2D): Figure = new Figure(
     colorIterator,
     name,
     axis,
@@ -1005,11 +989,7 @@ class Figure private (
     """.stripMargin
 }
 
-class FigureArray private[pgf] (
-  override val name: String,
-  val graphics: IndexedSeq[Figure],
-  N: Int,
-  M: Int)
+class FigureArray private[pgf] (override val name: String, val graphics: IndexedSeq[Figure], N: Int, M: Int)
     extends TIKZPicture {
 
   override protected val libraries: String = s"""

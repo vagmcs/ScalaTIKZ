@@ -6,7 +6,7 @@
  * /___/\__/\_,_/_/\_,_//_/ /___/_/|_| /___/
  *
  * A PGF/TIKZ plot library for Scala.
- *     
+ *
  */
 
 package scalatikz.pgf.plots.types
@@ -46,8 +46,8 @@ case class Bar(
   opacity: Double,
   barWidth: Double,
   nodesNearCoords: Boolean,
-  horizontal: Boolean)
-    extends PGFPlot {
+  horizontal: Boolean
+) extends PGFPlot {
 
   override def toString: String =
     if (!nodesNearCoords) raw"""
@@ -118,8 +118,8 @@ case class ErrorBar(
   pattern: Pattern,
   opacity: Double,
   barWidth: Double,
-  horizontal: Boolean)
-    extends PGFPlot {
+  horizontal: Boolean
+) extends PGFPlot {
 
   override def toString: String = raw"""
          |\addplot[

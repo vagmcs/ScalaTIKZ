@@ -6,7 +6,7 @@
  * /___/\__/\_,_/_/\_,_//_/ /___/_/|_| /___/
  *
  * A PGF/TIKZ plot library for Scala.
- *     
+ *
  */
 
 package scalatikz.pgf.charts.enums
@@ -18,7 +18,10 @@ sealed abstract class TextLocation(val entryName: String) {
 object TextLocation {
 
   val values: IndexedSeq[TextLocation] = IndexedSeq(
-    LABEL, PIN, INSIDE, LEGEND
+    LABEL,
+    PIN,
+    INSIDE,
+    LEGEND
   )
 
   def withName(name: String): TextLocation = values.find(_.entryName == name).get

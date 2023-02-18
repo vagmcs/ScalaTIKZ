@@ -6,7 +6,7 @@
  * /___/\__/\_,_/_/\_,_//_/ /___/_/|_| /___/
  *
  * A PGF/TIKZ plot library for Scala.
- *     
+ *
  */
 
 package scalatikz.pgf
@@ -143,7 +143,10 @@ trait TIKZPicture extends Logging {
    * Generate and open the resulted figure as PDF using the default
    * desktop application used for PDFs.
    */
-  final def show(compiler: Compiler = PDF_LATEX)(implicit kernel: JupyterApi = null): Unit =
+  final def show(compiler: Compiler = PDF_LATEX)(
+    implicit
+    kernel: JupyterApi = null
+  ): Unit =
     if (kernel == null) Try(Desktop.getDesktop.open(compilePDF(compiler))) match {
       case Failure(ex) => logger.warn(s"Cannot open PDF: ${ex.getMessage}")
       case _ =>

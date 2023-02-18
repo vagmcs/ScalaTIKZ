@@ -6,7 +6,7 @@
  * /___/\__/\_,_/_/\_,_//_/ /___/_/|_| /___/
  *
  * A PGF/TIKZ plot library for Scala.
- *     
+ *
  */
 
 package scalatikz.pgf.charts
@@ -34,7 +34,8 @@ case class ChartConf private[charts] (
   textLocation: TextLocation = TextLocation.LABEL,
   textBeforeNumbers: Option[String] = None,
   textAfterNumbers: Option[String] = None,
-  colors: Option[Seq[Color]] = None) {
+  colors: Option[Seq[Color]] = None
+) {
 
   override def toString: String = {
     val builder = new StringBuilder

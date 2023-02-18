@@ -6,7 +6,7 @@
  * /___/\__/\_,_/_/\_,_//_/ /___/_/|_| /___/
  *
  * A PGF/TIKZ plot library for Scala.
- *     
+ *
  */
 
 package scalatikz.pgf.plots.types
@@ -33,8 +33,8 @@ case class Scatter(
   markStrokeColor: Color,
   markFillColor: Color,
   markSize: Double,
-  nodesNearCoords: Boolean)
-    extends PGFPlot {
+  nodesNearCoords: Boolean
+) extends PGFPlot {
 
   override def toString: String =
     if (!nodesNearCoords) raw"""
@@ -81,8 +81,8 @@ case class ErrorScatter(
   marker: Mark,
   markStrokeColor: Color,
   markFillColor: Color,
-  markSize: Double)
-    extends PGFPlot {
+  markSize: Double
+) extends PGFPlot {
 
   override def toString: String = raw"""
          |\addplot[

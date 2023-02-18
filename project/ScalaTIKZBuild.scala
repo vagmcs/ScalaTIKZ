@@ -57,8 +57,8 @@ object ScalaTIKZBuild extends AutoPlugin {
     maintainer := "Evangelos Michelioudakis",
     headerLicense := Some(HeaderLicense.Custom(logo)),
     headerMappings := headerMappings.value + (HeaderFileType.scala -> HeaderCommentStyle.cStyleBlockComment),
-    scalaVersion := "2.13.8",
-    crossScalaVersions := Seq("2.13.8", "2.12.16"),
+    scalaVersion := "2.13.10",
+    crossScalaVersions := Seq("2.13.10", "2.12.17"),
     autoScalaLibrary := true,
     managedScalaInstance := true,
     publishMavenStyle := true,
@@ -71,18 +71,21 @@ object ScalaTIKZBuild extends AutoPlugin {
     // fork a new JVM for 'test:run', but not 'run'
     Test / fork := true,
     resolvers ++= Seq(
-      Resolver.mavenLocal,
-      Resolver.typesafeRepo("releases"),
-      Resolver.sonatypeRepo("releases"),
-      Resolver.sonatypeRepo("snapshots"),
-      "jitpack" at "https://jitpack.io"
-    ),
+      Seq(
+        Resolver.mavenLocal,
+        Resolver.typesafeRepo("releases"),
+        "jitpack" at "https://jitpack.io"
+      ),
+      Resolver.sonatypeOssRepos("releases"),
+      Resolver.sonatypeOssRepos("snapshots")
+    ).flatten,
     libraryDependencies +=
       "org.scala-lang" % "scala-library" % scalaVersion.value,
-    publishTo := Some(
-      if (isSnapshot.value) Opts.resolver.sonatypeSnapshots
-      else Opts.resolver.sonatypeStaging
-    ),
+    publishTo := {
+      val nexus = "https://oss.sonatype.org/"
+      if (isSnapshot.value) Some("snapshots" at nexus + "content/repositories/snapshots")
+      else Some("releases" at nexus + "service/local/staging/deploy/maven2")
+    },
 
     // Information required in order to sync in Maven Central
     pomExtra :=
@@ -103,12 +106,6 @@ object ScalaTIKZBuild extends AutoPlugin {
   )
 
   private lazy val PackagingOptions: Seq[Setting[_]] = Seq(
-    // Include bash scripts in the 'bin' directory
-    Universal / mappings ++= {
-      val scriptsDir = file("scripts/")
-      scriptsDir.listFiles.toSeq.map(f => f -> ("bin/" + f.getName))
-    },
-
     // Include logger configuration file to the final distribution
     Universal / mappings ++= {
       val scriptsDir = file("src/main/resources/")

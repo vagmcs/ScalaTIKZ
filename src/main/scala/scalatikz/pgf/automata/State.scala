@@ -6,7 +6,7 @@
  * /___/\__/\_,_/_/\_,_//_/ /___/_/|_| /___/
  *
  * A PGF/TIKZ plot library for Scala.
- *     
+ *
  */
 
 package scalatikz.pgf.automata
@@ -41,7 +41,8 @@ case class State(
   fillColor: Color,
   textColor: Color,
   lineStyle: LineStyle,
-  lineSize: LineSize) {
+  lineSize: LineSize
+) {
 
   require(id > -1, "State ID cannot be negative.")
 

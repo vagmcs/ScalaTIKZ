@@ -23,7 +23,7 @@ object Dependencies {
     final val ScalaOpt = "4.1.0"
     final val PDFBox = "2.0.27"
     final val CSVParser = "2.9.1"
-    final val Ammonite = "0.13.1"
+    final val Ammonite = "0.13.3"
   }
 
   // Logging using slf4j and logback

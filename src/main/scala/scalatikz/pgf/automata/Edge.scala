@@ -6,7 +6,7 @@
  * /___/\__/\_,_/_/\_,_//_/ /___/_/|_| /___/
  *
  * A PGF/TIKZ plot library for Scala.
- *     
+ *
  */
 
 package scalatikz.pgf.automata
@@ -37,7 +37,8 @@ case class Edge(
   drawColor: Color,
   textColor: Color,
   lineStyle: LineStyle,
-  lineSize: LineSize) {
+  lineSize: LineSize
+) {
 
   override def toString: String = raw"""
          |\path[

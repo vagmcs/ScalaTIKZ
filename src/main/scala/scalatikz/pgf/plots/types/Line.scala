@@ -6,7 +6,7 @@
  * /___/\__/\_,_/_/\_,_//_/ /___/_/|_| /___/
  *
  * A PGF/TIKZ plot library for Scala.
- *     
+ *
  */
 
 package scalatikz.pgf.plots.types
@@ -45,8 +45,8 @@ case class Line(
   markSize: Double,
   pattern: Pattern,
   fillColor: Option[Color],
-  opacity: Double)
-    extends PGFPlot {
+  opacity: Double
+) extends PGFPlot {
 
   override def toString: String = {
 
@@ -113,8 +113,8 @@ case class ErrorLine(
   marker: Mark,
   markStrokeColor: Color,
   markFillColor: Color,
-  markSize: Double)
-    extends PGFPlot {
+  markSize: Double
+) extends PGFPlot {
 
   override def toString: String = raw"""
          |\addplot[
@@ -165,8 +165,8 @@ case class ErrorArea(
   markFillColor: Color,
   markSize: Double,
   fillColor: Color,
-  opacity: Double)
-    extends PGFPlot {
+  opacity: Double
+) extends PGFPlot {
 
   override def toString: String = raw"""
          |\addplot[

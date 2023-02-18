@@ -6,7 +6,7 @@
  * /___/\__/\_,_/_/\_,_//_/ /___/_/|_| /___/
  *
  * A PGF/TIKZ plot library for Scala.
- *     
+ *
  */
 
 package scalatikz.pgf.plots.types
@@ -38,8 +38,8 @@ case class Stem(
   markFillColor: Color,
   markSize: Double,
   nodesNearCoords: Boolean,
-  horizontal: Boolean)
-    extends PGFPlot {
+  horizontal: Boolean
+) extends PGFPlot {
 
   override def toString: String =
     if (!nodesNearCoords) raw"""

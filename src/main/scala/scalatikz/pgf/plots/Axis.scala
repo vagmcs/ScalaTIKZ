@@ -6,7 +6,7 @@
  * /___/\__/\_,_/_/\_,_//_/ /___/_/|_| /___/
  *
  * A PGF/TIKZ plot library for Scala.
- *     
+ *
  */
 
 package scalatikz.pgf.plots
@@ -102,7 +102,8 @@ case class Axis(
   scaleXTicks: Boolean = false,
   scaleYTicks: Boolean = false,
   scaleZTicks: Boolean = false,
-  stackedBars: Boolean = true) {
+  stackedBars: Boolean = true
+) {
 
   override def toString: String = {
     val builder = new StringBuilder
