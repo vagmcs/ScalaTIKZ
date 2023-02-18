@@ -11,16 +11,23 @@
 
 package scalatikz.pgf.enums
 
-import enumeratum._
-import scala.collection.immutable._
-
-sealed abstract class LineSize(override val entryName: String) extends EnumEntry {
+sealed abstract class LineSize(val entryName: String) {
   override def toString: String = entryName
 }
 
-object LineSize extends Enum[LineSize] {
+object LineSize {
 
-  val values: IndexedSeq[LineSize] = findValues
+  val values: IndexedSeq[LineSize] = IndexedSeq(
+    ULTRA_THIN,
+    VERY_THIN,
+    THIN,
+    SEMI_THICK,
+    THICK,
+    VERY_THICK,
+    ULTRA_THICK
+  )
+
+  def withName(name: String): LineSize = values.find(_.entryName == name).get
 
   case object ULTRA_THIN extends LineSize("ultra thin")
   case object VERY_THIN extends LineSize("very thin")

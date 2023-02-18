@@ -11,17 +11,15 @@
 
 package scalatikz.pgf.plots.enums
 
-import enumeratum._
-import scala.collection.immutable._
-
-sealed abstract class GridStyle(override val entryName: String) extends EnumEntry {
+sealed abstract class GridStyle(val entryName: String) {
   override def toString: String = entryName
 }
 
-object GridStyle extends Enum[GridStyle] {
+object GridStyle {
 
-  val values: IndexedSeq[GridStyle] = findValues
+  val values: IndexedSeq[GridStyle] = IndexedSeq(MINOR, MAJOR, BOTH)
 
+  def withName(name: String): GridStyle = values.find(_.entryName == name).get
   case object MINOR extends GridStyle("minor")
   case object MAJOR extends GridStyle("major")
   case object BOTH extends GridStyle("both")

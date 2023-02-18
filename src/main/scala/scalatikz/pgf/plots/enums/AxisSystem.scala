@@ -11,16 +11,18 @@
 
 package scalatikz.pgf.plots.enums
 
-import enumeratum._
-import scala.collection.immutable._
+import scalatikz.pgf.enums.Color
+import scalatikz.pgf.enums.Color.values
 
-sealed abstract class AxisSystem(override val entryName: String) extends EnumEntry {
+sealed abstract class AxisSystem(val entryName: String) {
   override def toString: String = this.entryName
 }
 
-object AxisSystem extends Enum[AxisSystem] {
+object AxisSystem {
 
-  val values: IndexedSeq[AxisSystem] = findValues
+  val values: IndexedSeq[AxisSystem] = IndexedSeq(CARTESIAN, POLAR)
+
+  def withName(name: String): AxisSystem = values.find(_.entryName == name).get
 
   case object CARTESIAN extends AxisSystem("axis")
   case object POLAR extends AxisSystem("polar" + "axis")

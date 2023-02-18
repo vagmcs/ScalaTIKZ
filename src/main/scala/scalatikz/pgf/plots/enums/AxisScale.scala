@@ -11,16 +11,18 @@
 
 package scalatikz.pgf.plots.enums
 
-import enumeratum._
-import scala.collection.immutable._
-
-sealed abstract class AxisScale(override val entryName: String) extends EnumEntry {
+sealed abstract class AxisScale(val entryName: String) {
   override def toString: String = entryName
 }
 
-object AxisScale extends Enum[AxisScale] {
+object AxisScale {
 
-  val values: IndexedSeq[AxisScale] = findValues
+  val values: IndexedSeq[AxisScale] = IndexedSeq(
+    LINEAR,
+    LOG
+  )
+
+  def withName(name: String): AxisScale = values.find(_.entryName == name).get
 
   case object LINEAR extends AxisScale("linear")
   case object LOG extends AxisScale("log")

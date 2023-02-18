@@ -11,7 +11,6 @@
 
 package scalatikz
 
-import enumeratum._
 import scala.collection.immutable._
 import scala.language.reflectiveCalls
 
@@ -27,13 +26,15 @@ package object pgf {
   final val UsePackage = SLASH + USE + PACKAGE
   final val PGFLibrary = SLASH + USE + PGF_PLOTS + LIBRARY
 
-  sealed abstract class Compiler(override val entryName: String) extends EnumEntry {
+  sealed abstract class Compiler(val entryName: String) {
     override def toString: String = entryName
   }
 
-  object Compiler extends Enum[Compiler] {
+  object Compiler {
 
-    val values: IndexedSeq[Compiler] = findValues
+    val values: IndexedSeq[Compiler] = IndexedSeq(PDF_LATEX, LUA_LATEX)
+
+    def withName(name: String): Compiler = values.find(_.entryName == name).get
 
     case object PDF_LATEX extends Compiler("pdflatex")
     case object LUA_LATEX extends Compiler("lua" + "latex")

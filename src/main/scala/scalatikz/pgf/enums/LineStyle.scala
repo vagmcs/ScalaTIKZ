@@ -11,16 +11,29 @@
 
 package scalatikz.pgf.enums
 
-import enumeratum._
-import scala.collection.immutable._
-
-sealed abstract class LineStyle(override val entryName: String) extends EnumEntry {
+sealed abstract class LineStyle(val entryName: String) {
   override def toString: String = entryName
 }
 
-object LineStyle extends Enum[LineStyle] {
+object LineStyle {
 
-  val values: IndexedSeq[LineStyle] = findValues
+  val values: IndexedSeq[LineStyle] = IndexedSeq(
+    SOLID,
+    DOTTED,
+    DENSELY_DOTTED,
+    LOOSELY_DOTTED,
+    DASHED,
+    DENSELY_DASHED,
+    LOOSELY_DASHED,
+    DASH_DOTTED,
+    DENSELY_DASH_DOTTED,
+    LOOSELY_DASH_DOTTED,
+    DASH_DOT_DOTTED,
+    DENSELY_DASH_DOT_DOTTED,
+    LOOSELY_DASH_DOT_DOTTED
+  )
+
+  def withName(name: String): LineStyle = values.find(_.entryName == name).get
 
   case object SOLID extends LineStyle("solid")
   case object DOTTED extends LineStyle("dotted")

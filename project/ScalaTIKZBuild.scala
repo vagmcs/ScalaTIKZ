@@ -77,10 +77,8 @@ object ScalaTIKZBuild extends AutoPlugin {
       Resolver.sonatypeRepo("snapshots"),
       "jitpack" at "https://jitpack.io"
     ),
-    libraryDependencies ++= Seq(
+    libraryDependencies +=
       "org.scala-lang" % "scala-library" % scalaVersion.value,
-      "org.scala-lang" % "scala-reflect" % scalaVersion.value
-    ),
     publishTo := Some(
       if (isSnapshot.value) Opts.resolver.sonatypeSnapshots
       else Opts.resolver.sonatypeStaging

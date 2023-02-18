@@ -813,9 +813,8 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
         case Failure(ex) => fatal(s"${conf.format} cannot be saved: ${ex.getMessage}")
       }
 
-    case Some(conf) if conf.graphics.isEmpty =>
-      reportError("Please specify a plot type.")
-      showTryHelp()
+    case Some(conf) if conf.graphics.isEmpty => reportError("Please specify a plot type.")
+//      showTryHelp()
 
     case None => // do nothing, option parser should handle the case
   }

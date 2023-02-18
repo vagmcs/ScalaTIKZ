@@ -11,16 +11,16 @@
 
 package scalatikz.pgf.automata.enums
 
-import enumeratum._
-import scala.collection.immutable._
-
-sealed abstract class StatePos(override val entryName: String) extends EnumEntry {
+sealed abstract class StatePos(val entryName: String) {
   override def toString: String = entryName
 }
 
-object StatePos extends Enum[StatePos] {
+object StatePos {
 
-  val values: IndexedSeq[StatePos] = findValues
+  val values: IndexedSeq[StatePos] =
+    IndexedSeq(ABOVE, ABOVE_LEFT, ABOVE_RIGHT, BELOW, BELOW_LEFT, BELOW_RIGHT, LEFT, RIGHT)
+
+  def withName(name: String): StatePos = values.find(_.entryName == name).get
 
   case object ABOVE extends StatePos("above")
   case object ABOVE_LEFT extends StatePos("above left")

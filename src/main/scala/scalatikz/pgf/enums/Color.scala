@@ -11,16 +11,34 @@
 
 package scalatikz.pgf.enums
 
-import enumeratum._
-import scala.collection.immutable._
-
-sealed class Color(override val entryName: String) extends EnumEntry {
+sealed class Color(val entryName: String) {
   override def toString: String = entryName
 }
 
-object Color extends Enum[Color] {
+object Color {
 
-  val values: IndexedSeq[Color] = findValues
+  val values: IndexedSeq[Color] = IndexedSeq(
+    RED,
+    BLUE,
+    GREEN,
+    YELLOW,
+    BROWN,
+    CYAN,
+    MAGENTA,
+    ORANGE,
+    PINK,
+    PURPLE,
+    VIOLET,
+    TEAL,
+    LIME,
+    OLIVE,
+    BLACK,
+    GRAY,
+    LIGHT_GRAY,
+    WHITE
+  )
+
+  def withName(name: String): Color = values.find(_.entryName == name).get
 
   case object RED extends Color("red")
   case object BLUE extends Color("blue")

@@ -11,16 +11,15 @@
 
 package scalatikz.pgf.plots.enums
 
-import enumeratum._
-import scala.collection.immutable._
-
-sealed abstract class LineType(override val entryName: String) extends EnumEntry {
+sealed abstract class LineType(val entryName: String) {
   override def toString: String = entryName
 }
 
-object LineType extends Enum[LineType] {
+object LineType {
 
-  val values: IndexedSeq[LineType] = findValues
+  val values: IndexedSeq[LineType] = IndexedSeq(SHARP, CONST, SMOOTH)
+
+  def withName(name: String): LineType = values.find(_.entryName == name).get
 
   case object SHARP extends LineType("sharp plot")
   case object CONST extends LineType("const plot")

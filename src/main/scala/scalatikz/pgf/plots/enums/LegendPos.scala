@@ -11,19 +11,18 @@
 
 package scalatikz.pgf.plots.enums
 
-import enumeratum._
-import scala.collection.immutable._
-
-sealed class LegendPos(override val entryName: String) extends EnumEntry {
+sealed class LegendPos(val entryName: String) {
 
   def this(x: Double, y: Double, anchor: String) = this(s"at={($x, $y)}, anchor=$anchor")
 
   override def toString: String = entryName
 }
 
-object LegendPos extends Enum[LegendPos] {
+object LegendPos {
 
-  val values: IndexedSeq[LegendPos] = findValues
+  val values: IndexedSeq[LegendPos] = IndexedSeq(SOUTH_WEST, SOUTH_EAST, NORTH_WEST, NORTH_EAST, OUTER_NORTH_EAST)
+
+  def withName(name: String): LegendPos = values.find(_.entryName == name).get
 
   case object SOUTH_WEST extends LegendPos("south west")
   case object SOUTH_EAST extends LegendPos("south east")

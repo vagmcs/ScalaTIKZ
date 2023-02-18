@@ -11,16 +11,18 @@
 
 package scalatikz.pgf.plots.enums
 
-import enumeratum._
 import scala.collection.immutable._
 
-sealed abstract class ColorMap(override val entryName: String) extends EnumEntry {
+sealed abstract class ColorMap(val entryName: String) {
   override def toString: String = entryName
 }
 
-object ColorMap extends Enum[ColorMap] {
+object ColorMap {
 
-  val values: IndexedSeq[ColorMap] = findValues
+  val values: IndexedSeq[ColorMap] =
+    IndexedSeq(ViRiDiS, HOT, HOTTER, JET, COOL, BLUE_RED, GREEN_YELLOW, RED_YELLOW, VIOLET, BLACK_WHITE)
+
+  def withName(name: String): ColorMap = values.find(_.entryName == name).get
 
   case object ViRiDiS extends ColorMap("vi" + "ri" + "dis")
   case object HOT extends ColorMap("hot")

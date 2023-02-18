@@ -11,16 +11,45 @@
 
 package scalatikz.pgf.plots.enums
 
-import enumeratum._
-import scala.collection.immutable._
-
-sealed abstract class Mark(override val entryName: String) extends EnumEntry {
+sealed abstract class Mark(val entryName: String) {
   override def toString: String = entryName
 }
 
-object Mark extends Enum[Mark] {
+object Mark {
 
-  val values: IndexedSeq[Mark] = findValues
+  val values: IndexedSeq[Mark] = IndexedSeq(
+    NONE,
+    X,
+    DASH,
+    DOT,
+    CIRCLE,
+    HALF_CIRCLE,
+    HALF_CIRCLE_FILLED,
+    STAR,
+    TEN_POINTED_STAR,
+    PLUS,
+    O_PLUS,
+    O_PLUS_FILLED,
+    O_TIMES,
+    O_TIMES_FILLED,
+    ASTERISK,
+    TRIANGLE,
+    TRIANGLE_FILLED,
+    DIAMOND,
+    DIAMOND_FILLED,
+    HALF_DIAMOND,
+    SQUARE,
+    SQUARE_FILLED,
+    HALF_SQUARE,
+    HALF_SQUARE_LEFT,
+    HALF_SQUARE_RIGHT,
+    PENTAGON,
+    PENTAGON_FILLED,
+    CUBE,
+    CUBE_FILLED,
+    BALL
+  )
+  def withName(name: String): Mark = values.find(_.entryName == name).get
 
   case object NONE extends Mark("none")
   case object X extends Mark("x")

@@ -11,17 +11,16 @@
 
 package scalatikz.pgf.plots.enums
 
-import enumeratum._
-import scala.collection.immutable._
-
-sealed abstract class FontSize(override val entryName: String) extends EnumEntry {
+sealed abstract class FontSize(val entryName: String) {
   override def toString: String = entryName
 }
 
-object FontSize extends Enum[FontSize] {
+object FontSize {
 
-  val values: IndexedSeq[FontSize] = findValues
+  val values: IndexedSeq[FontSize] =
+    IndexedSeq(TINY, SCRIPT, FOOTNOTE, SMALL, NORMAL, LARGE, VERY_LARGE, HUGE, VERY_HUGE)
 
+  def withName(name: String): FontSize = values.find(_.entryName == name).get
   case object TINY extends FontSize("tiny")
   case object SCRIPT extends FontSize("script" + "size")
   case object FOOTNOTE extends FontSize("footnote" + "size")

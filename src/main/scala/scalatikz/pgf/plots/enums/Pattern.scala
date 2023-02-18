@@ -11,16 +11,28 @@
 
 package scalatikz.pgf.plots.enums
 
-import enumeratum._
-import scala.collection.immutable._
-
-sealed abstract class Pattern(override val entryName: String) extends EnumEntry {
+sealed abstract class Pattern(val entryName: String) {
   override def toString: String = entryName
 }
 
-object Pattern extends Enum[Pattern] {
+object Pattern {
 
-  val values: IndexedSeq[Pattern] = findValues
+  val values: IndexedSeq[Pattern] = IndexedSeq(
+    PLAIN,
+    HORIZONTAL_LINES,
+    VERTICAL_LINES,
+    NORTH_EAST_LINES,
+    NORTH_WEST_LINES,
+    GRID,
+    CROSSHATCH,
+    DOTS,
+    CROSSHATCH_DOTS,
+    BRICKS,
+    FIVE_POINTED_STARS,
+    SIX_POINTED_STARS
+  )
+
+  def withName(name: String): Pattern = values.find(_.entryName == name).get
 
   case object PLAIN extends Pattern("plain")
   case object HORIZONTAL_LINES extends Pattern("horizontal lines")

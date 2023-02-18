@@ -11,16 +11,16 @@
 
 package scalatikz.pgf.automata.enums
 
-import enumeratum._
-import scala.collection.immutable._
-
-sealed abstract class EdgeType(override val entryName: String) extends EnumEntry {
+sealed abstract class EdgeType(val entryName: String) {
   override def toString: String = entryName
 }
 
-object EdgeType extends Enum[EdgeType] {
+object EdgeType {
 
-  val values: IndexedSeq[EdgeType] = findValues
+  val values: IndexedSeq[EdgeType] =
+    IndexedSeq(STRAIGHT, LOOP_ABOVE, LOOP_BELOW, LOOP_LEFT, LOOP_RIGHT, BEND_LEFT, BEND_RIGHT)
+
+  def withName(name: String): EdgeType = values.find(_.entryName == name).get
 
   case object STRAIGHT extends EdgeType("")
   case object LOOP_ABOVE extends EdgeType("loop above")

@@ -40,7 +40,4 @@ abstract class AppCLI[T <: OptionConf](program: String)
   override def reportWarning(msg: String): Unit = logger.warn(msg)
 
   override def renderingMode: RenderingMode.OneColumn.type = scopt.RenderingMode.OneColumn
-
-  override def showTryHelp(): Unit =
-    if (helpOptions.nonEmpty) logger.info(s"Try ${helpOptions.head.fullName} for more information.")
 }

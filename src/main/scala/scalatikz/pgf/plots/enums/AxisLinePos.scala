@@ -11,16 +11,24 @@
 
 package scalatikz.pgf.plots.enums
 
-import enumeratum._
-import scala.collection.immutable._
-
-sealed abstract class AxisLinePos(override val entryName: String) extends EnumEntry {
+sealed abstract class AxisLinePos(val entryName: String) {
   override def toString: String = entryName
 }
 
-object AxisLinePos extends Enum[AxisLinePos] {
+object AxisLinePos {
 
-  val values: IndexedSeq[AxisLinePos] = findValues
+  val values: IndexedSeq[AxisLinePos] = IndexedSeq(
+    NONE,
+    BOX,
+    TOP,
+    MIDDLE,
+    CENTER,
+    BOTTOM,
+    LEFT,
+    RIGHT
+  )
+
+  def withName(name: String): AxisLinePos = values.find(_.entryName == name).get
 
   case object NONE extends AxisLinePos("none")
   case object BOX extends AxisLinePos("box")
