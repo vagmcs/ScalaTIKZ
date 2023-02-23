@@ -46,6 +46,6 @@ release: build
 	@sbt sonatypeReleaseAll
 	@git push origin v"${PROJECT_VERSION}"
 	@gh release create v"${PROJECT_VERSION}" -F "docs/release_notes/${PROJECT_VERSION}.md" \
-		./target/scalatikz_2.12-${PROJECT_VERSION}.jar \
-		./target/scalatikz_2.13-${PROJECT_VERSION}.jar \
+		./target/scala-2.12/scalatikz_2.12-${PROJECT_VERSION}.jar \
+		./target/scala-2.13/scalatikz_2.13-${PROJECT_VERSION}.jar \
 		./target/universal/ScalaTIKZ-${PROJECT_VERSION}.zip
