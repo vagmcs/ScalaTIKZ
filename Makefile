@@ -34,6 +34,7 @@ build: compile test
 
 ###  changelog            : Create changelogs
 .PHONY: changelog
+	@git tag -a v"${PROJECT_VERSION}" -m "version ${PROJECT_VERSION}"
 	@cz changelog --file-name "docs/release_notes/${PROJECT_VERSION}.md" v${PROJECT_VERSION}
 	@cat "docs/release_notes/${PROJECT_VERSION}.md" | tail -n +3 > "docs/release_notes/${PROJECT_VERSION}.md"
 
@@ -44,7 +45,6 @@ release: build
 	@sbt +package
 	@sbt +publishSigned
 	@sbt sonatypeReleaseAll
-	@git tag -a v"${PROJECT_VERSION}" -m "version ${PROJECT_VERSION}"
 	@git push origin v"${PROJECT_VERSION}"
 	@gh release create v"${PROJECT_VERSION}" -F "docs/release_notes/${PROJECT_VERSION}.md" \
 		./target/scalatikz_2.12-${PROJECT_VERSION}.jar \
