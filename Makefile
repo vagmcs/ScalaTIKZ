@@ -29,8 +29,6 @@ test:
 ###  build                : Clean, build and test project
 .PHONY: build
 build: compile test
-	@sbt +build
-	@sbt dist
 
 ###  changelog            : Create changelogs
 .PHONY: changelog
@@ -42,6 +40,7 @@ build: compile test
 .PHONY: release
 release: build
 	@echo "Releasing version '${PROJECT_VERSION}'"
+	@sbt dist
 	@sbt +package
 	@sbt +publishSigned
 	@sbt sonatypeReleaseAll
