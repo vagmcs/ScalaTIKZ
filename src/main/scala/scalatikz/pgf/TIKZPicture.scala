@@ -132,11 +132,11 @@ trait TIKZPicture extends Logging {
   private def moveFile(file: File, destination: String): Try[File] = Try {
     Files.move(
       Paths.get(file.getAbsolutePath),
-      Paths.get(s"$destination/$name.pdf"),
+      Paths.get(s"$destination/${file.getName}"),
       StandardCopyOption.REPLACE_EXISTING
     )
 
-    new File(s"$destination/$name.pdf")
+    new File(s"$destination/${file.getName}")
   }
 
   /**
