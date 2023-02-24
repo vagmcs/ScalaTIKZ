@@ -62,7 +62,6 @@ curl https://raw.githubusercontent.com/vagmcs/ScalaTIKZ/master/install.sh | sh
 ## Documentation
 
 - [PGFPlots, Charts and Automata](docs/index.md)
-- [ScalaTIKZ on the Terminal](docs/building_and_linking.md)
 
 ## Contributions
 
