@@ -53,7 +53,7 @@ Add the following dependency to your SBT build file in order to get started:
 libraryDependencies ++= "com.github.vagmcs" %% "scalatikz" % "0.5.1"
 ```
 
-In order to install ScalaTIKZ as CLI run:
+In order to install ScalaTIKZ as a CLI tool, run:
 
 ```bash
 curl https://raw.githubusercontent.com/vagmcs/ScalaTIKZ/master/install.sh | sh
