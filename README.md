@@ -5,10 +5,6 @@
 
 ScalaTIKZ is an open-source library for publication quality [PGF/TIKZ](https://en.wikipedia.org/wiki/PGF/TikZ) vector graphics using the [Scala programming language](http://scala-lang.org).
 
-## License
-
-ScalaTIKZ comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under certain conditions; See the [GNU Lesser General Public License v3 for more details](http://www.gnu.org/licenses/lgpl-3.0.html).
-
 ## Features
 
 1. 2D PGF plots including lines, scatters, bars, stems and many other options.
@@ -66,3 +62,7 @@ curl https://raw.githubusercontent.com/vagmcs/ScalaTIKZ/master/install.sh | sh
 ## Contributions
 
 Contributions are welcome, for details see [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## License
+
+ScalaTIKZ comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under certain conditions; See the [GNU Lesser General Public License v3 for more details](http://www.gnu.org/licenses/lgpl-3.0.html).
