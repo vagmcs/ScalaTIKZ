@@ -6,7 +6,7 @@
  * /___/\__/\_,_/_/\_,_//_/ /___/_/|_| /___/
  *
  * A PGF/TIKZ plot library for Scala.
- *
+ *     
  */
 
 package scalatikz.app
@@ -44,8 +44,8 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
 
   opt[String]('n', "name")
     .valueName("<string>".bold)
-    .optional
-    .unbounded
+    .optional()
+    .unbounded()
     .action { (name, conf) =>
       if (conf.figure.name != DEFAULT_NAME) fatal(s"Name is already defined to '${conf.figure.name}'")
       else conf.copy(figure = conf.figure.havingName(name))
@@ -54,8 +54,8 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
 
   opt[String]('o', "output")
     .valueName("<output path>".bold)
-    .optional
-    .unbounded // TODO remove underlined
+    .optional()
+    .unbounded() // TODO remove underlined
     .action { (path, conf) =>
       if (conf.output != System.getProperty("user.dir")) fatal(s"Output path is already defined to '${conf.output}'")
       else conf.copy(output = path)
@@ -77,8 +77,8 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
 
   opt[Compiler]("compiler")
     .valueName("<compiler>".bold)
-    .optional
-    .unbounded
+    .optional()
+    .unbounded()
     .action((c, conf) => conf.copy(compiler = c))
     .text(
       s"Change the underlying compiler (default is pdflatex)." +
@@ -90,27 +90,27 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
   note("\nPlot types:\n".underlined.cyan.bold)
 
   opt[Unit]('P', "plot")
-    .unbounded
+    .unbounded()
     .action((_, conf) => conf.copy(graphics = conf.graphics :+ GraphicConf(PLOT)))
     .text("Plots a 2D line of the data in Y versus the corresponding values in X.")
 
   opt[Unit]('S', "scatter")
-    .unbounded
+    .unbounded()
     .action((_, conf) => conf.copy(graphics = conf.graphics :+ GraphicConf(SCATTER)))
     .text("Plots a scatter of points at the locations specified by the data sequence.")
 
   opt[Unit]('M', "mesh")
-    .unbounded
+    .unbounded()
     .action((_, conf) => conf.copy(graphics = conf.graphics :+ GraphicConf(MESH)))
     .text("Plots a scatter mesh of the points at the locations specified by the data sequence.")
 
   opt[Unit]('T', "stem")
-    .unbounded
+    .unbounded()
     .action((_, conf) => conf.copy(graphics = conf.graphics :+ GraphicConf(STEM)))
     .text("Plots a data sequence as stems emerging from a baseline along the x-axis.")
 
   opt[Unit]('B', "bar")
-    .unbounded
+    .unbounded()
     .action((_, conf) => conf.copy(graphics = conf.graphics :+ GraphicConf(BAR)))
     .text("Plots a data sequence as a 2D bars at each data point.")
 
@@ -120,8 +120,8 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
 
   opt[String]('i', "input")
     .valueName("<csv file>".bold)
-    .required
-    .unbounded
+    .required()
+    .unbounded()
     .action((f, conf) => conf.copy(inputs = conf.inputs :+ f))
     .text("Specify an input CSV data file (required).\n")
     .validate { csv =>
@@ -131,8 +131,8 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
 
   opt[Char]("delim")
     .valueName("<character>".bold)
-    .optional
-    .unbounded
+    .optional()
+    .unbounded()
     .action((d, conf) => conf.copy(delimiters = conf.delimiters :+ d))
     .text(
       "Specify the delimiter of the input csv data file (default is comma)." +
@@ -141,8 +141,8 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
 
   opt[String]('x', "x-column")
     .valueName("<index or name>".bold)
-    .optional
-    .unbounded
+    .optional()
+    .unbounded()
     .action { (xColumn, conf) =>
       if (conf.graphics.isEmpty) fatal("You must define a plot type before a x column option.")
       else conf.copy(graphics = conf.graphics.init :+ conf.graphics.last.copy(xColumn = Some(xColumn)))
@@ -154,8 +154,8 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
 
   opt[String]('y', "y-column")
     .valueName("<index or name>".bold)
-    .required
-    .unbounded
+    .required()
+    .unbounded()
     .action { (yColumn, conf) =>
       if (conf.graphics.isEmpty) fatal("You must define a plot type before a y column option.")
       else conf.copy(graphics = conf.graphics.init :+ conf.graphics.last.copy(yColumn = Some(yColumn)))
@@ -168,8 +168,8 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
   opt[String]("x-error-column")
     .abbr("ex")
     .valueName("<index or name>".bold)
-    .optional
-    .unbounded
+    .optional()
+    .unbounded()
     .action { (xErrorColumn, conf) =>
       if (conf.graphics.isEmpty) fatal("You must define a plot type before a x error column option.")
       else conf.copy(graphics = conf.graphics.init :+ conf.graphics.last.copy(xErrorColumn = Some(xErrorColumn)))
@@ -182,8 +182,8 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
   opt[String]("y-error-column")
     .abbr("ey")
     .valueName("<index or name>".bold)
-    .optional
-    .unbounded
+    .optional()
+    .unbounded()
     .action { (yErrorColumn, conf) =>
       if (conf.graphics.isEmpty) fatal("You must define a plot type before a y error column option.")
       else conf.copy(graphics = conf.graphics.init :+ conf.graphics.last.copy(yErrorColumn = Some(yErrorColumn)))
@@ -193,15 +193,15 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
         s"\n\t${"Note:".green.bold} Indexes start from 0."
     )
 
-  // Plot options
+  // Plot options.required
 
   note("\nPlot options:".underlined.cyan.bold)
   note("CAUTION: ".red + "These options should appear only after a plot type option.\n")
 
   opt[Color]('c', "color")
     .valueName("<color>".bold)
-    .unbounded
-    .optional
+    .unbounded()
+    .optional()
     .action { (color, conf) =>
       if (conf.graphics.isEmpty) fatal("You must define a plot type before a color option.")
       else conf.copy(graphics = conf.graphics.init :+ conf.graphics.last.copy(lineColor = Some(color)))
@@ -215,8 +215,8 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
   opt[Color]("fill-color")
     .abbr("fc")
     .valueName("<color>".bold)
-    .unbounded
-    .optional
+    .unbounded()
+    .optional()
     .action { (color, conf) =>
       if (conf.graphics.isEmpty) fatal("You must define a plot type before a color option.")
       else conf.copy(graphics = conf.graphics.init :+ conf.graphics.last.copy(fillColor = Some(color)))
@@ -229,8 +229,8 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
 
   opt[Mark]('m', "marker")
     .valueName("<mark>".bold)
-    .unbounded
-    .optional
+    .unbounded()
+    .optional()
     .action { (mark, conf) =>
       if (conf.graphics.isEmpty) fatal("You must define a plot type before a marker option.")
       else conf.copy(graphics = conf.graphics.init :+ conf.graphics.last.copy(marker = Some(mark)))
@@ -240,8 +240,8 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
   opt[Color]("mark-stroke")
     .abbr("ms")
     .valueName("<color>".bold)
-    .unbounded
-    .optional
+    .unbounded()
+    .optional()
     .action { (color, conf) =>
       if (conf.graphics.isEmpty) fatal("You must define a plot type before a mark stroke color option.")
       else conf.copy(graphics = conf.graphics.init :+ conf.graphics.last.copy(markStrokeColor = Some(color)))
@@ -255,8 +255,8 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
   opt[Color]("mark-fill")
     .abbr("mf")
     .valueName("<color>".bold)
-    .unbounded
-    .optional
+    .unbounded()
+    .optional()
     .action { (color, conf) =>
       if (conf.graphics.isEmpty) fatal("You must define a plot type before a mark fill color option.")
       else conf.copy(graphics = conf.graphics.init :+ conf.graphics.last.copy(markFillColor = Some(color)))
@@ -270,8 +270,8 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
   opt[Double]("mark-size")
     .abbr("mz")
     .valueName("<double>".bold)
-    .unbounded
-    .optional
+    .unbounded()
+    .optional()
     .action { (size, conf) =>
       if (conf.graphics.isEmpty) fatal("You must define a plot type before a mark size option.")
       else conf.copy(graphics = conf.graphics.init :+ conf.graphics.last.copy(markSize = size))
@@ -281,8 +281,8 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
   opt[LineType]("line-type")
     .abbr("lt")
     .valueName("<type>".bold)
-    .unbounded
-    .optional
+    .unbounded()
+    .optional()
     .action { (typ, conf) =>
       if (conf.graphics.isEmpty) fatal("You must define a plot type before a line size option.")
       else conf.copy(graphics = conf.graphics.init :+ conf.graphics.last.copy(lineType = Some(typ)))
@@ -295,8 +295,8 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
   opt[LineSize]("line-size")
     .abbr("lz")
     .valueName("<size>".bold)
-    .unbounded
-    .optional
+    .unbounded()
+    .optional()
     .action { (size, conf) =>
       if (conf.graphics.isEmpty) fatal("You must define a plot type before a line size option.")
       else conf.copy(graphics = conf.graphics.init :+ conf.graphics.last.copy(lineSize = Some(size)))
@@ -309,8 +309,8 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
   opt[LineStyle]("line-style")
     .abbr("ls")
     .valueName("<style>".bold)
-    .unbounded
-    .optional
+    .unbounded()
+    .optional()
     .action { (style, conf) =>
       if (conf.graphics.isEmpty) fatal("You must define a plot type before a line style option.")
       else conf.copy(graphics = conf.graphics.init :+ conf.graphics.last.copy(lineStyle = Some(style)))
@@ -322,8 +322,8 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
 
   opt[Pattern]('p', "pattern")
     .valueName("<pattern>".bold)
-    .unbounded
-    .optional
+    .unbounded()
+    .optional()
     .action { (pattern, conf) =>
       if (conf.graphics.isEmpty) fatal("You must define a plot type before a pattern option.")
       else conf.copy(graphics = conf.graphics.init :+ conf.graphics.last.copy(pattern = Some(pattern)))
@@ -336,8 +336,8 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
   opt[Double]("bar-width")
     .abbr("bw")
     .valueName("<double>".bold)
-    .unbounded
-    .optional
+    .unbounded()
+    .optional()
     .action { (width, conf) =>
       if (conf.graphics.isEmpty) fatal("You must define a plot type before a bar width option.")
       else conf.copy(graphics = conf.graphics.init :+ conf.graphics.last.copy(barWidth = width))
@@ -346,8 +346,8 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
 
   opt[Double]('o', "opacity")
     .valueName("<double>".bold)
-    .unbounded
-    .optional
+    .unbounded()
+    .optional()
     .action { (opacity, conf) =>
       if (conf.graphics.isEmpty) fatal("You must define a plot type before an opacity option.")
       else conf.copy(graphics = conf.graphics.init :+ conf.graphics.last.copy(opacity = opacity))
@@ -356,8 +356,8 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
 
   opt[Unit]("horizontal-bars")
     .abbr("hb")
-    .optional
-    .unbounded
+    .optional()
+    .unbounded()
     .action { (_, conf) =>
       if (conf.graphics.isEmpty) fatal("You must define a plot type before an alignment option.")
       else conf.copy(graphics = conf.graphics.init :+ conf.graphics.last.copy(horizontalAlignment = true))
@@ -366,15 +366,15 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
 
   opt[Unit]("adjacent-bars")
     .abbr("ab")
-    .optional
-    .unbounded
+    .optional()
+    .unbounded()
     .action((_, conf) => conf.copy(figure = conf.figure.havingAdjacentBars))
     .text("Place multiple bar plots adjacent to each other instead of stacking them (optional).\n")
 
   opt[Unit]("nodes-near-coords")
     .abbr("nnr")
-    .optional
-    .unbounded
+    .optional()
+    .unbounded()
     .action { (_, conf) =>
       if (conf.graphics.isEmpty) fatal("You must define a plot type in order to enable coordinate text nodes.")
       else conf.copy(graphics = conf.graphics.init :+ conf.graphics.last.copy(nodesNearCoords = true))
@@ -387,30 +387,30 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
 
   opt[String]('t', "title")
     .valueName("<string>".bold)
-    .optional
-    .unbounded
+    .optional()
+    .unbounded()
     .action((title, conf) => conf.copy(figure = conf.figure.havingTitle(title)))
     .text("Specify a title for the figure (optional).\n")
 
   opt[String]('X', "X-label")
     .valueName("<string>".bold)
-    .optional
-    .unbounded
+    .optional()
+    .unbounded()
     .action((label, conf) => conf.copy(figure = conf.figure.havingXLabel(label)))
     .text("Specify a X label (optional).\n")
 
   opt[String]('Y', "Y-label")
     .valueName("<string>".bold)
-    .optional
-    .unbounded
+    .optional()
+    .unbounded()
     .action((label, conf) => conf.copy(figure = conf.figure.havingYLabel(label)))
     .text("Specify a Y label (optional).\n")
 
   opt[FontSize]("font-size")
     .abbr("fz")
     .valueName("<size>".bold)
-    .optional
-    .unbounded
+    .optional()
+    .unbounded()
     .action((size, conf) => conf.copy(figure = conf.figure.havingFontSize(size)))
     .text(
       s"Set figure's font size (default is $NORMAL). " +
@@ -418,27 +418,27 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
     )
 
   opt[Unit]("minor-grid-on")
-    .optional
-    .unbounded
+    .optional()
+    .unbounded()
     .action((_, conf) => conf.copy(figure = conf.figure.havingMinorGridOn))
     .text("Enables minor grid (optional).\n")
 
   opt[Unit]("major-grid-on")
-    .optional
-    .unbounded
+    .optional()
+    .unbounded()
     .action((_, conf) => conf.copy(figure = conf.figure.havingMajorGridOn))
     .text("Enables major grid (optional).\n")
 
   opt[Unit]("both-grids-on")
-    .optional
-    .unbounded
+    .optional()
+    .unbounded()
     .action((_, conf) => conf.copy(figure = conf.figure.havingGridsOn))
     .text("Enables both minor and major grids (optional).\n")
 
   opt[Seq[Double]]("axis")
     .valueName("<double,double,double,double>".bold)
-    .optional
-    .unbounded
+    .optional()
+    .unbounded()
     .action((limits, conf) =>
       conf.copy(figure = conf.figure.havingLimits(limits.head, limits(1), limits(2), limits(3)))
     )
@@ -450,8 +450,8 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
 
   opt[Seq[Double]]("x-lim")
     .valueName("<double,double>".bold)
-    .optional
-    .unbounded
+    .optional()
+    .unbounded()
     .action((limits, conf) => conf.copy(figure = conf.figure.havingXLimits(limits.head, limits.last)))
     .text("Set X axis limits as comma separated values: x minimum,x maximum.\n")
     .validate { seq =>
@@ -461,8 +461,8 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
 
   opt[Seq[Double]]("y-lim")
     .valueName("<double,double>".bold)
-    .optional
-    .unbounded
+    .optional()
+    .unbounded()
     .action((limits, conf) => conf.copy(figure = conf.figure.havingYLimits(limits.head, limits.last)))
     .text("Set Y axis limits as comma separated values: x minimum,x maximum.\n")
     .validate { seq =>
@@ -472,8 +472,8 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
 
   opt[AxisLinePos]("x-axis-position")
     .valueName("<position>".bold)
-    .optional
-    .unbounded
+    .optional()
+    .unbounded()
     .action((position, conf) => conf.copy(figure = conf.figure.havingXAxisLinePos(position)))
     .text(
       s"Set figure's X axis position (default is $BOX). " +
@@ -482,8 +482,8 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
 
   opt[AxisLinePos]("y-axis-position")
     .valueName("<position>".bold)
-    .optional
-    .unbounded
+    .optional()
+    .unbounded()
     .action((position, conf) => conf.copy(figure = conf.figure.havingYAxisLinePos(position)))
     .text(
       s"Set figure's Y axis position (default is $BOX). " +
@@ -492,8 +492,8 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
 
   opt[Seq[Int]]('r', "rotate-ticks")
     .valueName("<int,int>".bold)
-    .optional
-    .unbounded
+    .optional()
+    .unbounded()
     .action((degrees, conf) => conf.copy(figure = conf.figure.rotateXTicks(degrees.head).rotateYTicks(degrees.last)))
     .text("Rotate X and Y axis ticks: x axis degrees, y axis degrees.\n")
     .validate { seq =>
@@ -503,55 +503,55 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
 
   opt[Seq[String]]("x-tick-labels")
     .valueName("<comma separated labels>".bold)
-    .optional
-    .unbounded
+    .optional()
+    .unbounded()
     .action((x, conf) => conf.copy(figure = conf.figure.havingAxisXLabels(x)))
     .text("Comma separated labels for the X axis ticks.\n")
 
   opt[Seq[String]]("y-tick-labels")
     .valueName("<comma separated labels>".bold)
-    .optional
-    .unbounded
+    .optional()
+    .unbounded()
     .action((x, conf) => conf.copy(figure = conf.figure.havingAxisYLabels(x)))
     .text("Comma separated labels for the Y axis ticks.\n")
 
   opt[Unit]("hide-x-ticks")
-    .optional
-    .unbounded
+    .optional()
+    .unbounded()
     .action((_, conf) => conf.copy(figure = conf.figure.hideXAxisTicks))
     .text("Hides the ticks on the X axis (default is false).\n")
 
   opt[Unit]("hide-y-ticks")
-    .optional
-    .unbounded
+    .optional()
+    .unbounded()
     .action((_, conf) => conf.copy(figure = conf.figure.hideYAxisTicks))
     .text("Hides the ticks on the Y axis (default is false).\n")
 
   opt[Unit]("scale-x-ticks")
-    .optional
-    .unbounded
+    .optional()
+    .unbounded()
     .action((_, conf) => conf.copy(figure = conf.figure.scaleXTicks))
     .text("Scales the ticks on the X axis (default is false).\n")
 
   opt[Unit]("scale-y-ticks")
-    .optional
-    .unbounded
+    .optional()
+    .unbounded()
     .action((_, conf) => conf.copy(figure = conf.figure.scaleYTicks))
     .text("Scales the ticks on the Y axis (default is false).\n")
 
   opt[Seq[String]]("legends")
     .abbr("lg")
     .valueName("<comma separated legends>".bold)
-    .optional
-    .unbounded
+    .optional()
+    .unbounded()
     .action((x, conf) => conf.copy(figure = conf.figure.havingLegends(x: _*)))
     .text("Comma separated legends for the plotted data.\n")
 
   opt[LegendPos]("legend-pos")
     .abbr("lp")
     .valueName("<position>".bold)
-    .optional
-    .unbounded
+    .optional()
+    .unbounded()
     .action((x, conf) => conf.copy(figure = conf.figure.havingLegendPos(x)))
     .text(
       s"Change legend panel position (default is outer north east)." +
@@ -561,8 +561,8 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
   opt[Int]("legend-cols")
     .abbr("lc")
     .valueName("<int>".bold)
-    .optional
-    .unbounded
+    .optional()
+    .unbounded()
     .action((x, conf) => conf.copy(figure = conf.figure.havingLegendColumns(x)))
     .text("Set the number of columns in the legend.\n")
     .validate { x =>
@@ -573,8 +573,8 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
   opt[FontSize]("legend-font-size")
     .abbr("lf")
     .valueName("<size>".bold)
-    .optional
-    .unbounded
+    .optional()
+    .unbounded()
     .action((size, conf) => conf.copy(figure = conf.figure.havingLegendFontSize(size)))
     .text(
       s"Set legend font size (default is $NORMAL). " +
@@ -582,21 +582,21 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
     )
 
   opt[Unit]("x-log-scale")
-    .optional
-    .unbounded
+    .optional()
+    .unbounded()
     .action((_, conf) => conf.copy(figure = conf.figure.havingLogXAxis))
     .text("Enables logarithmic X scale (default is linear).\n")
 
   opt[Unit]("y-log-scale")
-    .optional
-    .unbounded
+    .optional()
+    .unbounded()
     .action((_, conf) => conf.copy(figure = conf.figure.havingLogYAxis))
     .text("Enables logarithmic Y scale (default is linear).\n")
 
   opt[Double]("height")
     .valueName("<double>".bold)
-    .optional
-    .unbounded
+    .optional()
+    .unbounded()
     .action((x, conf) => conf.copy(figure = conf.figure.havingHeight(x)))
     .text(s"Set the figure height.\n")
     .validate { x =>
@@ -606,8 +606,8 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
 
   opt[Double]("width")
     .valueName("<double>".bold)
-    .optional
-    .unbounded
+    .optional()
+    .unbounded()
     .action((x, conf) => conf.copy(figure = conf.figure.havingWidth(x)))
     .text(s"Set the figure width.\n")
     .validate { x =>
@@ -618,16 +618,16 @@ object ScalaTIKZ extends AppCLI[Conf]("scalatikz") {
   opt[ColorMap]("color-map")
     .abbr("cmap")
     .valueName("<color map>".bold)
-    .optional
-    .unbounded
+    .optional()
+    .unbounded()
     .action((colorMap, conf) => conf.copy(figure = conf.figure.havingColorMap(colorMap)))
     .text(s"Color map. Available color maps: ${ColorMap.values.mkString(", ")}\n")
 
   opt[Color]("background-color")
     .abbr("bc")
     .valueName("<color>".bold)
-    .unbounded
-    .optional
+    .unbounded()
+    .optional()
     .action((color, conf) => conf.copy(figure = conf.figure.havingBackgroundColor(color)))
     .text(
       s"Background color. Available colors: ${Color.values.mkString(", ")}" +

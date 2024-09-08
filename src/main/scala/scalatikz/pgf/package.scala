@@ -6,7 +6,7 @@
  * /___/\__/\_,_/_/\_,_//_/ /___/_/|_| /___/
  *
  * A PGF/TIKZ plot library for Scala.
- *
+ *     
  */
 
 package scalatikz
@@ -42,7 +42,7 @@ package object pgf {
 
   /**
    * Uses an object that can be closed (e.g. BufferedSource) and
-   * applies a function to get a result. Finally it closes the source.
+   * applies a function to get a result. Finally, it closes the source.
    *
    * @param closeable a closable instance
    * @param f a function

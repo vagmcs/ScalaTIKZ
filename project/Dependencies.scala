@@ -14,16 +14,15 @@ import sbt._
 object Dependencies {
 
   object v {
-    final val Logback = "1.2.11"
+    final val Logback = "1.5.8"
     final val ScalaLogging = "3.9.5"
 
-    final val ScalaTest = "3.2.15"
-    final val ScalaCheck = "1.17.0"
+    final val ScalaTest = "3.2.19"
+    final val ScalaCheck = "1.18.0"
 
     final val ScalaOpt = "4.1.0"
     final val PDFBox = "2.0.27"
     final val CSVParser = "2.9.1"
-    final val Ammonite = "0.13.3"
   }
 
   // Logging using slf4j and logback
@@ -42,7 +41,6 @@ object Dependencies {
   lazy val Commons: Seq[ModuleID] = Seq(
     "com.github.scopt" %% "scopt" % v.ScalaOpt,
     "org.apache.pdfbox" % "pdfbox-tools" % v.PDFBox,
-    "com.univocity" % "univocity-parsers" % v.CSVParser,
-    "sh.almond" % "scala-kernel-api" % v.Ammonite % Provided cross CrossVersion.full
+    "com.univocity" % "univocity-parsers" % v.CSVParser
   )
 }

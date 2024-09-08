@@ -48,4 +48,5 @@ release: build
 	@gh release create v"${PROJECT_VERSION}" -F "docs/release_notes/${PROJECT_VERSION}.md" \
 		./target/scala-2.12/scalatikz_2.12-${PROJECT_VERSION}.jar \
 		./target/scala-2.13/scalatikz_2.13-${PROJECT_VERSION}.jar \
+		./target/scala-3.5.0/scalatikz_3-${PROJECT_VERSION}.jar \
 		./target/universal/ScalaTIKZ-${PROJECT_VERSION}.zip

@@ -16,7 +16,6 @@ ScalaTIKZ is an open-source library for publication quality [PGF/TIKZ](https://e
 7. High level API for declaring plot types and subplots.
 8. Save generated graphics as TeX, PDF, JPEG or PNG formats.
 9. Command line interface that can be used in any Unix/Linux shell script.
-10. Works on the [Almond](https://github.com/almond-sh/almond) kernel.
 
 <table>
 <tr>
@@ -41,7 +40,7 @@ For more details please read the [Requirements](docs/requirements.md).
 
 ## How to get ScalaTIKZ
 
-ScalaTIKZ is published to Maven Central for Scala 2.12 and 2.13. 
+ScalaTIKZ is published to Maven Central for Scala 2.12, 2.13 and 3.5.0. 
 
 Add the following dependency to your SBT build file in order to get started:
 

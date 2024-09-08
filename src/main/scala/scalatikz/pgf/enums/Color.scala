@@ -6,7 +6,7 @@
  * /___/\__/\_,_/_/\_,_//_/ /___/_/|_| /___/
  *
  * A PGF/TIKZ plot library for Scala.
- *
+ *     
  */
 
 package scalatikz.pgf.enums
@@ -62,7 +62,7 @@ object Color {
   implicit class ColorMix(val color: Color) extends AnyVal {
 
     def !(that: Color): Color =
-      if (color.toString matches ".*\\d+") new Color(s"$color!$that")
+      if (color.toString.matches(".*\\d+")) new Color(s"$color!$that")
       else new Color(s"$color!50!$that")
 
     def !(percentage: Int): Color =

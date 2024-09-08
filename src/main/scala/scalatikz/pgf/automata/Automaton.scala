@@ -6,7 +6,7 @@
  * /___/\__/\_,_/_/\_,_//_/ /___/_/|_| /___/
  *
  * A PGF/TIKZ plot library for Scala.
- *
+ *     
  */
 
 package scalatikz.pgf.automata
@@ -19,7 +19,7 @@ import scalatikz.pgf.enums.LineSize.THIN
 import scalatikz.pgf.enums.LineStyle.SOLID
 import scalatikz.pgf.enums.{ Color, LineSize, LineStyle }
 
-case class Automaton private (
+case class Automaton(
   override val name: String,
   override protected val nodeDistance: Double,
   private[automata] val states: List[State],

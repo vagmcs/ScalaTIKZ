@@ -57,8 +57,8 @@ object ScalaTIKZBuild extends AutoPlugin {
     maintainer := "Evangelos Michelioudakis",
     headerLicense := Some(HeaderLicense.Custom(logo)),
     headerMappings := headerMappings.value + (HeaderFileType.scala -> HeaderCommentStyle.cStyleBlockComment),
-    scalaVersion := "2.13.10",
-    crossScalaVersions := Seq("2.13.10", "2.12.17"),
+    scalaVersion := "3.5.0",
+    crossScalaVersions := Seq("3.5.0", "2.13.14", "2.12.20"),
     autoScalaLibrary := true,
     managedScalaInstance := true,
     publishMavenStyle := true,
@@ -79,8 +79,6 @@ object ScalaTIKZBuild extends AutoPlugin {
       Resolver.sonatypeOssRepos("releases"),
       Resolver.sonatypeOssRepos("snapshots")
     ).flatten,
-    libraryDependencies +=
-      "org.scala-lang" % "scala-library" % scalaVersion.value,
     publishTo := {
       val nexus = "https://oss.sonatype.org/"
       if (isSnapshot.value) Some("snapshots" at nexus + "content/repositories/snapshots")
@@ -139,6 +137,14 @@ object ScalaTIKZBuild extends AutoPlugin {
             "-language:implicitConversions"
           )
 
+        case "3" =>
+          // Scala compiler settings for Scala 3.x
+          Seq(
+            "-deprecation", // Emit warning and location for usages of deprecated APIs.
+            "-unchecked", // Enable additional warnings where generated code depends on assumptions.
+            "-feature", // Emit warning and location for usages of features that should be imported explicitly.
+            "-language:implicitConversions"
+          )
         case _ => sys.error(s"Unsupported version of Scala '${scalaBinaryVersion.value}'")
       }
     }
