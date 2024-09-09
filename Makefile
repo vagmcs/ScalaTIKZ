@@ -32,6 +32,7 @@ build: compile test
 
 ###  changelog            : Create changelogs
 .PHONY: changelog
+changelog:
 	@git tag -a v"${PROJECT_VERSION}" -m "version ${PROJECT_VERSION}"
 	@cz changelog --file-name "docs/release_notes/${PROJECT_VERSION}.md" v${PROJECT_VERSION}
 	@cat "docs/release_notes/${PROJECT_VERSION}.md" | tail -n +3 > "docs/release_notes/${PROJECT_VERSION}.md"
