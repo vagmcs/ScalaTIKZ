@@ -1,3 +1,6 @@
+libraryDependencies +=
+  "com.sun.activation" % "javax.activation" % "1.2.0"
+
 addSbtPlugin("com.github.sbt" % "sbt-native-packager" % "1.10.4")
 
 addSbtPlugin("org.xerial.sbt" % "sbt-sonatype" % "3.11.3")

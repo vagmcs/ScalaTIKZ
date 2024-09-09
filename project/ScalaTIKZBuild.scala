@@ -115,7 +115,6 @@ object ScalaTIKZBuild extends AutoPlugin {
   )
 
   private lazy val JavaSettings: Seq[Setting[_]] = Seq(
-    javacOptions ++= Seq("-source", "1.8", "-target", "1.8"),
     javaOptions ++= Seq(
       "-XX:+DoEscapeAnalysis",
       "-XX:+OptimizeStringConcat",
@@ -127,24 +126,15 @@ object ScalaTIKZBuild extends AutoPlugin {
     scalacOptions := {
       scalaBinaryVersion.value match {
 
-        case "2.12" | "2.13" =>
-          // Scala compiler options for Scala 2.12.x and 2.13.x
+        case "2.12" | "2.13" | "3" =>
+          // Scala compiler options for Scala 2.12.x, 2.13.x and 3.x
           Seq(
             "-deprecation", // Emit warning and location for usages of deprecated APIs.
             "-unchecked", // Enable additional warnings where generated code depends on assumptions.
             "-feature", // Emit warning and location for usages of features that should be imported explicitly.
-            "-target:jvm-1.8", // Target JVM version 1.8.
             "-language:implicitConversions"
           )
 
-        case "3" =>
-          // Scala compiler settings for Scala 3.x
-          Seq(
-            "-deprecation", // Emit warning and location for usages of deprecated APIs.
-            "-unchecked", // Enable additional warnings where generated code depends on assumptions.
-            "-feature", // Emit warning and location for usages of features that should be imported explicitly.
-            "-language:implicitConversions"
-          )
         case _ => sys.error(s"Unsupported version of Scala '${scalaBinaryVersion.value}'")
       }
     }

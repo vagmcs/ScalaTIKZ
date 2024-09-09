@@ -45,7 +45,7 @@ ScalaTIKZ is published to Maven Central for Scala 2.12, 2.13 and 3.5.0.
 Add the following dependency to your SBT build file in order to get started:
 
 ```scala
-libraryDependencies ++= "com.github.vagmcs" %% "scalatikz" % "0.5.1"
+libraryDependencies ++= "com.github.vagmcs" %% "scalatikz" % "0.5.2"
 ```
 
 In order to install ScalaTIKZ as a CLI tool, run:
