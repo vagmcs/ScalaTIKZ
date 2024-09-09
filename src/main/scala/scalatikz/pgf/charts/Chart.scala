@@ -14,6 +14,8 @@ package scalatikz.pgf.charts
 import scalatikz.pgf.{ TIKZPicture, UsePackage }
 import scalatikz.pgf.charts.enums.TextLocation
 import scalatikz.pgf.enums.Color
+import java.text.{ DecimalFormat, DecimalFormatSymbols }
+import java.util.Locale
 import Numeric.Implicits._
 
 case class Chart private (
@@ -24,6 +26,8 @@ case class Chart private (
 ) extends TIKZPicture {
 
   override protected val libraries: String = s"""$UsePackage{pgf-pie}"""
+
+  private val df = new DecimalFormat("#.00", DecimalFormatSymbols.getInstance(Locale.US))
 
   /**
    * Rename the chart.
@@ -96,7 +100,7 @@ case class Chart private (
        |\pie[${if (variation.isEmpty) "" else s"${variation.get},"}
        |  sum=auto,
        |  $conf
-       |] {${data.map { case (label, percentage) => s"${"%1.2f".format(percentage)}/$label" }.mkString(",")}}
+       |] {${data.map { case (label, percentage) => s"${df.format(percentage)}/$label" }.mkString(",")}}
     """.stripMargin
 }
 
