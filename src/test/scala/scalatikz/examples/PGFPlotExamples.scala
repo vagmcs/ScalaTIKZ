@@ -73,10 +73,10 @@ object PGFPlotExamples extends App {
     .havingMajorGridOn
     .havingTitle("Normal Distribution")
     .havingLegends(
-      "$\\mu=0\\, \\sigma=0.2$",
-      "$\\mu=0\\, \\sigma=1$",
-      "$\\mu=0\\, \\sigma=5$",
-      "$\\mu=-2\\, \\sigma=0.5$"
+      "$\\mu=0{,}\\,\\sigma=0.2$",
+      "$\\mu=0{,}\\,\\sigma=1$",
+      "$\\mu=0{,}\\,\\sigma=5$",
+      "$\\mu=-2{,}\\,\\sigma=0.5$"
     )
     .havingLegendPos(NORTH_EAST)
     .havingLegendFontSize(FOOTNOTE)
