@@ -40,7 +40,7 @@ For more details please read the [Requirements](docs/requirements.md).
 
 ## How to get ScalaTIKZ
 
-ScalaTIKZ is published to Maven Central for Scala 2.12, 2.13 and 3.5.0. 
+ScalaTIKZ is published to Maven Central for Scala 2.12, 2.13 and 3. 
 
 Add the following dependency to your SBT build file in order to get started:
 
