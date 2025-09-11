@@ -1,14 +1,3 @@
-/*
- *
- *    ____         __    ____________ ______
- *   / __/______ _/ /__ /_  __/  _/ //_/_  /
- *  _\ \/ __/ _ `/ / _ `// / _/ // ,<   / /_
- * /___/\__/\_,_/_/\_,_//_/ /___/_/|_| /___/
- *
- * A PGF/TIKZ plot library for Scala.
- *     
- */
-
 package scalatikz.examples
 
 import math._
@@ -73,10 +62,10 @@ object PGFPlotExamples extends App {
     .havingMajorGridOn
     .havingTitle("Normal Distribution")
     .havingLegends(
-      "$\\mu=0\\, \\sigma=0.2$",
-      "$\\mu=0\\, \\sigma=1$",
-      "$\\mu=0\\, \\sigma=5$",
-      "$\\mu=-2\\, \\sigma=0.5$"
+      "$\\mu=0{,}\\,\\sigma=0.2$",
+      "$\\mu=0{,}\\,\\sigma=1$",
+      "$\\mu=0{,}\\,\\sigma=5$",
+      "$\\mu=-2{,}\\,\\sigma=0.5$"
     )
     .havingLegendPos(NORTH_EAST)
     .havingLegendFontSize(FOOTNOTE)

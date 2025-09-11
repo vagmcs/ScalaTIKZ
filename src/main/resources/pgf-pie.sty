@@ -1,6 +1,6 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Start of pgf-pie.sty
-% 
+%
 % Some LaTeX macros for pie chart by using PGF/Tikz package.
 % Home page of project: http://pgf-pie.googlecode.com/
 % Author: Xu Yuan <xuyuan.cn@gmail.com>
@@ -33,7 +33,7 @@ chart by using PGF/Tikz package.]
 
   \pgfmathparse{#7+#5}
   \let\radius\pgfmathresult
-  
+
   % slice
   \draw[line join=round, fill=#6, \style] (O) -- ++(#1:#7) arc (#1:#2:#7) -- cycle;
 
@@ -234,7 +234,7 @@ chart by using PGF/Tikz package.]
 
   \setcounter{pgfpie@colorLength}{0}
   \foreach \c in \color { \addtocounter{pgfpie@colorLength}{1} }
-  
+
   \pgfmathsetlength{\pgfpie@angleEnd}{0}
 
   \setcounter{pgfpie@sliceLength}{0}
@@ -258,7 +258,7 @@ chart by using PGF/Tikz package.]
     {
       \pgfmathparse{\p * \squareUnit / \horizontalLength}
       \let\height\pgfmathresult
-      
+
       \pgfpie@square{start}{\horizontalLength,\height}
       {\p}
       {\thecolor}
@@ -302,7 +302,7 @@ chart by using PGF/Tikz package.]
       \path (start) -- ++(\width, 0) coordinate (start);
     }
   }
-  
+
   %%%%%%%%%% SQUARE PIE END %%%%%%%%%%%
   \else
   \ifcloud
@@ -432,7 +432,7 @@ chart by using PGF/Tikz package.]
       \node[draw, fill=\thecolor, \style, below of=legendpos, label=0:\t] (legendpos) {};
     }
   \end{scope}
-  \fi  
+  \fi
 }
 
 %%% End of pgf-pie.sty

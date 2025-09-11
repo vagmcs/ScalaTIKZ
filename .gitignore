@@ -1,47 +1,35 @@
-### SBT
+### Idea
+.idea
+*.ipr
+*.iws
 
-.bsp
-.cache/
-.history/
-.lib/
-out/
-target/
-lib_managed/
-project/boot/
-project/project/
-project/plugins/project/
+### External jar libraries
+*.jar
 
-### Scala
-
+### Scala template
 *.log
 *.sc
 
-### JetBrains
+### Sbt specific
+target/
+lib_managed/
+src_managed/
+project/boot/
+.cache
+lib/
+project/project/
+/.bsp/
+.bloop
 
-.idea/
-*.iws
-*.ipr
+### VsCode
+.vscode
+.metals
+metals.sbt
 
-### macOS
-
+### Mac OSX
+Icon
 .DS_Store
 .AppleDouble
 .LSOverride
 .Trashes
-
-### Eclipse
-
-.metadata
-.loadpath
-.project
-.target
-
-### TeX
-.temp
-*.tex
-
-### Files
-*.csv
-*.pdf
-
-
+.TemporaryItems

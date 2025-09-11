@@ -1,25 +1,18 @@
-/*
- *
- *    ____         __    ____________ ______
- *   / __/______ _/ /__ /_  __/  _/ //_/_  /
- *  _\ \/ __/ _ `/ / _ `// / _/ // ,<   / /_
- * /___/\__/\_,_/_/\_,_//_/ /___/_/|_| /___/
- *
- * A PGF/TIKZ plot library for Scala.
- *     
- */
-
 package scalatikz.pgf
+
+import org.apache.pdfbox.Loader
 
 import java.io.{ File, PrintStream }
 import java.nio.file.{ Files, Paths, StandardCopyOption }
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.rendering.{ ImageType, PDFRenderer }
 import org.apache.pdfbox.tools.imageio.ImageIOUtil
+
 import scala.io.Source
 import scala.util.Try
 import scalatikz.common.Logging
 import scalatikz.pgf.Compiler._
+
 import sys.process._
 
 /**
@@ -105,7 +98,7 @@ trait TIKZPicture extends Logging {
    */
   private def compileImage(extension: String, compiler: Compiler): Try[File] = Try {
     // load PDF document and create a renderer
-    val document = PDDocument.load(compilePDF(compiler))
+    val document = Loader.loadPDF(compilePDF(compiler))
     val renderer = new PDFRenderer(document)
 
     val outputPNGFile = new File(s"$path/$name.${extension.toLowerCase}")

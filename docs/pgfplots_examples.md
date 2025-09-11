@@ -20,7 +20,7 @@ Figure("sin_vs_cosine")
   .havingTitle("$\\sin(x)$ vs $\\cos(x)$")
   .show()
 ```
- 
+
 ![sine-vs-cosine](../images/sine_vs_cosine.png)
 
 Lets create a plot of Gaussian distributions:

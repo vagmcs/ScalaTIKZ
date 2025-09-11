@@ -1,7 +1,11 @@
 # ScalaTIKZ
 
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.vagmcs/scalatikz_2.13/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.vagmcs/scalatikz_2.11)
-[![License: GPL v3](https://img.shields.io/github/license/vagmcs/scalatikz?color=blue)](https://www.gnu.org/licenses/gpl-3.0)
+<a href="https://results.pre-commit.ci/latest/github/vagmcs/ScalaTIKZ/main" target="_blank">
+    <img src="https://results.pre-commit.ci/badge/github/vagmcs/ScalaTIKZ/main.svg" alt="pre-commit.ci status">
+</a>
+<a href="https://central.sonatype.com/artifact/com.github.vagmcs/scalatikz_3" target="_black">
+    <img src="https://maven-badges.herokuapp.com/maven-central/com.github.vagmcs/scalatikz_2.13/badge.svg" alt="Maven Central">
+</a>
 
 ScalaTIKZ is an open-source library for publication quality [PGF/TIKZ](https://en.wikipedia.org/wiki/PGF/TikZ) vector graphics using the [Scala programming language](http://scala-lang.org).
 
@@ -40,12 +44,12 @@ For more details please read the [Requirements](docs/requirements.md).
 
 ## How to get ScalaTIKZ
 
-ScalaTIKZ is published to Maven Central for Scala 2.12, 2.13 and 3.5.0. 
+ScalaTIKZ is published to Maven Central for Scala 2.12, 2.13 and 3.
 
 Add the following dependency to your SBT build file in order to get started:
 
 ```scala
-libraryDependencies ++= "com.github.vagmcs" %% "scalatikz" % "0.5.1"
+libraryDependencies ++= "com.github.vagmcs" %% "scalatikz" % "0.5.2"
 ```
 
 In order to install ScalaTIKZ as a CLI tool, run:

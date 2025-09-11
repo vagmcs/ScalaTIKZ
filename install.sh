@@ -1,4 +1,4 @@
-LATEST_VERSION=0.5.1
+LATEST_VERSION=0.5.2
 wget -q --show-progress -P /tmp https://github.com/vagmcs/ScalaTIKZ/releases/download/v"${LATEST_VERSION}"/ScalaTIKZ-"${LATEST_VERSION}".zip
 unzip -oq -d /tmp /tmp/ScalaTIKZ-"${LATEST_VERSION}".zip && rm -r /tmp/ScalaTIKZ-"${LATEST_VERSION}".zip
 mkdir -p "${HOME}"/.local/opt

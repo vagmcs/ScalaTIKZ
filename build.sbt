@@ -5,7 +5,7 @@ addCommandAlias("rebuild", ";clean;build")
 sonatypeProfileName := "com.github.vagmcs"
 
 lazy val scalaTIKZ = Project("ScalaTIKZ", file("."))
-  .enablePlugins(JavaAppPackaging, AutomateHeaderPlugin)
+  .enablePlugins(JavaAppPackaging)
   .settings(Global / lintUnusedKeysOnLoad := false)
   .settings(Test / logLevel := Level.Info)
   .settings(Compile / logLevel := Level.Warn)
