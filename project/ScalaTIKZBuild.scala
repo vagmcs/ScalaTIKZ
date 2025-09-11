@@ -1,14 +1,3 @@
-/*
- *
- *    ____         __    ____________ ______
- *   / __/______ _/ /__ /_  __/  _/ //_/_  /
- *  _\ \/ __/ _ `/ / _ `// / _/ // ,<   / /_
- * /___/\__/\_,_/_/\_,_//_/ /___/_/|_| /___/
- *
- * A plot library for Scala.
- *
- */
-
 import sbt._
 import sbt.Keys._
 import sbt.AutoPlugin
@@ -16,26 +5,13 @@ import sbt.plugins.JvmPlugin
 import com.typesafe.sbt.SbtNativePackager.Universal
 import com.typesafe.sbt.SbtNativePackager.autoImport._
 import com.typesafe.sbt.packager.archetypes.JavaAppPackaging
-import de.heikoseeberger.sbtheader.HeaderPlugin
-import de.heikoseeberger.sbtheader.HeaderPlugin.autoImport._
 import ohnosequences.sbt.GithubRelease.keys._
 
 object ScalaTIKZBuild extends AutoPlugin {
 
   private val logger = ConsoleLogger()
 
-  final val logo = """
-      |   ____         __    ____________ ______
-      |  / __/______ _/ /__ /_  __/  _/ //_/_  /
-      | _\ \/ __/ _ `/ / _ `// / _/ // ,<   / /_
-      |/___/\__/\_,_/_/\_,_//_/ /___/_/|_| /___/
-      |
-      |A PGF/TIKZ plot library for Scala.
-    """.stripMargin
-
-  logger.info(logo)
-
-  override def requires: Plugins = JvmPlugin && JavaAppPackaging && HeaderPlugin
+  override def requires: Plugins = JvmPlugin && JavaAppPackaging
   override def trigger: PluginTrigger = allRequirements
 
   override def projectSettings: Seq[Setting[_]] = settings
@@ -55,8 +31,6 @@ object ScalaTIKZBuild extends AutoPlugin {
     organization := "com.github.vagmcs",
     description := "A plot library for Scala",
     maintainer := "Evangelos Michelioudakis",
-    headerLicense := Some(HeaderLicense.Custom(logo)),
-    headerMappings := headerMappings.value + (HeaderFileType.scala -> HeaderCommentStyle.cStyleBlockComment),
     scalaVersion := "3.5.0",
     crossScalaVersions := Seq("3.5.0", "2.13.14", "2.12.20"),
     autoScalaLibrary := true,
